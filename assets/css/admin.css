@@ -43,7 +43,7 @@ body {
     background: #000;
 }
 .logo {
-    width: 5vw;
+    width: 10vw;
 }
 .el-menu-item {
     font-size: 1.2vw;
@@ -229,7 +229,7 @@ body {
 }
 
 .logo {
-    width: 6vw;
+    width: 12vw;
 } /*!
 * Vuetify v2.3.8
 * Forged by John Leider

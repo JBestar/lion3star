@@ -28,7 +28,7 @@
                             </div>
                             <div class="el-form-item">
                                 <label class="el-form-item__label" style="width: 100px;">추첨동기키</label>
-                                <input type="password" id="el-dialog-pbg-drawkey-id" value="" class="el-input__inner" style="width: 300px;" autocomplete="new-password" placeholder="pbg-2.com .env LION_DRAW_SYNC_KEY">
+                                <input type="password" id="el-dialog-pbg-drawkey-id" value="" class="el-input__inner" style="width: 300px;" autocomplete="new-password" placeholder="파워볼 .env LION_DRAW_SYNC_KEY">
                             </div>
                             <div class="el-divider el-divider--horizontal"></div> 
                             <div class="el-row">

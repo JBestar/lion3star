@@ -13,6 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" href="<?php echo base_url('assets/css/client-senior-bridge.css?v=23');?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/default.css?v=1');?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/layout.css?v=1');?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/star-theme.css?v=3');?>">
     <!-- <link rel="stylesheet" href="<?php echo base_url('assets/css/main.css?v=').time();?>"> -->
     
     <script src="<?php echo base_url('assets/jslib/jquery-1.12.4.min.js'); ?>"></script>

@@ -1,0 +1,333 @@
+/**
+ * Star theme — client betting UI
+ * 금액 버튼: 골드 / 배팅 종목: 연한 파랑 입체 / 배팅리스트: 다크·골드 업그레이드
+ */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+
+:root {
+  --star-gold: #d4a017;
+  --star-gold-light: #f5d76e;
+  --star-gold-deep: #8b6914;
+  --star-red: #ff2d55;
+  --star-red-deep: #b01030;
+  --star-red-glow: rgba(255, 45, 85, 0.45);
+  --star-blue: #5b9fd4;
+  --star-blue-deep: #3a7ab0;
+  --star-blue-shadow: #2f6a9a;
+  --star-blue-glow: rgba(70, 140, 210, 0.4);
+  --star-panel: #12141c;
+  --star-panel-2: #1a1e2a;
+}
+
+/* —— 배팅 종목 카드: 연한 파랑 + 입체감 —— */
+.senior-right .card.senior-bet-card[data-v-1f51d655],
+.senior-right .card[data-v-1f51d655].senior-bet-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0) 42%),
+    linear-gradient(165deg, #f0f7ff 0%, #dceeff 48%, #c5e0f8 100%) !important;
+  border: 1px solid #9ec8e8 !important;
+  border-top-color: #c8e4f8 !important;
+  border-bottom-color: #6fa8d4 !important;
+  border-radius: 10px !important;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 -2px 4px rgba(80, 130, 180, 0.12) inset,
+    0 4px 0 var(--star-blue-shadow),
+    0 8px 16px rgba(40, 90, 140, 0.28);
+  transform: translateY(0);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, filter 0.18s ease;
+  font-family: 'Noto Sans KR', sans-serif !important;
+  color: #1a2a3a !important;
+}
+
+.senior-right .card.senior-bet-card[data-v-1f51d655]:hover,
+.senior-right .card[data-v-1f51d655].senior-bet-card:hover {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 45%),
+    linear-gradient(165deg, #ffffff 0%, #e8f4ff 45%, #b8d9f5 100%) !important;
+  border-color: var(--star-blue) !important;
+  border-top-color: #dff0ff !important;
+  border-bottom-color: var(--star-blue-deep) !important;
+  transform: translateY(-3px);
+  box-shadow:
+    0 1px 0 #fff inset,
+    0 -2px 5px rgba(80, 130, 180, 0.15) inset,
+    0 6px 0 var(--star-blue-shadow),
+    0 14px 22px rgba(40, 90, 140, 0.35),
+    0 0 12px var(--star-blue-glow);
+  filter: brightness(1.02);
+  cursor: pointer;
+}
+
+.senior-right .card.senior-bet-card[data-v-1f51d655]:active,
+.senior-right .card[data-v-1f51d655].senior-bet-card:active {
+  transform: translateY(2px);
+  box-shadow:
+    0 1px 3px rgba(40, 90, 140, 0.2) inset,
+    0 1px 0 var(--star-blue-deep),
+    0 3px 8px rgba(40, 90, 140, 0.2);
+}
+
+.senior-right .select_card.senior-bet-card[data-v-1f51d655],
+.senior-right .card.select_card[data-v-1f51d655] {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 40%),
+    linear-gradient(165deg, #d4ebff 0%, #a8d4f5 50%, #7ebce8 100%) !important;
+  border-color: var(--star-blue-deep) !important;
+  border-top-color: #b8ddf5 !important;
+  border-bottom-color: #2a6290 !important;
+  animation: star-card-pulse 1.5s ease-in-out infinite;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.85) inset,
+    0 -2px 6px rgba(50, 110, 170, 0.2) inset,
+    0 4px 0 #245a88,
+    0 10px 18px rgba(40, 90, 140, 0.35),
+    0 0 14px var(--star-blue-glow);
+}
+
+@keyframes star-card-pulse {
+  0%, 100% {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.85) inset,
+      0 -2px 6px rgba(50, 110, 170, 0.2) inset,
+      0 4px 0 #245a88,
+      0 10px 18px rgba(40, 90, 140, 0.32),
+      0 0 10px var(--star-blue-glow);
+  }
+  50% {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.95) inset,
+      0 -2px 6px rgba(50, 110, 170, 0.25) inset,
+      0 4px 0 #245a88,
+      0 12px 22px rgba(40, 90, 140, 0.4),
+      0 0 18px rgba(90, 160, 230, 0.55);
+  }
+}
+
+.senior-right .card .name[data-v-1f51d655] {
+  text-shadow: none;
+  letter-spacing: 0.01em;
+  font-weight: 800;
+}
+
+.senior-right .red[data-v-ef6a603f] {
+  color: #d6284a !important;
+  text-shadow: 0 0 6px rgba(255, 45, 85, 0.35) !important;
+}
+
+.senior-right .blue[data-v-ef6a603f] {
+  color: #2563c7 !important;
+  text-shadow: none !important;
+}
+
+.senior-right .yellow[data-v-ef6a603f] {
+  color: #b8860b !important;
+  text-shadow: none !important;
+}
+
+.senior-right .green[data-v-1f51d655] {
+  color: #a12a45 !important;
+}
+
+.senior-right .yellow.curBet[data-v-1f51d655],
+.senior-right .curBet.yellow {
+  color: #9a6b00 !important;
+  font-weight: 700;
+  text-shadow: none;
+}
+
+.senior-right .sub_title2,
+.senior-right .game_group .sub_title2[data-v-1ddf0161] {
+  font-family: 'Noto Sans KR', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  color: #e8e8ec !important;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid rgba(255, 45, 85, 0.45);
+  text-shadow: none;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+/* —— 금액 / 베팅 버튼: 골드 —— */
+.senior-right .btn_cash .btn.btn_green,
+.senior-right .senior-btn-cash-row .btn.btn_green {
+  color: #1a1200 !important;
+  font-weight: 800 !important;
+  font-family: 'Noto Sans KR', sans-serif !important;
+  background: linear-gradient(180deg, var(--star-gold-light) 0%, var(--star-gold) 48%, var(--star-gold-deep) 100%) !important;
+  border: 1px solid #f0d878 !important;
+  border-radius: 8px !important;
+  box-shadow:
+    0 3px 0 var(--star-gold-deep),
+    0 6px 12px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 220, 0.55);
+  text-shadow: 0 1px 0 rgba(255, 255, 200, 0.35);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+}
+
+.senior-right .btn_cash .btn.btn_green:hover,
+.senior-right .senior-btn-cash-row .btn.btn_green:hover {
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+  box-shadow:
+    0 5px 0 var(--star-gold-deep),
+    0 10px 16px rgba(0, 0, 0, 0.4),
+    0 0 14px rgba(245, 215, 110, 0.35);
+}
+
+.senior-right .btn_cash .btn.btn_green:active,
+.senior-right .senior-btn-cash-row .btn.btn_green:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 var(--star-gold-deep), inset 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.senior-right .btn_cash .btn.btn_purple,
+.senior-right .senior-btn-cash-row .btn.btn_purple,
+.senior-right #bet-btn-id.btn_purple {
+  color: #1a1200 !important;
+  font-weight: 700 !important;
+  font-family: 'Noto Sans KR', sans-serif !important;
+  letter-spacing: 0.02em;
+  background: linear-gradient(180deg, #ffe08a 0%, var(--star-gold) 40%, #a67c00 100%) !important;
+  border: 1px solid #ffe9a8 !important;
+  border-radius: 10px !important;
+  box-shadow:
+    0 4px 0 #6b5010,
+    0 8px 18px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 230, 0.6);
+  text-shadow: none;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+}
+
+.senior-right .btn_cash .btn.btn_purple:hover,
+.senior-right #bet-btn-id.btn_purple:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 0 #6b5010,
+    0 12px 22px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(245, 215, 110, 0.4);
+}
+
+.senior-right .bet_box .bet_cash {
+  color: var(--star-gold-light) !important;
+  font-weight: 800;
+  font-size: 1.25rem;
+  text-shadow: 0 0 8px rgba(212, 160, 23, 0.4);
+}
+
+.senior-right .bet_box #roundStatusText.sub_title {
+  background: linear-gradient(90deg, #1a0a10, #2a1018, #1a0a10) !important;
+  border: 1px solid rgba(255, 45, 85, 0.35);
+  border-radius: 8px;
+  color: #ffb3c1 !important;
+}
+
+.senior-right .bet_box #betTitle {
+  color: var(--star-gold-light) !important;
+  font-weight: 700;
+}
+
+/* —— 배팅리스트 —— */
+.senior-left .bet_list .sub_title.senior-bet-list-head,
+.senior-left .sub_title.senior-bet-list-head {
+  background: linear-gradient(180deg, #1e2230 0%, #12151e 100%);
+  border: 1px solid rgba(212, 160, 23, 0.35);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(245, 215, 110, 0.12);
+  color: var(--star-gold-light);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+  overflow: hidden;
+}
+
+.senior-left .senior-bet-table-head td {
+  background: linear-gradient(180deg, #2a3142 0%, #1c2230 100%) !important;
+  border-bottom: 1px solid rgba(212, 160, 23, 0.4) !important;
+  color: var(--star-gold-light) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.03em;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.senior-bet-list-head #bet_list #client-bet-list-tbody tr.senior-bet-round-sep td {
+  background: linear-gradient(90deg, transparent, var(--star-red), var(--star-gold), var(--star-red), transparent) !important;
+  height: 3px !important;
+  opacity: 0.9;
+}
+
+.senior-bet-list-head #bet_list #client-bet-list-tbody tr.senior-bet-list-row.senior-bet-list-stripe-a td {
+  background: linear-gradient(180deg, #2a2030 0%, #1e1624 100%) !important;
+  border-bottom: 1px solid rgba(255, 45, 85, 0.2) !important;
+}
+
+.senior-bet-list-head #bet_list #client-bet-list-tbody tr.senior-bet-list-row.senior-bet-list-stripe-b td {
+  background: linear-gradient(180deg, #1a1e28 0%, #12151c 100%) !important;
+  border-bottom: 1px solid rgba(212, 160, 23, 0.15) !important;
+}
+
+.senior-bet-list-head #bet_list #client-bet-list-tbody tr.senior-bet-list-row.senior-bet-list-stripe-a td:not(.senior-bet-col-result),
+.senior-bet-list-head #bet_list #client-bet-list-tbody tr.senior-bet-list-row.senior-bet-list-stripe-a td:not(.senior-bet-col-result) a {
+  color: #ffe8f0 !important;
+}
+
+.senior-bet-list-head #bet_list #client-bet-list-tbody tr.senior-bet-list-row.senior-bet-list-stripe-b td:not(.senior-bet-col-result),
+.senior-bet-list-head #bet_list #client-bet-list-tbody tr.senior-bet-list-row.senior-bet-list-stripe-b td:not(.senior-bet-col-result) a {
+  color: #f0e6c8 !important;
+}
+
+.senior-bet-list-head #bet_list #client-bet-list-tbody tr.senior-bet-list-row:hover td {
+  filter: brightness(1.12);
+}
+
+.senior-bet-list-head .senior-bet-status-badge {
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35), 0 0 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px !important;
+  letter-spacing: 0.02em;
+}
+
+.senior-bet-list-head .senior-bet-status-wait {
+  background: linear-gradient(180deg, #f0c050, #c9921a) !important;
+  color: #1a1200 !important;
+}
+
+.senior-bet-list-head .senior-bet-status-win {
+  background: linear-gradient(180deg, #4fd67a, #1e9e4a) !important;
+}
+
+.senior-bet-list-head .senior-bet-status-lose {
+  background: linear-gradient(180deg, #ff5a7a, #b01030) !important;
+  box-shadow: 0 2px 0 #6a0818, 0 0 10px rgba(255, 45, 85, 0.35);
+}
+
+.senior-left .btn.btn_red {
+  background: linear-gradient(180deg, #ff5a7a, var(--star-red-deep)) !important;
+  border: 1px solid #ff8fa3 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 0 #6a0818, 0 0 10px rgba(255, 45, 85, 0.25);
+  font-weight: 700;
+}
+
+.senior-left .spanBoderWhite,
+.senior-left #senior-game-label {
+  color: #ff6b8a !important;
+  text-shadow: none;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+}
+
+/* 회차별 배팅정보 테이블 */
+.senior-right .betRound_box {
+  background: var(--star-panel);
+  border: 1px solid rgba(212, 160, 23, 0.3);
+  border-radius: 10px;
+  padding: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.senior-right .betRound_box .table_list thead th {
+  background: #252a38 !important;
+  color: var(--star-gold-light) !important;
+  border-bottom: 1px solid rgba(212, 160, 23, 0.35) !important;
+}

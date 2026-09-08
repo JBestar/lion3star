@@ -13,29 +13,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 </head>
 
-<body >
+<body>
 	<div class="login-background-panel">
-		<div class="login-modal-panel">
-			<div class="login-item-div">
-				<label class="login-item-label">아이디:</label>
-				<div class="login-item-content">
-					<input type="text" class="login-item-input" id="login-user-id" autocomlete="off"  onKeyDown="onEnter();">
+		<div class="login-header">
+			<img class="login-logo" src="<?php echo base_url('assets/image/star_logo.png'); ?>" alt="Star">
+			<div class="login-modal-panel">
+				<div class="login-item-div">
+					<label class="login-item-label">아이디:</label>
+					<div class="login-item-content">
+						<input type="text" class="login-item-input" id="login-user-id" autocomplete="off" onKeyDown="onEnter();">
+					</div>
 				</div>
-			</div>
-			<div class="login-item-div">
-				<label class="login-item-label">비밀번호:</label>
-				<div class="login-item-content">
-					<input type="password" class="login-item-input"  id="login-pwd-id" autocomlete="off"  onKeyDown="onEnter();">
+				<div class="login-item-div">
+					<label class="login-item-label">비밀번호:</label>
+					<div class="login-item-content">
+						<input type="password" class="login-item-input" id="login-pwd-id" autocomplete="off" onKeyDown="onEnter();">
+					</div>
 				</div>
+				<button type="button" class="login-button button-primary" onclick="login();">로그인</button>
 			</div>
-			<button type="button" class="login-button button-primary" onclick="login();">로그인</button>
-			
 		</div>
-
-
+		<div class="login-star-wrap">
+			<img class="login-star" src="<?php echo base_url('assets/image/gold_star.png'); ?>" alt="star">
+		</div>
 	</div>
-		
-
 
 </body>
 
@@ -105,9 +106,6 @@ function login()
 
 	   
 }
-
-
-
 
 </script>
 </html>

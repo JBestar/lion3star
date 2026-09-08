@@ -178,7 +178,30 @@
     }
 
     /**
-     * pbg-2.com(draw_results.drawn_at) 와 동일: KST 기준 Unix 시각이 속한 5분 슬롯 시작 문자열.
+     * 파워볼(PBG) 서버 base URL.
+     * 우선순위: .env POWERBALL_BASE_URL → DB conf_site(PBG site) → 빈 문자열.
+     */
+    function powerball_base_url(){
+
+      $env = getenv('POWERBALL_BASE_URL');
+      if($env !== FALSE && trim($env) !== ''){
+        return rtrim(trim($env), '/');
+      }
+
+      $CI =& get_instance();
+      if(isset($CI->db)){
+        $CI->load->model('confsite_model');
+        $info = $CI->confsite_model->getPbgInfo();
+        if(isset($info['site']) && trim($info['site']) !== ''){
+          return rtrim(trim($info['site']), '/');
+        }
+      }
+
+      return '';
+    }
+
+    /**
+     * pbg draw_results.drawn_at 와 동일: KST 기준 Unix 시각이 속한 5분 슬롯 시작 문자열.
      * (PowerballDraw_Model::kstDrawnAtFromUnixTimestamp 와 동일 규칙)
      */
     function pballKstDrawnAtSlotFromUnix($unixTs){

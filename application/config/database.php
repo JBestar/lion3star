@@ -72,10 +72,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $active_group = 'default';
 $query_builder = TRUE;
-$hostname ="localhost";
-$username ="root";
-$password ="startend1@";
-$database ="lion";
+$hostname = getenv('DB_HOSTNAME') !== FALSE ? getenv('DB_HOSTNAME') : 'localhost';
+$username = getenv('DB_USERNAME') !== FALSE ? getenv('DB_USERNAME') : '';
+$password = getenv('DB_PASSWORD') !== FALSE ? getenv('DB_PASSWORD') : '';
+$database = getenv('DB_DATABASE') !== FALSE ? getenv('DB_DATABASE') : '';
 
 /*
 | MySQL @@session.time_zone — PHP(autoload)는 Asia/Seoul인데 MySQL이 SYSTEM(예: OS=중국 +8)이면

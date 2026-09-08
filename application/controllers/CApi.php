@@ -1754,7 +1754,7 @@ class CApi extends CI_Controller {
 	}
 
 	/**
-	 * 회차별통계 → 별도 파워볼 서버(pbg-2.com 등) draw_results 해당 슬롯 수동 덮어쓰기 프록시.
+	 * 회차별통계 → 파워볼 서버 draw_results 해당 슬롯 수동 덮어쓰기 프록시.
 	 * JSON: ball1~ball5 (1~28 중복 없음), powerball (0~9), drawn_at 선택(Y-m-d H:i:00, 미지정 시 현재 KST 5분 슬롯).
 	 */
 	public function roundstatpbgsyncdraw(){
@@ -1774,11 +1774,14 @@ class CApi extends CI_Controller {
 
 		$this->load->model('confsite_model');
 		$info = $this->confsite_model->getPbgInfo();
-		$base = isset($info['site']) ? trim($info['site']) : '';
+		$base = powerball_base_url();
 		if($base === ''){
-			$base = 'https://pbg-2.com';
+			echo json_encode(array(
+				'status' => 'fail',
+				'msg' => '파워볼 서버 URL이 없습니다. .env POWERBALL_BASE_URL 또는 PBG등록설정의 요청사이트를 설정하세요.',
+			));
+			return;
 		}
-		$base = rtrim($base, '/');
 
 		$syncKey = isset($info['draw_sync_key']) ? trim($info['draw_sync_key']) : '';
 		if($syncKey === ''){
@@ -1891,11 +1894,15 @@ class CApi extends CI_Controller {
 
 		$this->load->model('confsite_model');
 		$info = $this->confsite_model->getPbgInfo();
-		$base = isset($info['site']) ? trim($info['site']) : '';
+		$base = powerball_base_url();
 		if($base === ''){
-			$base = 'https://pbg-2.com';
+			writeLog($logPre . 'fail powerball_base_url_empty');
+			echo json_encode(array(
+				'status' => 'fail',
+				'msg' => '파워볼 서버 URL이 없습니다. .env POWERBALL_BASE_URL 또는 PBG등록설정의 요청사이트를 설정하세요.',
+			));
+			return;
 		}
-		$base = rtrim($base, '/');
 
 		$syncKey = isset($info['draw_sync_key']) ? trim($info['draw_sync_key']) : '';
 		if($syncKey === ''){

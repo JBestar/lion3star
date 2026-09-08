@@ -1,0 +1,63 @@
+2026-09-09 06:30:59 account service started (PBG register + settle)
+2026-09-09 06:30:59 startup backfill: yesterday .. now
+2026-09-09 06:30:59 startup backfill done slots=366 filled=9 already=2 no_draw=355 fail=0
+2026-09-09 06:30:59 startup catch-up: settle unsettled PBG bets
+2026-09-09 06:30:59 startup catch-up done status=success waits=45 updated=0 won=0 skip_missing=45 skip_not_ready=0
+2026-09-09 06:30:59 acc-pb updated=0 won=0 waits=45 skip_not_ready=0
+2026-09-09 06:34:22 account service started (PBG register + settle)
+2026-09-09 06:34:22 startup backfill: yesterday .. now
+2026-09-09 06:34:22 startup backfill done slots=366 filled=0 already=11 no_draw=355 fail=0
+2026-09-09 06:34:22 startup catch-up: settle unsettled PBG bets
+2026-09-09 06:34:22 startup catch-up done status=success waits=45 updated=0 won=0 skip_missing=45 skip_not_ready=0
+2026-09-09 06:35:00 PBG-ok times=1575713 drawn_at=2026-09-09 06:35:00 balls=9,13,15,14,1,6
+2026-09-09 06:35:00 acc-pb updated=0 won=0 waits=45 skip_not_ready=0
+2026-09-09 06:39:30 ============Round Start===========
+2026-09-09 06:40:00 PBG-wait drawn_at=2026-09-09 06:40:00
+2026-09-09 06:40:00 PBG-ok times=1575714 drawn_at=2026-09-09 06:40:00 balls=27,26,6,10,9,2
+2026-09-09 06:40:00 acc-pb updated=0 won=0 waits=45 skip_not_ready=0
+2026-09-09 06:42:20 account service started (PBG register + settle)
+2026-09-09 06:42:20 startup backfill: yesterday .. now
+2026-09-09 06:42:21 startup backfill done slots=368 filled=13 already=0 no_draw=355 fail=0
+2026-09-09 06:42:21 startup catch-up: settle unsettled PBG bets
+2026-09-09 06:42:21 startup catch-up done status=success waits=0 updated=0 won=0 skip_missing=0 skip_not_ready=0
+2026-09-09 06:44:02 account service started (PBG register + settle)
+2026-09-09 06:44:02 startup backfill: yesterday .. now
+2026-09-09 06:44:02 startup backfill done slots=368 filled=13 already=0 no_draw=355 fail=0
+2026-09-09 06:44:02 startup catch-up: settle unsettled PBG bets
+2026-09-09 06:44:02 startup catch-up done status=success waits=0 updated=0 won=0 skip_missing=0 skip_not_ready=0
+2026-09-09 06:46:04 account service started (PBG register + settle)
+2026-09-09 06:46:04 startup backfill: yesterday .. now
+2026-09-09 06:46:04 startup backfill done slots=369 filled=1 already=13 no_draw=355 fail=0
+2026-09-09 06:46:04 startup catch-up: settle unsettled PBG bets
+2026-09-09 06:46:04 startup catch-up done status=success waits=5 updated=5 won=2 skip_missing=0 skip_not_ready=0
+2026-09-09 06:50:00 PBG-wait drawn_at=2026-09-09 06:50:00
+2026-09-09 06:50:00 PBG-ok times=1575716 drawn_at=2026-09-09 06:50:00 balls=18,9,7,26,3,6
+2026-09-09 06:50:00 acc-pb updated=3 won=1 waits=3 skip_not_ready=0
+2026-09-09 06:54:30 ============Round Start===========
+2026-09-09 06:55:00 PBG-wait drawn_at=2026-09-09 06:55:00
+2026-09-09 06:55:00 PBG-ok times=1575717 drawn_at=2026-09-09 06:55:00 balls=24,20,26,16,17,7
+2026-09-09 06:55:00 acc-pb updated=0 won=0 waits=0 skip_not_ready=0
+2026-09-09 06:59:30 ============Round Start===========
+2026-09-09 07:00:00 PBG-wait drawn_at=2026-09-09 07:00:00
+2026-09-09 07:00:00 PBG-ok times=1575718 drawn_at=2026-09-09 07:00:00 balls=11,16,28,14,4,4
+2026-09-09 07:00:00 acc-pb updated=0 won=0 waits=0 skip_not_ready=0
+2026-09-09 07:04:30 ============Round Start===========
+2026-09-09 07:05:00 PBG-wait drawn_at=2026-09-09 07:05:00
+2026-09-09 07:05:00 PBG-ok times=1575719 drawn_at=2026-09-09 07:05:00 balls=16,19,24,12,10,2
+2026-09-09 07:05:00 acc-pb updated=0 won=0 waits=0 skip_not_ready=0
+2026-09-09 07:09:30 ============Round Start===========
+2026-09-09 07:10:00 PBG-wait drawn_at=2026-09-09 07:10:00
+2026-09-09 07:10:00 PBG-ok times=1575720 drawn_at=2026-09-09 07:10:00 balls=26,14,10,15,7,8
+2026-09-09 07:10:00 acc-pb updated=0 won=0 waits=0 skip_not_ready=0
+2026-09-09 07:14:30 ============Round Start===========
+2026-09-09 07:15:00 PBG-wait drawn_at=2026-09-09 07:15:00
+2026-09-09 07:15:00 PBG-ok times=1575721 drawn_at=2026-09-09 07:15:00 balls=15,8,18,10,3,6
+2026-09-09 07:15:00 acc-pb updated=0 won=0 waits=0 skip_not_ready=0
+2026-09-09 07:19:30 ============Round Start===========
+2026-09-09 07:20:00 PBG-wait drawn_at=2026-09-09 07:20:00
+2026-09-09 07:20:00 PBG-ok times=1575722 drawn_at=2026-09-09 07:20:00 balls=13,4,20,23,24,5
+2026-09-09 07:20:00 acc-pb updated=0 won=0 waits=0 skip_not_ready=0
+2026-09-09 07:24:30 ============Round Start===========
+2026-09-09 07:25:00 PBG-wait drawn_at=2026-09-09 07:25:00
+2026-09-09 07:25:00 PBG-ok times=1575723 drawn_at=2026-09-09 07:25:00 balls=5,6,8,23,28,0
+2026-09-09 07:25:00 acc-pb updated=0 won=0 waits=0 skip_not_ready=0

@@ -38,6 +38,39 @@
 
 /*
  *---------------------------------------------------------------
+ * LOAD ENVIRONMENT VARIABLES (.env)
+ *---------------------------------------------------------------
+ */
+	$envFile = __DIR__ . DIRECTORY_SEPARATOR . '.env';
+	if (is_file($envFile) && is_readable($envFile))
+	{
+		foreach (file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line)
+		{
+			$line = trim($line);
+			if ($line === '' || $line[0] === '#' || strpos($line, '=') === FALSE)
+			{
+				continue;
+			}
+
+			list($name, $value) = explode('=', $line, 2);
+			$name = trim($name);
+			$value = trim($value);
+			if ($value !== '' && ($value[0] === '"' || $value[0] === "'"))
+			{
+				$value = trim($value, "\"'");
+			}
+
+			if ($name !== '' && ! array_key_exists($name, $_ENV))
+			{
+				putenv($name.'='.$value);
+				$_ENV[$name] = $value;
+				$_SERVER[$name] = $value;
+			}
+		}
+	}
+
+/*
+ *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
  *---------------------------------------------------------------
  *

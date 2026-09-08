@@ -25,11 +25,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 <div class="el-row">
                     <?php
-                    /** pbg 미니뷰: openMini=1 시 pbg 쪽에서 추첨 패널 펼침( powerballMiniView.php PB_OPEN_MINI_EMBED ) · 높이는 펼친 상태(400px)에 맞춤 */
-                    $pbgMiniSrc = 'https://pbg-2.com/?view=powerballMiniView&openMini=1';
+                    /** pbg 미니뷰: openMini=1 시 pbg 쪽에서 추첨 패널 펼침 · POWERBALL_BASE_URL 또는 DB site */
+                    $pbgBase = powerball_base_url();
+                    $pbgMiniSrc = ($pbgBase !== '') ? ($pbgBase . '/?view=powerballMiniView&openMini=1') : '';
                     ?>
+                    <?php if ($pbgMiniSrc !== ''): ?>
                     <iframe id="lion-pbg-mini-iframe" src="<?= htmlspecialchars($pbgMiniSrc, ENT_QUOTES, 'UTF-8') ?>" allowtransparency="true" frameborder="0" scrolling="no" style="width: 830px; height: 273px; border: 0; vertical-align: top;">
                     </iframe>
+                    <?php else: ?>
+                    <div style="width:830px;height:273px;display:flex;align-items:center;justify-content:center;background:#111;color:#f66;font-size:14px;box-sizing:border-box;padding:20px;text-align:center;">
+                        파워볼 서버 URL이 없습니다.<br>.env POWERBALL_BASE_URL 또는 PBG등록설정의 요청사이트를 설정하세요.
+                    </div>
+                    <?php endif; ?>
                     <div class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition el-table--mini" style="width: 830px; height: 55vh;">
                         
                         <div class="el-table__body-wrapper is-scrolling-none" style="height: 459px;">
