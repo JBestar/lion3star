@@ -252,33 +252,34 @@
 }
 
 .senior-bet-list-head #bet_list #client-bet-list-tbody tr.senior-bet-round-sep td {
-  background: linear-gradient(90deg, transparent, var(--star-red), var(--star-gold), var(--star-red), transparent) !important;
-  height: 3px !important;
-  opacity: 0.9;
+  background: #d62929 !important;
+  height: 4px !important;
+  opacity: 1;
 }
 
+/* 회차 교대: 밝은 행 / 어두운 행 — 대비를 크게 */
 .senior-bet-list-head #bet_list #client-bet-list-tbody tr.senior-bet-list-row.senior-bet-list-stripe-a td {
-  background: linear-gradient(180deg, #2a2030 0%, #1e1624 100%) !important;
-  border-bottom: 1px solid rgba(255, 45, 85, 0.2) !important;
+  background: linear-gradient(180deg, #e8eef8 0%, #c5d0e4 100%) !important;
+  border-bottom: 1px solid #9aabc4 !important;
 }
 
 .senior-bet-list-head #bet_list #client-bet-list-tbody tr.senior-bet-list-row.senior-bet-list-stripe-b td {
-  background: linear-gradient(180deg, #1a1e28 0%, #12151c 100%) !important;
-  border-bottom: 1px solid rgba(212, 160, 23, 0.15) !important;
+  background: linear-gradient(180deg, #2a3142 0%, #151a24 100%) !important;
+  border-bottom: 1px solid #3d4658 !important;
 }
 
 .senior-bet-list-head #bet_list #client-bet-list-tbody tr.senior-bet-list-row.senior-bet-list-stripe-a td:not(.senior-bet-col-result),
 .senior-bet-list-head #bet_list #client-bet-list-tbody tr.senior-bet-list-row.senior-bet-list-stripe-a td:not(.senior-bet-col-result) a {
-  color: #ffe8f0 !important;
+  color: #1a2233 !important;
 }
 
 .senior-bet-list-head #bet_list #client-bet-list-tbody tr.senior-bet-list-row.senior-bet-list-stripe-b td:not(.senior-bet-col-result),
 .senior-bet-list-head #bet_list #client-bet-list-tbody tr.senior-bet-list-row.senior-bet-list-stripe-b td:not(.senior-bet-col-result) a {
-  color: #f0e6c8 !important;
+  color: #f2f5fa !important;
 }
 
 .senior-bet-list-head #bet_list #client-bet-list-tbody tr.senior-bet-list-row:hover td {
-  filter: brightness(1.12);
+  filter: brightness(1.08);
 }
 
 .senior-bet-list-head .senior-bet-status-badge {

@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" href="<?php echo base_url('assets/css/client-senior-bridge.css?v=23');?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/default.css?v=1');?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/layout.css?v=1');?>">
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/star-theme.css?v=3');?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/star-theme.css?v=5');?>">
     <!-- <link rel="stylesheet" href="<?php echo base_url('assets/css/main.css?v=').time();?>"> -->
     
     <script src="<?php echo base_url('assets/jslib/jquery-1.12.4.min.js'); ?>"></script>
@@ -119,8 +119,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="bet_list">
                             <div class="sub_title senior-bet-list-head relative">
                                 배팅리스트
-                                <br>
-                                <span style="font-size:12px;opacity:.85;">배팅회차 클릭시 현재회차 내역을 확인하실수 있습니다.</span>
                                 <div class="absolute right-2 top-2 flex">
                                     <button type="button" class="btn btn_red text-sm" onclick="showBetHistoryDlg();">베팅내역</button>
                                 </div>
