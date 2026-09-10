@@ -1,0 +1,308 @@
+/**
+ * Star admin (본사) theme — horizontal nav + cosmic background
+ * Linked only from admin/header_adm.php (control/총판 미적용)
+ */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap');
+
+body.admin-star-body {
+  margin: 0;
+  min-width: 1220px;
+  font-family: 'Noto Sans KR', sans-serif;
+  background: #0a1220 url('/assets/image/background.png') center top / cover no-repeat fixed;
+  color: #e8eef8;
+}
+
+.admin-star-app,
+.admin-star-app .v-application--wrap {
+  min-height: 100vh;
+  background: transparent !important;
+}
+
+.admin-star-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(180deg, rgba(8, 14, 28, 0.28) 0%, rgba(10, 18, 36, 0.4) 100%);
+}
+
+/* —— Top bar —— */
+.admin-star-topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px 20px;
+  flex-wrap: nowrap;
+  padding: 6px 16px 6px 12px;
+  min-height: 96px;
+  background: rgba(8, 16, 32, 0.42);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(180, 210, 255, 0.22);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
+  position: relative;
+  z-index: 100;
+}
+
+.admin-star-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.admin-star-brand .logo,
+.admin-star-brand .el-image.logo {
+  width: auto !important;
+  height: 88px !important;
+  display: flex;
+  align-items: center;
+}
+
+.admin-star-brand .logo img,
+.admin-star-brand .el-image__inner {
+  height: 88px !important;
+  width: auto !important;
+  max-width: 320px;
+  object-fit: contain;
+}
+
+.admin-star-welcome {
+  font-size: 13px;
+  color: #dce6f5;
+  white-space: nowrap;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.admin-star-nav {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+  min-width: 0;
+  gap: 2px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.admin-star-nav > .admin-star-menu-item,
+.admin-star-nav > .admin-star-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.admin-star-nav .admin-star-link {
+  display: inline-flex;
+  align-items: center;
+  height: 96px;
+  padding: 0 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #e8eef8;
+  cursor: pointer;
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+  user-select: none;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.admin-star-nav .admin-star-link:hover {
+  color: #f5d76e;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.admin-star-nav .admin-star-link.is-active {
+  color: #f5d76e;
+  border-bottom-color: #f5d76e;
+}
+
+.admin-star-dropdown:hover .admin-star-submenu,
+.admin-star-dropdown:focus-within .admin-star-submenu {
+  display: block;
+}
+
+.admin-star-dropdown:hover > .admin-star-link {
+  color: #f5d76e;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.admin-star-submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 140px;
+  margin: 0;
+  padding: 6px 0;
+  list-style: none;
+  background: rgba(12, 22, 40, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(180, 210, 255, 0.28);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  z-index: 200;
+}
+
+.admin-star-submenu li {
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #e8eef8;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.admin-star-submenu li:hover,
+.admin-star-submenu li.is-active {
+  color: #f5d76e;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.admin-star-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.admin-star-actions .el-button--mini {
+  font-weight: 700;
+}
+
+.admin-star-actions .btn-site-maintain.el-button--danger {
+  background: #c0392b !important;
+  border-color: #a93226 !important;
+}
+
+.admin-star-actions .btn-data-clean.el-button--primary {
+  background: #2563eb !important;
+  border-color: #1d4ed8 !important;
+}
+
+.admin-star-marquee {
+  background: rgba(12, 24, 48, 0.4) !important;
+  color: #f5d76e !important;
+  border-bottom: 1px solid rgba(91, 159, 212, 0.2);
+}
+
+.admin-star-main {
+  flex: 1;
+  padding: 16px 20px 28px;
+  min-height: 0;
+  background: transparent;
+}
+
+.admin-star-main > .el-main {
+  background: rgba(255, 255, 255, 0.18) !important;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 10px;
+  border: 1px solid rgba(180, 210, 240, 0.28);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
+  color: #f0f4fa;
+  padding: 16px 18px !important;
+}
+
+.admin-star-main .el-button--primary {
+  background: linear-gradient(180deg, #1a1a1a 0%, #000 100%) !important;
+  border: 1px solid #d4a017 !important;
+  color: #fff !important;
+  font-weight: 700;
+  box-shadow: 0 2px 0 #8b6914, 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.admin-star-main .el-table,
+.admin-star-main .el-table__body-wrapper,
+.admin-star-main .el-table__header-wrapper,
+.admin-star-main .el-table tr,
+.admin-star-main .el-table td {
+  background: transparent !important;
+}
+
+.admin-star-main .el-table th {
+  background: rgba(20, 40, 70, 0.45) !important;
+  color: #f0f4fa !important;
+  border-bottom-color: rgba(180, 210, 255, 0.25) !important;
+}
+
+.admin-star-main .el-table td {
+  color: #eef2f8 !important;
+  border-bottom-color: rgba(180, 210, 255, 0.12) !important;
+}
+
+.admin-star-main .el-table--enable-row-hover .el-table__body tr:hover > td {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.admin-star-main .el-divider {
+  background-color: rgba(180, 210, 255, 0.25) !important;
+}
+
+.admin-star-main .el-form-item__label,
+.admin-star-main label {
+  color: #dce6f5;
+}
+
+/* Global unlock dialog (Ctrl+Shift+F12) */
+.admin-rs-unlock-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  background: rgba(6, 12, 24, 0.72);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-rs-unlock-overlay.is-open {
+  display: flex;
+}
+
+.admin-rs-unlock-dialog {
+  width: 360px;
+  max-width: 92vw;
+  padding: 22px 24px;
+  border-radius: 10px;
+  background: linear-gradient(165deg, #1a2740 0%, #0f1828 100%);
+  border: 1px solid rgba(91, 159, 212, 0.45);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.admin-rs-unlock-dialog .roundstat-lock-title {
+  font-size: 18px;
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.admin-rs-unlock-dialog .roundstat-lock-desc {
+  font-size: 14px;
+  color: #b8c4d8;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.admin-rs-unlock-dialog .roundstat-lock-input {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 14px;
+}
+
+.admin-rs-unlock-dialog .roundstat-lock-actions {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.admin-rs-unlock-dialog .roundstat-pwd-err {
+  color: #f56c6c;
+  font-size: 13px;
+  margin-top: 10px;
+  min-height: 18px;
+  text-align: center;
+}

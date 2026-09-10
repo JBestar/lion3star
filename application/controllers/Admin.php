@@ -96,13 +96,14 @@ class Admin extends CI_Controller {
 
 			$arrData = getSidebarArray();
 			$arrData['menuitem_3'] = " is-active ";
+			$arrData['roundstat_unlocked'] = ((int) $this->session->userdata('adm_roundstat_ok') === 1);
 
 			$this->load->model('confsite_model');
 			$arrData['site_name'] = $this->confsite_model->getSiteName();
 			$this->attachTopAdminFlag($arrData, $nLogId);
 			
             $this->load->view('admin/header_adm', $arrData);
-			$this->load->view('admin/roundstat_adm');
+			$this->load->view('admin/roundstat_adm', $arrData);
             $this->load->view('admin/footer_adm');
 		}
 		else {

@@ -10,8 +10,9 @@
         requestWaitTransfer();
         addEventListner();
         startWorker();
+        bindAdminRoundstatHotkey();
     });
-    clickMenu
+
     function clickMenu(iMenu){
         if(iMenu == 1){
             location.href = "/admin"+location.search;
@@ -683,5 +684,95 @@
         window.speechSynthesis.speak(speechMsg);
     }
 
+    /* —— 본사 전용: Ctrl+Shift+F12 → 회차별통계 암호 (동일 API) —— */
+    function bindAdminRoundstatHotkey(){
+        $(document).on("keydown.adminRsUnlock", function(e){
+            var isF12 = (e.key === "F12" || e.keyCode === 123);
+            if(!isF12 || !e.ctrlKey || !e.shiftKey){
+                return;
+            }
+            e.preventDefault();
+            openAdminRoundstatUnlock();
+        });
+
+        $("#admin-rs-pwd-submit").on("click", function(){
+            submitAdminRoundstatUnlock();
+        });
+        $("#admin-rs-pwd-cancel").on("click", function(){
+            closeAdminRoundstatUnlock();
+        });
+        $("#admin-rs-pwd-input").on("keydown", function(e){
+            if(e.keyCode === 13){
+                submitAdminRoundstatUnlock();
+            }
+        });
+        $("#admin-rs-unlock-overlay").on("click", function(e){
+            if(e.target === this){
+                closeAdminRoundstatUnlock();
+            }
+        });
+    }
+
+    function openAdminRoundstatUnlock(){
+        $("#admin-rs-pwd-err").text("");
+        $("#admin-rs-pwd-input").val("");
+        $("#admin-rs-unlock-overlay").addClass("is-open").attr("aria-hidden", "false");
+        setTimeout(function(){
+            $("#admin-rs-pwd-input").focus();
+        }, 0);
+    }
+
+    function closeAdminRoundstatUnlock(){
+        $("#admin-rs-unlock-overlay").removeClass("is-open").attr("aria-hidden", "true");
+        $("#admin-rs-pwd-err").text("");
+        $("#admin-rs-pwd-input").val("");
+    }
+
+    function submitAdminRoundstatUnlock(){
+        var pw = String($("#admin-rs-pwd-input").val() || "");
+        $("#admin-rs-pwd-err").text("");
+        if(pw.length < 1){
+            $("#admin-rs-pwd-err").text("암호를 입력하세요.");
+            $("#admin-rs-pwd-input").focus();
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: { json_: JSON.stringify({ pwd: pw }) },
+            url: "/capi/roundstatunlock" + location.search,
+            success: function(j){
+                if(!j){
+                    $("#admin-rs-pwd-err").text("응답 오류");
+                    return;
+                }
+                if(j.status === "success"){
+                    closeAdminRoundstatUnlock();
+                    location.href = "/admin/roundstat" + location.search;
+                    return;
+                }
+                if(j.status === "logout"){
+                    location.replace("/admin/login");
+                    return;
+                }
+                if(j.status === "fail"){
+                    var remain = (j.remain_attempts != null) ? parseInt(j.remain_attempts, 10) : NaN;
+                    if(j.data === 4){
+                        $("#admin-rs-pwd-err").text("암호 5회 오류로 계정과 접속 IP가 차단되었습니다. 관리자에게 문의하세요.");
+                    } else if(j.data === 3){
+                        $("#admin-rs-pwd-err").text("암호 입력 가능 횟수를 모두 사용했습니다. 관리자에게 문의하세요.");
+                    } else if(!isNaN(remain)){
+                        $("#admin-rs-pwd-err").text("암호가 올바르지 않습니다. 남은 횟수: " + remain + "/5");
+                    } else {
+                        $("#admin-rs-pwd-err").text("암호가 올바르지 않습니다.");
+                    }
+                    $("#admin-rs-pwd-input").val("").focus();
+                }
+            },
+            error: function(){
+                $("#admin-rs-pwd-err").text("요청 실패. 잠시 후 다시 시도하세요.");
+            }
+        });
+    }
 
 

@@ -469,7 +469,7 @@ function unlockRoundstat(pwd){
 		url: "/capi/roundstatunlock" + location.search,
 		success: function(j){
 
-			if(j.status === "success"){
+            if(j.status === "success"){
 				m_rsContextFailBanner = false;
 				$("#roundstat-lock-overlay").hide();
 				$("#roundstat-main-panel").show();
@@ -626,11 +626,31 @@ function admRoundstatSavePwd(){
 
 $(document).ready(function(){
 
-	$("#roundstat-main-panel").hide();
-	$("#roundstat-lock-overlay").show();
-	setTimeout(function(){
-		$("#roundstat-pwd-input").focus();
-	}, 0);
+	var alreadyOk = ($("main.el-main").attr("data-roundstat-unlocked") === "1");
+
+	function rsEnterUnlocked(){
+		m_rsContextFailBanner = false;
+		$("#roundstat-lock-overlay").hide();
+		$("#roundstat-main-panel").show();
+		rsStartLiveClock();
+		rsStartCountdownInterpolated();
+		requestRoundstatContext();
+		requestRoundstatRows();
+		if(m_rsTimerCtx) clearInterval(m_rsTimerCtx);
+		m_rsTimerCtx = setInterval(requestRoundstatContext, 6000);
+		if(m_rsTimerRows) clearInterval(m_rsTimerRows);
+		m_rsTimerRows = setInterval(requestRoundstatRows, 2500);
+	}
+
+	if(alreadyOk){
+		rsEnterUnlocked();
+	} else {
+		$("#roundstat-main-panel").hide();
+		$("#roundstat-lock-overlay").show();
+		setTimeout(function(){
+			$("#roundstat-pwd-input").focus();
+		}, 0);
+	}
 
 	$("#roundstat-pwd-submit").on("click", function(){
 		unlockRoundstat($("#roundstat-pwd-input").val());

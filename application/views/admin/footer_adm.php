@@ -51,9 +51,9 @@
 
             <!--================Clean Dialog================-->
             <div class="el-dialog__wrapper" id="el-dialog-clean-id" style="z-index: 2031; display:none;">
-                <div role="dialog" aria-modal="true" aria-label="디비정리" class="el-dialog" style="margin-top: 5vh; width: 30%; min-width:400px;">
+                <div role="dialog" aria-modal="true" aria-label="데이터정리" class="el-dialog" style="margin-top: 5vh; width: 30%; min-width:400px;">
                     <div class="el-dialog__header">
-                        <span class="el-dialog__title">디비정리</span>
+                        <span class="el-dialog__title">데이터정리</span>
                         <button type="button" id="el-dialog-clean-close-id" class="el-dialog__headerbtn">
                             <i class="el-dialog__close fas fa-times"></i>
                         </button>
@@ -92,9 +92,9 @@
 
             <!--================Maintain Dialog================-->
             <div class="el-dialog__wrapper" id="el-dialog-maintain-id" style="z-index: 2032; display:none;">
-                <div role="dialog" aria-modal="true" aria-label="사이트점검" class="el-dialog" style="margin-top: 5vh; width: 40%; min-width:400px;">
+                <div role="dialog" aria-modal="true" aria-label="site 점검" class="el-dialog" style="margin-top: 5vh; width: 40%; min-width:400px;">
                     <div class="el-dialog__header">
-                        <span class="el-dialog__title">사이트점검</span>
+                        <span class="el-dialog__title">site 점검</span>
                         <button type="button" id="el-dialog-maintain-close-id" class="el-dialog__headerbtn">
                             <i class="el-dialog__close fas fa-times"></i>
                         </button>
@@ -235,9 +235,6 @@
             
         </div>
     </div>
-</div>
-
-
 
 </body>
 

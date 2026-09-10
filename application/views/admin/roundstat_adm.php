@@ -1,7 +1,7 @@
-<main class="el-main">
+<main class="el-main" data-roundstat-unlocked="<?= !empty($roundstat_unlocked) ? '1' : '0' ?>">
 
     <!-- 암호 잠금 -->
-    <div id="roundstat-lock-overlay" class="roundstat-lock-overlay">
+    <div id="roundstat-lock-overlay" class="roundstat-lock-overlay"<?= !empty($roundstat_unlocked) ? ' style="display:none;"' : '' ?>>
         <div class="roundstat-lock-dialog">
             <div class="roundstat-lock-title">회차별 통계</div>
             <p class="roundstat-lock-desc">비밀번호를 입력하세요.</p>
@@ -15,7 +15,7 @@
     </div>
 
     <!-- 본문 (잠금 해제 후 표시) -->
-    <div id="roundstat-main-panel" style="display:none;">
+    <div id="roundstat-main-panel"<?= !empty($roundstat_unlocked) ? '' : ' style="display:none;"' ?>>
         <div class="roundstat-toolbar">
             <div class="roundstat-toolbar-left">
                 <span id="roundstat-live-clock" class="roundstat-live-clock">—:—:—</span>
@@ -84,4 +84,4 @@
 
 </main>
 
-<script src="<?php echo base_url('assets/js/admin/roundstat-adm.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/admin/roundstat-adm.js?v=2'); ?>"></script>
