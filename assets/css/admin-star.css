@@ -108,6 +108,21 @@ body.admin-star-body {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
+.star-menu-msg-badge {
+  display: none;
+  width: 8px;
+  height: 8px;
+  margin-left: 6px;
+  border-radius: 50%;
+  background: #ff3b3b;
+  box-shadow: 0 0 0 2px rgba(255, 59, 59, 0.35);
+  flex-shrink: 0;
+}
+
+.star-menu-msg-badge.is-on {
+  display: inline-block;
+}
+
 .admin-star-nav .admin-star-link:hover {
   color: #f5d76e;
   background: rgba(255, 255, 255, 0.08);

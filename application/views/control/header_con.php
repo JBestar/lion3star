@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <link rel="stylesheet" href="<?php echo base_url('assets/css/all.css');?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/control.css');?>">
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/control-star.css?v=5');?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/control-star.css?v=6');?>">
 
     <script src="<?php echo base_url('assets/jslib/jquery-1.12.4.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/jslib/jquery-ui-1.12.1.min.js'); ?>"></script>
@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <script src="<?php echo base_url('assets/js/worker.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/common.js?v=1'); ?>"></script>
-    <script src="<?php echo base_url('assets/js/control/header-control.js?v=7'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/control/header-control.js?v=8'); ?>"></script>
 
 </head>
 
@@ -58,7 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <span class="control-star-link <?=$menuitem_6?>" onclick="clickMenu(6);">본사 총/환 내역</span>
                     </li>
                     <li class="control-star-menu-item">
-                        <span class="control-star-link <?=$menuitem_7?>" onclick="clickMenu(7);">알림 및 공지</span>
+                        <span class="control-star-link <?=$menuitem_7?>" onclick="clickMenu(7);">알림 및 공지<span class="star-menu-msg-badge" id="message-menu-badge" aria-hidden="true"></span></span>
                     </li>
                     <li class="control-star-menu-item">
                         <span class="control-star-link <?=$menuitem_8?>" onclick="clickMenu(8);">구매취소내역</span>

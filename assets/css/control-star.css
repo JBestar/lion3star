@@ -148,6 +148,21 @@ body.control-star-body {
   background: transparent;
 }
 
+.star-menu-msg-badge {
+  display: none;
+  width: 8px;
+  height: 8px;
+  margin-left: 6px;
+  border-radius: 50%;
+  background: #ff3b3b;
+  box-shadow: 0 0 0 2px rgba(255, 59, 59, 0.35);
+  flex-shrink: 0;
+}
+
+.star-menu-msg-badge.is-on {
+  display: inline-block;
+}
+
 .control-star-nav .control-star-link:hover {
   color: #f5d76e;
   background: rgba(255, 255, 255, 0.08);

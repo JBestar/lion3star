@@ -2,13 +2,14 @@
     var m_objUser = null;
     var m_sessHeartbeatTimer = null;
     var SESS_HEARTBEAT_MS = 60000;
+    var m_latestNoticeFid = 0;
+    var MSG_SEEN_KEY = "star_control_msg_seen";
 
     $(document).ready(function() {
 
         requestMemberInfo();
         startSessionHeartbeat();
         requestRecvMessage();
-        requestWaitTransfer();
         addEventListner();
         startWorker();
     });
@@ -28,6 +29,7 @@
         } else if (iMenu == 6) {
             location.href = "/ctrl/transform2" + location.search;
         } else if (iMenu == 7) {
+            markMessageMenuSeen();
             location.href = "/ctrl/message" + location.search;
         } else if (iMenu == 8) {
             location.href = "/ctrl/cancel" + location.search;
@@ -35,6 +37,33 @@
             location.href = "/ctrl/logout" + location.search;
         }
 
+    }
+
+    function msgSeenStorageKey() {
+        var uid = (m_objUser && m_objUser.mb_uid) ? m_objUser.mb_uid : "";
+        return MSG_SEEN_KEY + "_" + uid;
+    }
+
+    function getSeenNoticeFid() {
+        return parseInt(localStorage.getItem(msgSeenStorageKey()) || "0", 10) || 0;
+    }
+
+    function setSeenNoticeFid(fid) {
+        localStorage.setItem(msgSeenStorageKey(), String(fid || 0));
+    }
+
+    function markMessageMenuSeen() {
+        setSeenNoticeFid(m_latestNoticeFid);
+        $("#message-menu-badge").removeClass("is-on");
+    }
+
+    function updateMessageMenuBadge() {
+        var $badge = $("#message-menu-badge");
+        if (m_latestNoticeFid > 0 && m_latestNoticeFid !== getSeenNoticeFid()) {
+            $badge.addClass("is-on");
+        } else {
+            $badge.removeClass("is-on");
+        }
     }
 
     function addEventListner() {
@@ -133,35 +162,20 @@
             ratioText = ratioText + "%";
         }
         $("#emp-ratio-id").text(ratioText);
-
+        updateMessageMenuBadge();
 
     }
 
 
     function showNewMessage(arrMsgData) {
         var tMessage = "";
+        m_latestNoticeFid = 0;
         if (arrMsgData != null && arrMsgData.length > 0) {
-            tMessage = arrMsgData[0].notice_title;
-            if (m_objUser != null) {
-                speak(m_objUser.mb_uid, { rate: 1, pitch: 1.2 });
-            }
-            setTimeout(function() { speak("새 메시지가 도착하엿습니다.", { rate: 1, pitch: 1.2 }); }, 1000);
-
+            tMessage = arrMsgData[0].notice_title || "";
+            m_latestNoticeFid = parseInt(arrMsgData[0].notice_fid, 10) || 0;
         }
         $("#message-marquee-id").text(tMessage);
-    }
-
-    function showWaitTansfer(arrTransfer) {
-        if (arrTransfer == null || arrTransfer.length != 2)
-            return;
-
-        if (arrTransfer[0] > 0) {
-            speak("사랑합니다.", { rate: 1, pitch: 1.2 });
-        } else if (arrTransfer[1] > 0) {
-            speak("미안합니다.", { rate: 1, pitch: 1.2 });
-        }
-
-
+        updateMessageMenuBadge();
     }
 
     function hasSessionLogId() {
@@ -451,32 +465,6 @@
         });
 
     }
-
-
-    function requestWaitTransfer() {
-
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            url: "/bapi/waitTransfer" + location.search,
-            success: function(jResult) {
-                //console.log(jResult);
-                if (jResult.status == "success") {
-                    showWaitTansfer(jResult.data);
-                } else if (jResult.status == "logout") {
-                    location.reload();
-                }
-            },
-            error: function(request, status, error) {
-                //console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-            }
-        });
-
-    }
-
-
-
-
 
 
     /*=============Dialog=============== */
@@ -847,30 +835,6 @@
         if (nCurSec % 5 == 0) {
             requestMemberInfo();
             requestRecvMessage();
-            requestWaitTransfer();
         }
 
-    }
-
-
-
-
-    function speak(text, opt_prop) {
-        if (typeof SpeechSynthesisUtterance === "undefined" || typeof window.speechSynthesis === "undefined") {
-            //alert("이 브라우저는 음성 합성을 지원하지 않습니다.");
-            return;
-        }
-
-        window.speechSynthesis.cancel(); // 현재 읽고있다면 초기화
-
-        const prop = opt_prop; // {}
-
-        const speechMsg = new SpeechSynthesisUtterance();
-        speechMsg.rate = prop.rate; // 1 // 속도: 0.1 ~ 10      
-        speechMsg.pitch = prop.pitch; // 1 // 음높이: 0 ~ 2
-        speechMsg.lang = "ko-KR"; //prop.lang ;// "ko-KR"
-        speechMsg.text = text;
-
-        // SpeechSynthesisUtterance에 저장된 내용을 바탕으로 음성합성 실행
-        window.speechSynthesis.speak(speechMsg);
     }

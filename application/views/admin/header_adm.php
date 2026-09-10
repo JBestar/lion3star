@@ -10,7 +10,7 @@ $sub_active = (trim($menuitem_1) !== '' || trim($menuitem_12) !== '');
 
     <link rel="stylesheet" href="<?php echo base_url('assets/css/all.css');?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/admin.css');?>">
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/admin-star.css?v=11');?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/admin-star.css?v=12');?>">
 
     <script src="<?php echo base_url('assets/jslib/jquery-1.12.4.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/jslib/jquery-ui-1.12.1.min.js'); ?>"></script>
@@ -22,7 +22,7 @@ $sub_active = (trim($menuitem_1) !== '' || trim($menuitem_12) !== '');
 
     <script src="<?php echo base_url('assets/js/worker.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/common.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/js/admin/header-adm.js?v=5');?>"></script>
+    <script src="<?php echo base_url('assets/js/admin/header-adm.js?v=6');?>"></script>
 
 </head>
 
@@ -60,7 +60,7 @@ $sub_active = (trim($menuitem_1) !== '' || trim($menuitem_12) !== '');
                         <span class="admin-star-link <?=$menuitem_6?>" onclick="clickMenu(6);">충/환전내역</span>
                     </li>
                     <li class="admin-star-menu-item">
-                        <span class="admin-star-link <?=$menuitem_7?>" onclick="clickMenu(7);">알림 및 공지</span>
+                        <span class="admin-star-link <?=$menuitem_7?>" onclick="clickMenu(7);">알림 및 공지<span class="star-menu-msg-badge" id="message-menu-badge" aria-hidden="true"></span></span>
                     </li>
                     <li class="admin-star-menu-item">
                         <span class="admin-star-link <?=$menuitem_8?>" onclick="clickMenu(8);">거래내역보기</span>
