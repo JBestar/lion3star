@@ -1,18 +1,21 @@
 <main class="el-main">
-    <form class="el-form el-form--inline">
-        <div class="el-form-item">
-            <div class="el-date-editor el-range-editor el-input__inner el-date-editor--daterange">
-                <i class="el-input__icon el-range__icon fa fa-calendar-alt"></i>
-                <input type="text" id="el-main-range-id" class="el-range-input" name="daterange" value="" >  
-                <i class="el-input__icon el-range__close-icon" id="el-main-range__close-id"></i>  
-            </div> 
-            <button type="button" onclick="findDischarge();" class="el-button el-button--primary star-icon-btn" title="검색">
-                <i class="fas fa-search"></i>
-            </button> 
-        </div> 
-    </form> 
     <div class="el-row">
-        <div class="el-table el-table--fit el-table--enable-row-hover el-table--small" style="/*height: 80vh;*/">
+        <div class="star-page-toolbar">
+            <form class="el-form el-form--inline">
+                <div class="el-form-item">
+                    <div class="el-date-editor el-range-editor el-input__inner el-date-editor--daterange">
+                        <i class="el-input__icon el-range__icon fa fa-calendar-alt"></i>
+                        <input type="text" id="el-main-range-id" class="el-range-input" name="daterange" value="" >
+                        <i class="el-input__icon el-range__close-icon" id="el-main-range__close-id"></i>
+                    </div>
+                    <button type="button" onclick="findDischarge();" class="el-button el-button--primary star-icon-btn" title="검색">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="el-divider el-divider--horizontal"></div>
+        <div class="el-table star-page-table el-table--fit el-table--striped el-table--scrollable-x el-table--scrollable-y el-table--enable-row-hover el-table--small">
             <!--
             <div class="hidden-columns">
                 <div></div>
@@ -56,7 +59,7 @@
                 </table>
             </div>
             -->
-            <div class="el-table__body-wrapper is-scrolling-none" style="height: 80vh; overflow:auto;">
+            <div class="el-table__body-wrapper is-scrolling-none">
                 <table cellspacing="0" cellpadding="0" border="0" class="el-table__body" style="width: 95%;">
                     <colgroup>
                         <col name="el-table_30_column_205" width="134" />

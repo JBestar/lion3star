@@ -267,6 +267,15 @@ body.control-star-body {
   background-color: rgba(180, 210, 255, 0.25) !important;
 }
 
+.control-star-main .el-form-item__label,
+.control-star-main label {
+  color: #dce6f5;
+}
+
+.control-star-main .el-table__empty-text {
+  color: #c5d4ea !important;
+}
+
 /* Shared: orange dialog header + search */
 body.control-star-body .el-dialog__header {
   background: linear-gradient(180deg, #ff9f43 0%, #e67e22 100%) !important;

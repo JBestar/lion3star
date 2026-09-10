@@ -1,23 +1,18 @@
 
 <main class="el-main">
     <div class="el-row" inline="">
-        <div class="el-date-editor el-range-editor el-input__inner el-date-editor--daterange">
-            <!--
-            <i class="el-input__icon el-range__icon el-icon-date"></i>
-            <input autocomplete="off" placeholder="" name="" class="el-range-input">
-            <span class="el-range-separator">~</span>
-            <input autocomplete="off" placeholder="" name="" class="el-range-input">
-            <i class="el-input__icon el-range__close-icon"></i>
-            -->
-            <i class="el-input__icon el-range__icon fa fa-calendar-alt"></i>
-            <input type="text" id="el-main-range-id" class="el-range-input" name="daterange" value="" >  
-            <i class="el-input__icon el-range__close-icon" id="el-main-range__close-id"></i>  
-        </div> 
-        <button type="button" onclick="requestBetStatist();" class="el-button el-button--primary star-icon-btn" title="검색">
-            <i class="fas fa-search"></i>
-        </button> 
+        <div class="star-page-toolbar">
+            <div class="el-date-editor el-range-editor el-input__inner el-date-editor--daterange">
+                <i class="el-input__icon el-range__icon fa fa-calendar-alt"></i>
+                <input type="text" id="el-main-range-id" class="el-range-input" name="daterange" value="" >  
+                <i class="el-input__icon el-range__close-icon" id="el-main-range__close-id"></i>  
+            </div> 
+            <button type="button" onclick="requestBetStatist();" class="el-button el-button--primary star-icon-btn" title="검색">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
         <div class="el-divider el-divider--horizontal"></div> 
-        <div class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition">
+        <div class="el-table star-page-table el-table--fit el-table--striped el-table--scrollable-x el-table--scrollable-y el-table--enable-row-hover el-table--enable-row-transition el-table--small">
             <!--
             <div class="hidden-columns">
                 <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div>

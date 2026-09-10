@@ -291,6 +291,10 @@ body.admin-star-body {
   color: #dce6f5;
 }
 
+.admin-star-main .el-table__empty-text {
+  color: #c5d4ea !important;
+}
+
 /* Global unlock dialog (Ctrl+Shift+F12) */
 .admin-rs-unlock-overlay {
   position: fixed;

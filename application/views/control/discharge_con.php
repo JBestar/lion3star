@@ -1,49 +1,48 @@
 
 <main class="el-main">
     <div class="el-row">
-        <form class="el-form el-form--inline">
-            <div class="el-form-item">
-                <label class="el-form-item__label">환전신청 아이디</label>
-                <div class="el-form-item__content">
-                    <div class="el-select">
-                        <div class="el-input el-input--suffix" onclick="toggleEmpSelect();">
-                            <input type="text" readonly="readonly" id="el-form-uid-input-id" autocomplete="off" placeholder="Select" class="el-input__inner">
-                            <span class="el-input__suffix">
-                                <span class="el-input__suffix-inner">
-                                    <i class="el-select__caret el-input__icon fas fa-chevron-up" id="el-form-select-icon-id"></i>
-                                    
+        <div class="star-page-toolbar">
+            <form class="el-form el-form--inline">
+                <div class="el-form-item">
+                    <label class="el-form-item__label">환전신청 아이디</label>
+                    <div class="el-form-item__content">
+                        <div class="el-select">
+                            <div class="el-input el-input--suffix" onclick="toggleEmpSelect();">
+                                <input type="text" readonly="readonly" id="el-form-uid-input-id" autocomplete="off" placeholder="Select" class="el-input__inner">
+                                <span class="el-input__suffix">
+                                    <span class="el-input__suffix-inner">
+                                        <i class="el-select__caret el-input__icon fas fa-chevron-up" id="el-form-select-icon-id"></i>
+                                    </span>
                                 </span>
-                            </span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div> 
-            <div class="el-form-item">
-                <label class="el-form-item__label">환전금액</label>
-                <div class="el-form-item__content">
-                    <div class="el-input">
-                        <input type="number" autocomplete="off" class="el-input__inner"  id="el-form-amount-input-id">
+                <div class="el-form-item">
+                    <label class="el-form-item__label">환전금액</label>
+                    <div class="el-form-item__content">
+                        <div class="el-input">
+                            <input type="number" autocomplete="off" class="el-input__inner"  id="el-form-amount-input-id">
+                        </div>
                     </div>
                 </div>
-            </div> 
-            <button type="button" class="el-button el-button--primary" onclick="giveDischarge();">
-                <span>확인</span>
-            </button>
-        </form> 
-        <form class="el-form el-form--inline">
-            <div class="el-form-item">
-                <div class="el-date-editor el-range-editor el-input__inner el-date-editor--daterange">
-                    <i class="el-input__icon el-range__icon fa fa-calendar-alt"></i>
-                    <input type="text" id="el-main-range-id" class="el-range-input" name="daterange" value="" >  
-                    <i class="el-input__icon el-range__close-icon" id="el-main-range__close-id"></i>  
-                </div> 
-                <button type="button" onclick="findDischarge();" class="el-button el-button--primary star-icon-btn" title="검색">
-                    <i class="fas fa-search"></i>
-                </button> 
-            </div> 
-        </form> 
+                <button type="button" class="el-button el-button--primary" onclick="giveDischarge();">
+                    <span>확인</span>
+                </button>
+                <div class="el-form-item">
+                    <div class="el-date-editor el-range-editor el-input__inner el-date-editor--daterange">
+                        <i class="el-input__icon el-range__icon fa fa-calendar-alt"></i>
+                        <input type="text" id="el-main-range-id" class="el-range-input" name="daterange" value="" >
+                        <i class="el-input__icon el-range__close-icon" id="el-main-range__close-id"></i>
+                    </div>
+                    <button type="button" onclick="findDischarge();" class="el-button el-button--primary star-icon-btn" title="검색">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
         <div class="el-divider el-divider--horizontal"></div> 
-        <div class="el-table el-table--fit el-table--enable-row-hover el-table--small" style="/*height: 80vh;*/">
+        <div class="el-table star-page-table el-table--fit el-table--striped el-table--scrollable-x el-table--scrollable-y el-table--enable-row-hover el-table--small">
             <!--
             <div class="hidden-columns">
                 <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> 
@@ -93,7 +92,7 @@
                 </table>
             </div>
             -->
-            <div class="el-table__body-wrapper is-scrolling-none" style="width:100%; height: 65vh; overflow:auto;">
+            <div class="el-table__body-wrapper is-scrolling-none">
                 <table cellspacing="0" cellpadding="0" border="0" class="el-table__body" style="width: 95%;">
                     <colgroup>
                         <col name="el-table_22_column_153" width="114">

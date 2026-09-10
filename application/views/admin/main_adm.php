@@ -1,11 +1,12 @@
 <main class="el-main">
     <div class="el-row">
-        <button type="button" onclick="showEmpDlg();" class="el-button el-button--primary">
-            
-            <span>총판생성</span>
-        </button>
+        <div class="star-page-toolbar">
+            <button type="button" onclick="showEmpDlg();" class="el-button el-button--primary">
+                <span>총판생성</span>
+            </button>
+        </div>
         <div class="el-divider el-divider--horizontal"></div>
-        <div class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition el-table--small">
+        <div class="el-table star-page-table employee-mgmt-table el-table--fit el-table--striped el-table--scrollable-x el-table--scrollable-y el-table--enable-row-hover el-table--enable-row-transition el-table--small">
             <!--
             <div class="hidden-columns">
 
@@ -184,5 +185,5 @@
 
 
 <script src="<?php echo base_url('assets/js/admin/main-adm.js?v=2'); ?>"></script>
-<link rel="stylesheet" href="<?php echo base_url('assets/css/employee-mgmt.css?v=3'); ?>">
+<link rel="stylesheet" href="<?php echo base_url('assets/css/employee-mgmt.css?v=5'); ?>">
 

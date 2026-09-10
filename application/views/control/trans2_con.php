@@ -1,6 +1,9 @@
 
 <main class="el-main">
-    <div class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition" style="/*height: 80vh;*/">
+    <div class="el-row">
+        <div class="star-page-toolbar"></div>
+        <div class="el-divider el-divider--horizontal"></div>
+        <div class="el-table star-page-table el-table--fit el-table--striped el-table--scrollable-x el-table--scrollable-y el-table--enable-row-hover el-table--enable-row-transition el-table--small">
         <!--
         <div class="hidden-columns">
             <div></div> <div></div> <div></div> <div></div> <div></div>
@@ -35,7 +38,7 @@
             </table>
         </div>
         -->
-        <div class="el-table__body-wrapper is-scrolling-none" style="height: 80vh; overflow:auto;">
+        <div class="el-table__body-wrapper is-scrolling-none">
             <table cellspacing="0" cellpadding="0" border="0" class="el-table__body" style="width: 95%;">
                 <colgroup>
                     <col name="el-table_30_column_201" width="246"><col name="el-table_30_column_202" width="245">
@@ -88,6 +91,7 @@
             </div>
         </div>
         <div class="el-table__column-resize-proxy" style="display: none;"></div>
+    </div>
     </div>
 </main>
 

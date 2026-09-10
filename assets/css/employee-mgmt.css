@@ -1,39 +1,22 @@
-/* 매장관리: 본사·총판 — 헤더 + 데이터 10행(총 11행), 초과 시 수직 스크롤 */
-.employee-mgmt-table.el-table--scrollable-y .el-table__body-wrapper {
-    max-height: 479px;
-    overflow-y: auto;
-}
-
-.employee-mgmt-table .el-table__body-wrapper thead th {
-    position: sticky;
-    top: 0;
-    z-index: 2;
-    background: #fff;
-}
-
-.employee-mgmt-table .el-table__fixed-body-wrapper {
-    max-height: 440px;
-    overflow-y: hidden;
-}
-
-/* 접속 중 아이디(매장·총판) — 텍스트·테두리 펄스 */
-@keyframes employee-mgmt-online-pulse {
-    0%, 100% {
-        color: #303133;
-        box-shadow: 0 0 0 1px rgba(103, 194, 58, 0.3);
-        background-color: rgba(103, 194, 58, 0.06);
-    }
-    50% {
-        color: #67c23a;
-        box-shadow: 0 0 0 2px rgba(103, 194, 58, 0.85);
-        background-color: rgba(103, 194, 58, 0.18);
-    }
-}
-
-.employee-mgmt-online-uid {
-    display: inline-block;
-    padding: 1px 6px;
-    border-radius: 3px;
-    font-weight: 600;
-    animation: employee-mgmt-online-pulse 1.8s ease-in-out infinite;
-}
+/* 매장관리 online badge only (layout moved to star-page-shell.css) */
+
+@keyframes employee-mgmt-online-pulse {
+    0%, 100% {
+        color: #b8f0c8;
+        box-shadow: 0 0 0 1px rgba(103, 194, 58, 0.35);
+        background-color: rgba(103, 194, 58, 0.12);
+    }
+    50% {
+        color: #67c23a;
+        box-shadow: 0 0 0 2px rgba(103, 194, 58, 0.85);
+        background-color: rgba(103, 194, 58, 0.22);
+    }
+}
+
+.employee-mgmt-online-uid {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-weight: 600;
+    animation: employee-mgmt-online-pulse 1.8s ease-in-out infinite;
+}

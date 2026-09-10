@@ -1,16 +1,18 @@
 
 <main class="el-main">
     <div class="el-row">
-        <div class="el-date-editor el-range-editor el-input__inner el-date-editor--daterange">
-            <i class="el-input__icon el-range__icon fa fa-calendar-alt"></i>
-            <input type="text" id="el-dialog-range-id" class="el-range-input" name="daterange" value="" >  
-            <i class="el-input__icon el-range__close-icon" id="el-main-range__close-id"></i>  
-        </div> 
-        <button type="button" onclick="requestBetHistory();" class="el-button el-button--primary star-icon-btn" title="검색">
-            <i class="fas fa-search"></i>
-        </button> 
+        <div class="star-page-toolbar">
+            <div class="el-date-editor el-range-editor el-input__inner el-date-editor--daterange">
+                <i class="el-input__icon el-range__icon fa fa-calendar-alt"></i>
+                <input type="text" id="el-dialog-range-id" class="el-range-input" name="daterange" value="" >  
+                <i class="el-input__icon el-range__close-icon" id="el-main-range__close-id"></i>  
+            </div> 
+            <button type="button" onclick="requestBetHistory();" class="el-button el-button--primary star-icon-btn" title="검색">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
         <div class="el-divider el-divider--horizontal"></div> 
-        <div class="el-table el-table--fit el-table--enable-row-hover el-table--small" style="/*height: 80vh;*/">
+        <div class="el-table star-page-table el-table--fit el-table--striped el-table--scrollable-x el-table--scrollable-y el-table--enable-row-hover el-table--small">
             <!--
             <div class="hidden-columns">
                 <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> 
@@ -42,7 +44,7 @@
                 </table>
             </div>
             -->
-            <div class="el-table__body-wrapper is-scrolling-none" style="height: 518px; overflow-y:auto;">
+            <div class="el-table__body-wrapper is-scrolling-none">
                 <table cellspacing="0" cellpadding="0" border="0" class="el-table__body" style="width:  95%;">
                     <colgroup>
                         <col name="el-table_32_column_212" width="100">

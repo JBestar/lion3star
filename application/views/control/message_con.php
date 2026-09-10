@@ -2,11 +2,13 @@
 
 <main class="el-main">
     <div class="el-row">
-        <button type="button" class="el-button el-button--primary" onclick="showMessageDlg();">
-            <span>새메시지</span>
-        </button> 
+        <div class="star-page-toolbar">
+            <button type="button" class="el-button el-button--primary" onclick="showMessageDlg();">
+                <span>새메시지</span>
+            </button>
+        </div>
         <div class="el-divider el-divider--horizontal"></div> 
-        <div class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition el-table--small" style="/*height: 65vh;*/">
+        <div class="el-table star-page-table el-table--fit el-table--striped el-table--scrollable-x el-table--scrollable-y el-table--enable-row-hover el-table--enable-row-transition el-table--small">
             <!--
             <div class="hidden-columns">
                 <div></div> <div></div> <div></div> <div></div> <div></div> <div></div>
@@ -45,7 +47,7 @@
                 </table>
             </div>
             -->
-            <div class="el-table__body-wrapper is-scrolling-none" style="height: 70vh; overflow:auto;">
+            <div class="el-table__body-wrapper is-scrolling-none">
                 <table cellspacing="0" cellpadding="0" border="0" class="el-table__body" style="width: 95%;">
                     <colgroup>
                         <col name="el-table_31_column_206" width="206"><col name="el-table_31_column_207" width="204">

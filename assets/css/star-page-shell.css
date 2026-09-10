@@ -1,0 +1,186 @@
+/* Shared list-page shell: toolbar + table aligned to 매장관리 */
+
+.star-page-toolbar {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.star-page-toolbar > .el-form,
+.star-page-toolbar > .el-form.el-form--inline {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  margin: 0;
+  height: 40px;
+}
+
+.star-page-toolbar .el-form-item {
+  display: inline-flex !important;
+  align-items: center;
+  margin-bottom: 0 !important;
+  margin-right: 10px !important;
+  vertical-align: middle;
+}
+
+.star-page-toolbar .el-form-item__label {
+  line-height: 32px;
+  padding: 0 8px 0 0;
+  float: none !important;
+}
+
+.star-page-toolbar .el-form-item__content {
+  display: inline-flex !important;
+  align-items: center;
+  line-height: normal;
+  margin-left: 0 !important;
+}
+
+.star-page-toolbar .el-input,
+.star-page-toolbar .el-select {
+  display: inline-flex;
+  align-items: center;
+}
+
+.star-page-toolbar .el-input__inner,
+.star-page-toolbar .el-range-editor.el-input__inner {
+  height: 32px;
+  line-height: 32px;
+  box-sizing: border-box;
+}
+
+.star-page-toolbar .el-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 1;
+  margin: 0;
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+
+.star-page-toolbar .el-button.star-icon-btn {
+  padding: 0 10px !important;
+  min-width: 34px;
+  line-height: 1 !important;
+}
+
+.star-page-toolbar .el-button.star-icon-btn i,
+.star-page-toolbar .el-button.star-icon-btn .fas {
+  display: block;
+  line-height: 1;
+  margin: 0;
+  position: relative;
+  top: 0;
+}
+
+/* 확인 버튼과 날짜 검색 영역 간격 */
+.star-page-toolbar .el-button--primary:not(.star-icon-btn) {
+  margin-left: 4px;
+  margin-right: 16px;
+}
+
+.star-page-toolbar .el-button + .el-form-item {
+  margin-left: 6px;
+}
+
+.star-page-toolbar .el-date-editor.el-range-editor {
+  display: inline-flex !important;
+  align-items: center;
+  width: 260px;
+  height: 32px;
+  line-height: 32px;
+  padding-top: 0;
+  padding-bottom: 0;
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+
+.star-page-toolbar .el-date-editor .el-range-input {
+  height: 100%;
+  line-height: 30px;
+  vertical-align: middle;
+}
+
+.star-page-toolbar .el-date-editor .el-range__icon,
+.star-page-toolbar .el-date-editor .el-range__close-icon,
+.star-page-toolbar .el-date-editor .el-input__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 32px;
+  float: none;
+}
+
+.star-page-toolbar .el-form-item__content > .el-date-editor + .el-button,
+.star-page-toolbar .el-date-editor + .el-button,
+.star-page-toolbar .el-date-editor + .star-icon-btn {
+  margin-left: 12px !important;
+}
+
+/* Table shell — same footprint as employee-mgmt-table */
+.star-page-table,
+.employee-mgmt-table {
+  width: 100% !important;
+}
+
+.star-page-table .el-table__header-wrapper,
+.star-page-table .el-table__body-wrapper,
+.employee-mgmt-table .el-table__header-wrapper,
+.employee-mgmt-table .el-table__body-wrapper {
+  width: 100%;
+}
+
+.star-page-table .el-table__header,
+.star-page-table .el-table__body,
+.employee-mgmt-table .el-table__header,
+.employee-mgmt-table .el-table__body {
+  width: 100% !important;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.star-page-table.el-table--scrollable-y .el-table__body-wrapper,
+.employee-mgmt-table.el-table--scrollable-y .el-table__body-wrapper,
+.star-page-table > .el-table__body-wrapper,
+.employee-mgmt-table > .el-table__body-wrapper {
+  max-height: 479px !important;
+  height: auto !important;
+  overflow-y: auto !important;
+}
+
+.star-page-table .el-table__body-wrapper thead th,
+.employee-mgmt-table .el-table__body-wrapper thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: rgba(20, 40, 70, 0.92);
+}
+
+.star-page-table .el-table__header-wrapper th,
+.star-page-table .el-table__body-wrapper thead th,
+.employee-mgmt-table .el-table__header-wrapper th,
+.employee-mgmt-table .el-table__body-wrapper thead th {
+  height: 39px;
+  box-sizing: border-box;
+}
+
+.star-page-table .el-table__fixed-body-wrapper,
+.employee-mgmt-table .el-table__fixed-body-wrapper {
+  max-height: 440px;
+  overflow-y: hidden;
+}
+
+.star-page-table .el-table__empty-block {
+  width: 100% !important;
+}
