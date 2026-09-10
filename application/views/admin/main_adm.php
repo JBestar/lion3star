@@ -2,7 +2,7 @@
     <div class="el-row">
         <button type="button" onclick="showEmpDlg();" class="el-button el-button--primary">
             
-            <span>아이디 생성</span>
+            <span>총판생성</span>
         </button>
         <div class="el-divider el-divider--horizontal"></div>
         <div class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition el-table--small">
@@ -42,7 +42,7 @@
             </div>
             -->
             <div class="el-table__body-wrapper is-scrolling-none" >
-                <table cellspacing="0" cellpadding="0" border="0" class="el-table__body" style="width: 95%;">
+                <table cellspacing="0" cellpadding="0" border="0" class="el-table__body" style="width: 100%;">
                     <colgroup>
                         <col name="el-table_26_column_177" width="90" />
                         <col name="el-table_26_column_178" width="90" />

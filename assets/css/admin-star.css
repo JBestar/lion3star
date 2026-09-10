@@ -210,12 +210,24 @@ body.admin-star-body {
   box-sizing: border-box;
 }
 
-.admin-star-main .el-button--primary {
-  background: linear-gradient(180deg, #1a1a1a 0%, #000 100%) !important;
-  border: 1px solid #d4a017 !important;
-  color: #fff !important;
-  font-weight: 700;
-  box-shadow: 0 2px 0 #8b6914, 0 4px 10px rgba(0, 0, 0, 0.25);
+.admin-star-main .el-table .el-table__body,
+.admin-star-main .el-table .el-table__header {
+  width: 100% !important;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.admin-star-main .el-table .has-gutter {
+  width: 100%;
+}
+
+.admin-star-main .el-table.employee-mgmt-table {
+  width: 100%;
+}
+
+.admin-star-main .el-table.employee-mgmt-table .el-table__body-wrapper {
+  width: 100%;
+  overflow-x: auto;
 }
 
 .admin-star-main .el-table,
@@ -329,6 +341,34 @@ body.admin-star-body .el-main > .el-button--primary {
   border: 1px solid #f0a050 !important;
   color: #1a1200 !important;
   box-shadow: 0 2px 0 #b85c10, 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 다이얼로그(밝은 배경) — 본문용 밝은 글자색이 상속되지 않도록 */
+body.admin-star-body .el-dialog__body {
+  color: #303133 !important;
+}
+body.admin-star-body .el-dialog__body .el-form-item__label,
+body.admin-star-body .el-dialog__body label {
+  color: #606266 !important;
+}
+body.admin-star-body .el-dialog__body .el-table,
+body.admin-star-body .el-dialog__body .el-table__body-wrapper,
+body.admin-star-body .el-dialog__body .el-table__header-wrapper,
+body.admin-star-body .el-dialog__body .el-table tr,
+body.admin-star-body .el-dialog__body .el-table td {
+  background: #fff !important;
+}
+body.admin-star-body .el-dialog__body .el-table th {
+  background: #f5f7fa !important;
+  color: #303133 !important;
+  border-bottom-color: #ebeef5 !important;
+}
+body.admin-star-body .el-dialog__body .el-table td {
+  color: #303133 !important;
+  border-bottom-color: #ebeef5 !important;
+}
+body.admin-star-body .el-dialog__body .el-table--enable-row-hover .el-table__body tr:hover > td {
+  background: #f5f7fa !important;
 }
 
 /* Status / type badges */

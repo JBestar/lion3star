@@ -3,13 +3,13 @@
 <main  class="el-main">
     <div  class="el-row">
         <button type="button" onclick="showEmpDlg();" class="el-button el-button--primary">
-            <span>아이디 생성</span>
+            <span>매장생성</span>
         </button> 
         <div class="el-divider el-divider--horizontal"></div> 
         <div class="el-table employee-mgmt-table el-table--fit el-table--striped el-table--scrollable-x el-table--scrollable-y el-table--enable-row-transition el-table--small">
 
             <div class="el-table__body-wrapper is-scrolling-left">
-                <table cellspacing="0" cellpadding="0" border="0" class="el-table__body" style="width: 1350px;">
+                <table cellspacing="0" cellpadding="0" border="0" class="el-table__body" style="width: 100%;">
                     <colgroup>
                         <col name="el-table_15_column_108" width="90"><col name="el-table_15_column_109" width="90"><col name="el-table_15_column_110" width="90">
                         <col name="el-table_15_column_111" width="90"><col name="el-table_15_column_112" width="90">
@@ -70,7 +70,7 @@
             <div class="el-table__fixed-right" style="width: 150px; height: 100%;">
                 
                 <div class="el-table__fixed-header-wrapper">
-                    <table cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 1350px;">
+                    <table cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 100%;">
                         <colgroup>
                             <col name="el-table_15_column_108" width="90"><col name="el-table_15_column_109" width="90"><col name="el-table_15_column_110" width="90">
                             <col name="el-table_15_column_111" width="90"><col name="el-table_15_column_112" width="90">
@@ -124,7 +124,7 @@
                 </div>
                 
                 <div class="el-table__fixed-body-wrapper" style="top: 39px;">
-                    <table cellspacing="0" cellpadding="0" border="0" class="el-table__body" style="width: 1350px;">
+                    <table cellspacing="0" cellpadding="0" border="0" class="el-table__body" style="width: 100%;">
                         <colgroup>
                             <col name="el-table_15_column_108" width="90"><col name="el-table_15_column_109" width="90"><col name="el-table_15_column_110" width="90">
                             <col name="el-table_15_column_111" width="90"><col name="el-table_15_column_112" width="90">

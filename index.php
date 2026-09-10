@@ -60,12 +60,15 @@
 				$value = trim($value, "\"'");
 			}
 
-			if ($name !== '' && ! array_key_exists($name, $_ENV))
+			if ($name === '')
 			{
-				putenv($name.'='.$value);
-				$_ENV[$name] = $value;
-				$_SERVER[$name] = $value;
+				continue;
 			}
+
+			/* 프로젝트 .env를 소스 오브 트루스로 항상 적용 (빈 시스템 환경변수·getenv 불일치 방지) */
+			putenv($name.'='.$value);
+			$_ENV[$name] = $value;
+			$_SERVER[$name] = $value;
 		}
 	}
 

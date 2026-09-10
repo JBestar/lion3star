@@ -72,10 +72,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $active_group = 'default';
 $query_builder = TRUE;
-$hostname = getenv('DB_HOSTNAME') !== FALSE ? getenv('DB_HOSTNAME') : 'localhost';
-$username = getenv('DB_USERNAME') !== FALSE ? getenv('DB_USERNAME') : '';
-$password = getenv('DB_PASSWORD') !== FALSE ? getenv('DB_PASSWORD') : '';
-$database = getenv('DB_DATABASE') !== FALSE ? getenv('DB_DATABASE') : '';
+
+if ( ! function_exists('lion3_env'))
+{
+	/**
+	 * Windows/Apache에서 getenv만으로는 .env 값이 비는 경우가 있어
+	 * $_ENV → $_SERVER → getenv 순으로 읽습니다.
+	 */
+	function lion3_env($key, $default = '')
+	{
+		if (array_key_exists($key, $_ENV) && $_ENV[$key] !== '')
+		{
+			return $_ENV[$key];
+		}
+		if (array_key_exists($key, $_SERVER) && $_SERVER[$key] !== '')
+		{
+			return $_SERVER[$key];
+		}
+		$g = getenv($key);
+		if ($g !== FALSE && $g !== '')
+		{
+			return $g;
+		}
+		return $default;
+	}
+}
+
+$hostname = lion3_env('DB_HOSTNAME', 'localhost');
+$username = lion3_env('DB_USERNAME', '');
+$password = lion3_env('DB_PASSWORD', '');
+$database = lion3_env('DB_DATABASE', '');
 
 /*
 | MySQL @@session.time_zone — PHP(autoload)는 Asia/Seoul인데 MySQL이 SYSTEM(예: OS=중국 +8)이면

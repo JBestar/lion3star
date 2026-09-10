@@ -3,7 +3,7 @@
 <main  class="el-main">
     <div  class="el-row">
         <button type="button" onclick="showEmpDlg();" class="el-button el-button--primary">
-            <span>아이디 생성</span>
+            <span>매장생성</span>
         </button> 
         <div class="el-divider el-divider--horizontal"></div> 
         <div class="el-table employee-mgmt-table el-table--fit el-table--striped el-table--scrollable-x el-table--scrollable-y el-table--enable-row-transition el-table--small">

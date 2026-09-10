@@ -234,6 +234,34 @@ body.control-star-body .el-main > .el-button--primary {
   box-shadow: 0 2px 0 #b85c10, 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+/* 다이얼로그(밝은 배경) — 본문용 밝은 글자색이 상속되지 않도록 */
+body.control-star-body .el-dialog__body {
+  color: #303133 !important;
+}
+body.control-star-body .el-dialog__body .el-form-item__label,
+body.control-star-body .el-dialog__body label {
+  color: #606266 !important;
+}
+body.control-star-body .el-dialog__body .el-table,
+body.control-star-body .el-dialog__body .el-table__body-wrapper,
+body.control-star-body .el-dialog__body .el-table__header-wrapper,
+body.control-star-body .el-dialog__body .el-table tr,
+body.control-star-body .el-dialog__body .el-table td {
+  background: #fff !important;
+}
+body.control-star-body .el-dialog__body .el-table th {
+  background: #f5f7fa !important;
+  color: #303133 !important;
+  border-bottom-color: #ebeef5 !important;
+}
+body.control-star-body .el-dialog__body .el-table td {
+  color: #303133 !important;
+  border-bottom-color: #ebeef5 !important;
+}
+body.control-star-body .el-dialog__body .el-table--enable-row-hover .el-table__body tr:hover > td {
+  background: #f5f7fa !important;
+}
+
 /* Status / type badges */
 .star-badge {
   display: inline-flex;

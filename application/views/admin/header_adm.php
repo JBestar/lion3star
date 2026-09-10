@@ -10,7 +10,7 @@ $sub_active = (trim($menuitem_1) !== '' || trim($menuitem_12) !== '');
 
     <link rel="stylesheet" href="<?php echo base_url('assets/css/all.css');?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/admin.css');?>">
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/admin-star.css?v=9');?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/admin-star.css?v=11');?>">
 
     <script src="<?php echo base_url('assets/jslib/jquery-1.12.4.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/jslib/jquery-ui-1.12.1.min.js'); ?>"></script>
