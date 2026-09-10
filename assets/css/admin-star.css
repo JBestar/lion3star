@@ -201,13 +201,13 @@ body.admin-star-body {
 
 .admin-star-main > .el-main {
   background: rgba(255, 255, 255, 0.18) !important;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
   border-radius: 10px;
   border: 1px solid rgba(180, 210, 240, 0.28);
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
   color: #f0f4fa;
   padding: 16px 18px !important;
+  min-height: calc(100vh - 96px - 36px - 32px);
+  box-sizing: border-box;
 }
 
 .admin-star-main .el-button--primary {

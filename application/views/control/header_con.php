@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <link rel="stylesheet" href="<?php echo base_url('assets/css/all.css');?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/control.css');?>">
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/control-star.css?v=2');?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/control-star.css?v=3');?>">
 
     <script src="<?php echo base_url('assets/jslib/jquery-1.12.4.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/jslib/jquery-ui-1.12.1.min.js'); ?>"></script>
