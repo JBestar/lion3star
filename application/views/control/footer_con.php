@@ -1,7 +1,8 @@
             
             
 
-            </div>
+            </div><!-- control-star-main -->
+            </div><!-- control-star-body-row -->
 
             <!--================Charge Dialog================-->
             <div class="el-dialog__wrapper" id="el-dialog-charge-id" style="z-index: 2027; display:none;">

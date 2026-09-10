@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <link rel="stylesheet" href="<?php echo base_url('assets/css/all.css');?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/control.css');?>">
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/control-star.css?v=4');?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/control-star.css?v=5');?>">
 
     <script src="<?php echo base_url('assets/jslib/jquery-1.12.4.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/jslib/jquery-ui-1.12.1.min.js'); ?>"></script>
@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <script src="<?php echo base_url('assets/js/worker.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/common.js?v=1'); ?>"></script>
-    <script src="<?php echo base_url('assets/js/control/header-control.js?v=6'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/control/header-control.js?v=7'); ?>"></script>
 
 </head>
 
@@ -37,18 +37,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <span class="control-star-welcome"><span id="emp-name-id">—</span>님, 환영합니다!</span>
                 </div>
-
-                <ul class="control-star-quick">
-                    <li class="control-star-menu-item">
-                        <span class="control-star-link" onclick="showChargeDlg();">충전 신청</span>
-                    </li>
-                    <li class="control-star-menu-item">
-                        <span class="control-star-link" onclick="showDischargeDlg();">환전 신청</span>
-                    </li>
-                    <li class="control-star-menu-item">
-                        <span class="control-star-link" onclick="showMileageDlg();">포인트 신청</span>
-                    </li>
-                </ul>
 
                 <ul class="control-star-nav">
                     <li class="control-star-menu-item">
@@ -90,4 +78,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             <marquee class="marquee control-star-marquee" id="message-marquee-id"></marquee>
 
-            <div class="control-star-main">
+            <div class="control-star-body-row">
+                <aside class="control-star-aside">
+                    <ul class="control-star-quick">
+                        <li class="control-star-menu-item">
+                            <span class="control-star-link" onclick="showChargeDlg();">충전 신청</span>
+                        </li>
+                        <li class="control-star-menu-item">
+                            <span class="control-star-link" onclick="showDischargeDlg();">환전 신청</span>
+                        </li>
+                        <li class="control-star-menu-item">
+                            <span class="control-star-link" onclick="showMileageDlg();">포인트 신청</span>
+                        </li>
+                    </ul>
+                </aside>
+
+                <div class="control-star-main">

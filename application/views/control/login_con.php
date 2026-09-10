@@ -74,7 +74,7 @@ function login()
 		success: function(jResult) {
 			if(jResult.status == "success")
 			{
-				location.replace('/con?l='+jResult.data);
+				location.replace('/ctrl?l='+jResult.data);
 			}
 			else if(jResult.status == "fail")
 			{
