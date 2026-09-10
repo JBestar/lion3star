@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <script src="<?php echo base_url('assets/js/worker.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/common.js?v=1'); ?>"></script>
-    <script src="<?php echo base_url('assets/js/control/header-control.js?v=5'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/control/header-control.js?v=6'); ?>"></script>
 
 </head>
 

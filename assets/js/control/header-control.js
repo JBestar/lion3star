@@ -16,23 +16,23 @@
 
     function clickMenu(iMenu) {
         if (iMenu == 1) {
-            location.href = "/control" + location.search;
+            location.href = "/con" + location.search;
         } else if (iMenu == 2) {
-            location.href = "/control/statist" + location.search;
+            location.href = "/con/statist" + location.search;
         } else if (iMenu == 3) {
-            location.href = "/control/charge" + location.search;
+            location.href = "/con/charge" + location.search;
         } else if (iMenu == 4) {
-            location.href = "/control/discharge" + location.search;
+            location.href = "/con/discharge" + location.search;
         } else if (iMenu == 5) {
-            location.href = "/control/transform" + location.search;
+            location.href = "/con/transform" + location.search;
         } else if (iMenu == 6) {
-            location.href = "/control/transform2" + location.search;
+            location.href = "/con/transform2" + location.search;
         } else if (iMenu == 7) {
-            location.href = "/control/message" + location.search;
+            location.href = "/con/message" + location.search;
         } else if (iMenu == 8) {
-            location.href = "/control/cancel" + location.search;
+            location.href = "/con/cancel" + location.search;
         } else if (iMenu == 9) {
-            location.href = "/control/logout" + location.search;
+            location.href = "/con/logout" + location.search;
         }
 
     }

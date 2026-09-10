@@ -53,5 +53,6 @@ $route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['ccc/login'] = 'control/login';
-$route['ccc'] = 'control';
+$route['con/login'] = 'control/login';
+$route['con'] = 'control';
+$route['con/(.+)'] = 'control/$1';
