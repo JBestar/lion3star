@@ -665,6 +665,16 @@ $(document).ready(function(){
 		}
 	});
 
+	$("#roundstat-panel-close").on("click", function(){
+		if(window.history.length > 1){
+			window.history.back();
+			return;
+		}
+		if(typeof clickMenu === "function"){
+			clickMenu(2);
+		}
+	});
+
 	$("#roundstat-pwd-input").on("keydown", function(e){
 		if(e.keyCode === 13){
 			unlockRoundstat($(this).val());

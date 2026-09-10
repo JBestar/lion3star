@@ -82,13 +82,11 @@
                             <td><div class="cell">2021-02-10 09:07:16</div></td>
                             <td>
                                 <div class="cell">
-                                    <button type="button" class="el-button el-button--primary el-button--mini">
-                                        
-                                        <span>수정</span>
+                                    <button type="button" class="el-button el-button--primary el-button--mini star-icon-btn" title="수정">
+                                        <i class="fas fa-pen"></i>
                                     </button>
-                                    <button type="button" class="el-button el-button--danger el-button--mini">
-                                        
-                                        <span>삭제</span>
+                                    <button type="button" class="el-button el-button--danger el-button--mini star-icon-btn" title="삭제">
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
                             </td>
@@ -185,6 +183,6 @@
 
 
 
-<script src="<?php echo base_url('assets/js/admin/main-adm.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/admin/main-adm.js?v=2'); ?>"></script>
 <link rel="stylesheet" href="<?php echo base_url('assets/css/employee-mgmt.css?v=3'); ?>">
 

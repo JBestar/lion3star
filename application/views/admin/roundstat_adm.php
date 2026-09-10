@@ -16,6 +16,12 @@
 
     <!-- 본문 (잠금 해제 후 표시) -->
     <div id="roundstat-main-panel"<?= !empty($roundstat_unlocked) ? '' : ' style="display:none;"' ?>>
+        <div class="roundstat-titlebar">
+            <span class="roundstat-titlebar-text">회차별 통계</span>
+            <button type="button" class="roundstat-titlebar-close" id="roundstat-panel-close" title="닫기" aria-label="닫기">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
         <div class="roundstat-toolbar">
             <div class="roundstat-toolbar-left">
                 <span id="roundstat-live-clock" class="roundstat-live-clock">—:—:—</span>
@@ -84,4 +90,4 @@
 
 </main>
 
-<script src="<?php echo base_url('assets/js/admin/roundstat-adm.js?v=2'); ?>"></script>
+<script src="<?php echo base_url('assets/js/admin/roundstat-adm.js?v=3'); ?>"></script>

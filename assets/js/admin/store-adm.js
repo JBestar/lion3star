@@ -349,10 +349,10 @@
 
                 tHtml1 += tTd2;
                 tHtml2 += tTd1;
-                tHtml1 += "<button type=\"button\" onclick=\"modifyEmpDlg(" + idx + ");\" class=\"el-button el-button--primary el-button--mini\"><span>수정</span></button>";
-                tHtml1 += "<button type=\"button\" onclick=\"deleteEmployee(" + idx + ");\" class=\"el-button el-button--danger el-button--mini\"><span>삭제</span></button>";
-                tHtml2 += "<button type=\"button\" onclick=\"modifyEmpDlg(" + idx + ");\" class=\"el-button el-button--primary el-button--mini\"><span>수정</span></button>";
-                tHtml2 += "<button type=\"button\" onclick=\"deleteEmployee(" + idx + ");\" class=\"el-button el-button--danger el-button--mini\"><span>삭제</span></button>";
+                tHtml1 += "<button type=\"button\" onclick=\"modifyEmpDlg(" + idx + ");\" class=\"el-button el-button--primary el-button--mini star-icon-btn\" title=\"수정\"><i class=\"fas fa-pen\"></i></button>";
+                tHtml1 += "<button type=\"button\" onclick=\"deleteEmployee(" + idx + ");\" class=\"el-button el-button--danger el-button--mini star-icon-btn\" title=\"삭제\"><i class=\"fas fa-trash\"></i></button>";
+                tHtml2 += "<button type=\"button\" onclick=\"modifyEmpDlg(" + idx + ");\" class=\"el-button el-button--primary el-button--mini star-icon-btn\" title=\"수정\"><i class=\"fas fa-pen\"></i></button>";
+                tHtml2 += "<button type=\"button\" onclick=\"deleteEmployee(" + idx + ");\" class=\"el-button el-button--danger el-button--mini star-icon-btn\" title=\"삭제\"><i class=\"fas fa-trash\"></i></button>";
 
                 tHtml1 += "</div></td></tr>";
                 tHtml2 += "</div></td></tr>";

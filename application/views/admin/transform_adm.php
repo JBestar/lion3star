@@ -5,9 +5,8 @@
             <input type="text" id="el-main-range-id" class="el-range-input" name="daterange" value="" >  
             <i class="el-input__icon el-range__close-icon" id="el-main-range__close-id"></i>  
         </div>
-        <button type="button" class="el-button el-button--primary"  onclick="requestTransStatist();">
-            <!----><!---->
-            <span>검색</span>
+        <button type="button" class="el-button el-button--primary star-icon-btn" title="검색"  onclick="requestTransStatist();">
+            <i class="fas fa-search"></i>
         </button>
         <div class="el-divider el-divider--horizontal"></div>
         <div class="el-table el-table--fit el-table--enable-row-hover">

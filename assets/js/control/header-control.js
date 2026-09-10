@@ -127,7 +127,12 @@
         $("#emp-name-id").text(objUser.mb_uid);
         $("#emp-money-id").text(parseInt(objUser.mb_money).toLocaleString());
         $("#emp-mileage-id").text(parseInt(objUser.mb_point).toLocaleString());
-        $("#emp-ratio-id").text(objUser.mb_game_pb_ratio);
+        var ratio = objUser.mb_game_pb_ratio;
+        var ratioText = (ratio == null) ? "0" : String(ratio);
+        if (ratioText.indexOf("%") < 0) {
+            ratioText = ratioText + "%";
+        }
+        $("#emp-ratio-id").text(ratioText);
 
 
     }
@@ -640,11 +645,11 @@
                 tHtml += "</div></td>";
                 tHtml += "<td><div class=\"cell\">";
                 if (arrChargeData[idx].charge_action_state == 1) {
-                    tHtml += "<span class=\"el-tag el-tag--warning el-tag--light\">미확인</span>"
+                    tHtml += "<span class=\"star-badge star-badge--wait\">미확인</span>";
                 } else if (arrChargeData[idx].charge_action_state == 2) {
-                    tHtml += "<span class=\"el-tag el-tag--success el-tag--light\">확인</span>";
+                    tHtml += "<span class=\"star-badge star-badge--ok\">확인</span>";
                 } else if (arrChargeData[idx].charge_action_state == 3) {
-                    tHtml += "<span class=\"el-tag el-tag--danger el-tag--light\">취소됨</span>";
+                    tHtml += "<span class=\"star-badge star-badge--cancel\">취소됨</span>";
                 }
                 tHtml += "</div></td>";
                 tHtml += "<td><div class=\"cell\">";
@@ -708,11 +713,11 @@
                 tHtml += "</div></td>";
                 tHtml += "<td><div class=\"cell\">";
                 if (arrChargeData[idx].exchange_action_state == 1) {
-                    tHtml += "<span class=\"el-tag el-tag--warning el-tag--light\">미확인</span>"
+                    tHtml += "<span class=\"star-badge star-badge--wait\">미확인</span>";
                 } else if (arrChargeData[idx].exchange_action_state == 2) {
-                    tHtml += "<span class=\"el-tag el-tag--success el-tag--light\">확인</span>";
+                    tHtml += "<span class=\"star-badge star-badge--ok\">확인</span>";
                 } else if (arrChargeData[idx].exchange_action_state == 3) {
-                    tHtml += "<span class=\"el-tag el-tag--danger el-tag--light\">취소됨</span>";
+                    tHtml += "<span class=\"star-badge star-badge--cancel\">취소됨</span>";
                 }
                 tHtml += "</div></td>";
                 tHtml += "<td><div class=\"cell\">";

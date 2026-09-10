@@ -37,11 +37,11 @@
                 tHtml += "</div></td>";
                 tHtml += "<td><div class=\"cell\">";
                 if(arrDischarge[idx].exchange_action_state == 1)
-                    tHtml += "<span class=\"el-tag el-tag--warning el-tag--light\">미확인</span>";
+                    tHtml += "<span class=\"star-badge star-badge--wait\">미확인</span>";
                 else if(arrDischarge[idx].exchange_action_state == 2)
-                    tHtml += "<span class=\"el-tag el-tag--success el-tag--light\">확인</span>";
+                    tHtml += "<span class=\"star-badge star-badge--ok\">확인</span>";
                 else if(arrDischarge[idx].exchange_action_state == 3)
-                    tHtml += "<span class=\"el-tag el-tag--danger el-tag--light\">취소됨</span>";
+                    tHtml += "<span class=\"star-badge star-badge--cancel\">취소됨</span>";
                 tHtml += "</div></td>";
                 tHtml += "<td><div class=\"cell\">";
                 tHtml += arrDischarge[idx].exchange_bank_name;

@@ -46,8 +46,8 @@
                     <input type="text" id="el-main-range-id" class="el-range-input" name="daterange" value="" >  
                     <i class="el-input__icon el-range__close-icon" id="el-main-range__close-id"></i>  
                 </div> 
-                <button type="button" onclick="findCharge();" class="el-button el-button--primary">
-                    <span>검색</span>
+                <button type="button" onclick="findCharge();" class="el-button el-button--primary star-icon-btn" title="검색">
+                    <i class="fas fa-search"></i>
                 </button> 
             </div> 
         </form> 
@@ -147,5 +147,5 @@
 
 
 
-<script src="<?php echo base_url('assets/js/admin/charge-adm.js?v=2') ?>"></script>
+<script src="<?php echo base_url('assets/js/admin/charge-adm.js?v=3') ?>"></script>
 

@@ -10,7 +10,7 @@ $sub_active = (trim($menuitem_1) !== '' || trim($menuitem_12) !== '');
 
     <link rel="stylesheet" href="<?php echo base_url('assets/css/all.css');?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/admin.css');?>">
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/admin-star.css?v=2');?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/admin-star.css?v=8');?>">
 
     <script src="<?php echo base_url('assets/jslib/jquery-1.12.4.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/jslib/jquery-ui-1.12.1.min.js'); ?>"></script>
@@ -36,7 +36,7 @@ $sub_active = (trim($menuitem_1) !== '' || trim($menuitem_12) !== '');
                     <div class="el-image logo">
                         <img src="/assets/image/logo.png" class="el-image__inner" alt="Star">
                     </div>
-                    <span class="admin-star-welcome"><span id="emp-name-id">Administrator</span>, 환영합니다!</span>
+                    <span class="admin-star-welcome"><span id="emp-name-id">Administrator</span>님, 환영합니다!</span>
                 </div>
 
                 <ul class="admin-star-nav">
@@ -73,10 +73,10 @@ $sub_active = (trim($menuitem_1) !== '' || trim($menuitem_12) !== '');
 
                 <div class="admin-star-actions">
                     <button type="button" class="el-button el-button--danger el-button--mini btn-site-maintain" onclick="showMaintainDlg();">
-                        <span>site 점검</span>
+                        <span><i class="fas fa-tools"></i> site 점검</span>
                     </button>
                     <button type="button" class="el-button el-button--primary el-button--mini btn-data-clean" onclick="showCleanDlg();">
-                        <span>데이터정리</span>
+                        <span><i class="fas fa-database"></i> 데이터정리</span>
                     </button>
                     <button type="button" class="el-button el-button--danger el-button--mini" onclick="cleanDb(1);" style="display:none;">
                         <span>디비초기화</span>

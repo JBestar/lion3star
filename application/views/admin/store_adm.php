@@ -248,4 +248,4 @@
 
 
 <link rel="stylesheet" href="<?php echo base_url('assets/css/employee-mgmt.css?v=3'); ?>">
-<script src="<?php echo base_url('assets/js/admin/store-adm.js?v=1'); ?>"></script>
+<script src="<?php echo base_url('assets/js/admin/store-adm.js?v=2'); ?>"></script>

@@ -42,7 +42,7 @@
                 tHtml += "</div></td>";
                 tHtml += "<td><div class=\"cell\">";
                 tHtml += "<button type=\"button\" onclick=\"deleteMessage("+arrMessage[idx].notice_fid+");\"";
-                tHtml += "class=\"el-button el-button--primary el-button--small\"><span>삭제</span></button>";
+                tHtml += " class=\"el-button el-button--primary el-button--small star-icon-btn\" title=\"삭제\"><i class=\"fas fa-trash\"></i></button>";
                 tHtml += "</div></td></tr>";
             }
         }

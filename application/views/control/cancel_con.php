@@ -6,8 +6,8 @@
             <input type="text" id="el-dialog-range-id" class="el-range-input" name="daterange" value="" >  
             <i class="el-input__icon el-range__close-icon" id="el-main-range__close-id"></i>  
         </div> 
-        <button type="button" onclick="requestBetHistory();" class="el-button el-button--primary">
-            <span>검색</span>
+        <button type="button" onclick="requestBetHistory();" class="el-button el-button--primary star-icon-btn" title="검색">
+            <i class="fas fa-search"></i>
         </button> 
         <div class="el-divider el-divider--horizontal"></div> 
         <div class="el-table el-table--fit el-table--enable-row-hover el-table--small" style="/*height: 80vh;*/">

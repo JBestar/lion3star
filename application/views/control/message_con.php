@@ -83,7 +83,7 @@
                             <td><div class="cell">2021-02-10 00:41:52</div></td>
                             <td><div class="cell">새 메시지</div></td>
                             <td><div class="cell">새 메시지 보냄</div></td>
-                            <td><div class="cell"><button type="button" class="el-button el-button--primary el-button--small"><span>삭제</span></button></div></td>
+                            <td><div class="cell"><button type="button" class="el-button el-button--primary el-button--small star-icon-btn" title="삭제"><i class="fas fa-trash"></i></button></div></td>
                         </tr>
                         -->
                     </tbody>

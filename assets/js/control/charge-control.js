@@ -85,11 +85,11 @@
                 tHtml += "</div></td>";
                 tHtml += "<td><div class=\"cell\">";
                 if(arrCharge[idx].charge_action_state == 1)
-                    tHtml += "<span class=\"el-tag el-tag--warning el-tag--light\">미확인</span>";
+                    tHtml += "<span class=\"star-badge star-badge--wait\">미확인</span>";
                 else if(arrCharge[idx].charge_action_state == 2)
-                    tHtml += "<span class=\"el-tag el-tag--success el-tag--light\">확인</span>";
+                    tHtml += "<span class=\"star-badge star-badge--ok\">확인</span>";
                 else if(arrCharge[idx].charge_action_state == 3)
-                    tHtml += "<span class=\"el-tag el-tag--danger el-tag--light\">취소됨</span>";
+                    tHtml += "<span class=\"star-badge star-badge--cancel\">취소됨</span>";
                 tHtml += "</div></td>";
                 tHtml += "<td><div class=\"cell\">";
                 if(arrCharge[idx].charge_action_state == 1) {
@@ -99,9 +99,9 @@
                 tHtml += "</div></td>";
                 tHtml += "<td><div class=\"cell\">";
                 if(arrCharge[idx].charge_type == 0)
-                    tHtml += "<span class=\"el-tag el-tag--light\">신청충전</span>";
+                    tHtml += "<span class=\"star-badge star-badge--type\">신청충전</span>";
                 else if(arrCharge[idx].charge_type == 1)
-                    tHtml += "<span class=\"el-tag el-tag--light\">직충전</span>";                
+                    tHtml += "<span class=\"star-badge star-badge--type-direct\">직충전</span>";                
                 tHtml += "</div></td>";
                 tHtml += "<td><div class=\"cell\">";
                 tHtml += arrCharge[idx].charge_time_require;

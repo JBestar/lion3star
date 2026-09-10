@@ -10,8 +10,8 @@
                     </div>
                 </div>
             </div>
-            <button type="button" onclick="requestBetHistory();" class="el-button el-button--primary">
-                <span>검색</span>
+            <button type="button" onclick="requestBetHistory();" class="el-button el-button--primary star-icon-btn" title="검색">
+                <i class="fas fa-search"></i>
             </button> 
         </form>
         <div class="el-divider el-divider--horizontal"></div> 

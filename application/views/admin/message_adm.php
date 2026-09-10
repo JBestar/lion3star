@@ -71,8 +71,8 @@
                             <td rowspan="1" colspan="1" class="el-table_32_column_224"><div class="cell">메시지발송</div></td>
                             <td rowspan="1" colspan="1" class="el-table_32_column_225">
                                 <div class="cell">
-                                    <button type="button" class="el-button el-button--primary el-button--small">
-                                        <span>삭제</span>
+                                    <button type="button" class="el-button el-button--primary el-button--small star-icon-btn" title="삭제">
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
                             </td>

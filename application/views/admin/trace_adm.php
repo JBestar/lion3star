@@ -12,9 +12,8 @@
                     
                 </div>
             </div>
-            <button type="button" class="el-button el-button--primary" onclick="requestTrace();">
-                
-                <span>검색</span>
+            <button type="button" class="el-button el-button--primary star-icon-btn" title="검색" onclick="requestTrace();">
+                <i class="fas fa-search"></i>
             </button>
         </form>
         <div class="el-divider el-divider--horizontal"></div>
