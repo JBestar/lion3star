@@ -192,13 +192,27 @@ body.admin-star-body {
 }
 
 .admin-star-actions .btn-site-maintain.el-button--danger {
-  background: #c0392b !important;
-  border-color: #a93226 !important;
+  background: linear-gradient(180deg, #e74c3c 0%, #c0392b 100%) !important;
+  border: 1px solid #f1948a !important;
+  color: #fff !important;
+  box-shadow: 0 2px 0 #922b21, 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.admin-star-actions .btn-site-maintain.el-button--danger:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 #922b21, 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .admin-star-actions .btn-data-clean.el-button--primary {
-  background: #2563eb !important;
-  border-color: #1d4ed8 !important;
+  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%) !important;
+  border: 1px solid #60a5fa !important;
+  color: #fff !important;
+  box-shadow: 0 2px 0 #1e40af, 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.admin-star-actions .btn-data-clean.el-button--primary:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 #1e40af, 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .admin-star-marquee {
@@ -356,6 +370,54 @@ body.admin-star-body .el-main > .el-button--primary {
   border: 1px solid #f0a050 !important;
   color: #1a1200 !important;
   box-shadow: 0 2px 0 #b85c10, 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+body.admin-star-body .el-dialog__body .el-button--primary:active,
+body.admin-star-body .el-main > .el-row .el-button--primary:active,
+body.admin-star-body .el-main > .el-button--primary:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 #b85c10, 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+
+/* 취소(danger) — 신청/저장 버튼과 같은 입체감, 빨간 배경 유지 */
+body.admin-star-body .el-button--danger:not(.btn-site-maintain),
+.admin-star-main .el-button--danger {
+  background: linear-gradient(180deg, #f78989 0%, #f56c6c 100%) !important;
+  border: 1px solid #f9a7a7 !important;
+  color: #fff !important;
+  font-weight: 700;
+  box-shadow: 0 2px 0 #c45656, 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+body.admin-star-body .el-button--danger:not(.btn-site-maintain):hover,
+body.admin-star-body .el-button--danger:not(.btn-site-maintain):focus,
+.admin-star-main .el-button--danger:hover,
+.admin-star-main .el-button--danger:focus {
+  background: linear-gradient(180deg, #fa9a9a 0%, #f78989 100%) !important;
+  border-color: #fbb !important;
+  color: #fff !important;
+}
+body.admin-star-body .el-button--danger:not(.btn-site-maintain):active,
+.admin-star-main .el-button--danger:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 #c45656, 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+
+/* 확인창 / 회차통계 암호창 취소(default) */
+body.admin-star-body .el-message-box__btns .el-button--default,
+body.admin-star-body #el-confirm-cancel-id,
+body.admin-star-body #admin-rs-pwd-cancel,
+body.admin-star-body #roundstat-pwd-cancel {
+  background: linear-gradient(180deg, #fff 0%, #e9eef5 100%) !important;
+  border: 1px solid #c0c4cc !important;
+  color: #606266 !important;
+  font-weight: 700;
+  box-shadow: 0 2px 0 #a0a4ab, 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+body.admin-star-body .el-message-box__btns .el-button--default:active,
+body.admin-star-body #el-confirm-cancel-id:active,
+body.admin-star-body #admin-rs-pwd-cancel:active,
+body.admin-star-body #roundstat-pwd-cancel:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 #a0a4ab, 0 2px 6px rgba(0, 0, 0, 0.12);
 }
 
 /* 다이얼로그(밝은 배경) — 본문용 밝은 글자색이 상속되지 않도록 */

@@ -286,6 +286,50 @@ body.control-star-body .el-main > .el-button--primary {
   color: #1a1200 !important;
   box-shadow: 0 2px 0 #b85c10, 0 4px 10px rgba(0, 0, 0, 0.2);
 }
+body.control-star-body .el-dialog__body .el-button--primary:active,
+body.control-star-body .el-main > .el-row .el-button--primary:active,
+body.control-star-body .el-main > .el-button--primary:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 #b85c10, 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+
+/* 취소(danger) — 신청 버튼과 같은 입체감, 빨간 배경 유지 */
+body.control-star-body .el-button--danger,
+.control-star-main .el-button--danger {
+  background: linear-gradient(180deg, #f78989 0%, #f56c6c 100%) !important;
+  border: 1px solid #f9a7a7 !important;
+  color: #fff !important;
+  font-weight: 700;
+  box-shadow: 0 2px 0 #c45656, 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+body.control-star-body .el-button--danger:hover,
+body.control-star-body .el-button--danger:focus,
+.control-star-main .el-button--danger:hover,
+.control-star-main .el-button--danger:focus {
+  background: linear-gradient(180deg, #fa9a9a 0%, #f78989 100%) !important;
+  border-color: #fbb !important;
+  color: #fff !important;
+}
+body.control-star-body .el-button--danger:active,
+.control-star-main .el-button--danger:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 #c45656, 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+
+/* 확인창 취소(default)도 동일 입체감 */
+body.control-star-body .el-message-box__btns .el-button--default,
+body.control-star-body #el-confirm-cancel-id {
+  background: linear-gradient(180deg, #fff 0%, #e9eef5 100%) !important;
+  border: 1px solid #c0c4cc !important;
+  color: #606266 !important;
+  font-weight: 700;
+  box-shadow: 0 2px 0 #a0a4ab, 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+body.control-star-body .el-message-box__btns .el-button--default:active,
+body.control-star-body #el-confirm-cancel-id:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 #a0a4ab, 0 2px 6px rgba(0, 0, 0, 0.12);
+}
 
 /* 다이얼로그(밝은 배경) — 본문용 밝은 글자색이 상속되지 않도록 */
 body.control-star-body .el-dialog__body {
