@@ -54,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </ul>
                             <div class="pt-1 el-row">
                                 
-                                <div class="el-col el-col-17">
+                                <div class="el-col el-col-11">
                                     <div data-v-e74cd2d0="" class="pbg_info flex flex-wrap justify-center gap-1 lg:gap-5">
                                         <div data-v-e74cd2d0="" class="">
                                             <span id="hours">00</span><span class="pbg-clock-sep">:</span><span id="min">00</span><span class="pbg-clock-sep">:</span><span id="sec">00</span>
@@ -65,7 +65,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             [<span style="font-size:18px;" id="betcloserest">00:00</span>]
                                         </div>
                                     </div>
-                                </div> 
+                                </div>
+                                <div class="el-col el-col-6" style="text-align:center;">
+                                    <img src="/assets/image/game_eos5.png" id="game-img-id" name="eos_5"  style=" height: 60px; width: 200px; margin-top:10px" >
+                                </div>
                                 <div class="px-2 el-col el-col-7">
                                     <div class="bet-customer pt-2 header-user-summary-wrap">
                                         <span id="header-user-summary">-</span>
@@ -83,11 +86,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="content el-row" style="padding-bottom:20px;">
                         <div class="el-col el-col-24">
                     <div class="px-5 senior-bet-layout">
-                            <div class="el-row ">
-                                <div class="el-col el-col-6" style="text-align:center;">
-                                    <img src="/assets/image/game_eos5.png" id="game-img-id" name="eos_5"  style=" height: 60px; width: 200px; margin-top:10px" >
-                                </div>
-                            </div>
 
                     <div class="flex flex-wrap gap-5 senior-bet-columns">
                     <aside class="senior-left md:block" style="width:530px;flex-shrink:0;">
