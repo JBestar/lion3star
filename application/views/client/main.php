@@ -51,7 +51,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <li tabindex="7" class="el-menu-item" onclick="showWinHistoryPage();">당첨내역</li> 
                                 <li tabindex="9" class="el-menu-item" onclick="showMessageDlg();">공지사항</li> 
                                 <li tabindex="11" class="el-menu-item" onclick="logout();">로그아웃</li>
-                                <li tabindex="12" class="el-menu-item header-menu-item-end" onclick="downloadBixolonDriver();">발권기<i class="fas fa-download header-menu-download-icon" aria-hidden="true"></i></li>
                             </ul>
                             <div class="pt-1 el-row">
                                 
@@ -85,11 +84,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="el-col el-col-24">
                     <div class="px-5 senior-bet-layout">
                             <div class="el-row ">
-                                <div class="el-col el-col-10">
-                                    <button class="game-button select" id="bet-pbg-id" onclick="selectGame(0);">PBG파워볼</button> 
-                                    <a class="game-button" id="bet-eos5-id" href="https://lion7589.com" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">카지노</a> 
-                                    <button class="game-button" id="bet-coin5-id" onclick="alert('준비중입니다.');return false;">슬롯</button>
-                                </div>
                                 <div class="el-col el-col-6" style="text-align:center;">
                                     <img src="/assets/image/game_eos5.png" id="game-img-id" name="eos_5"  style=" height: 60px; width: 200px; margin-top:10px" >
                                 </div>
