@@ -349,4 +349,4 @@
 
 
 
-<script src="<?php echo base_url('assets/js/control/statist-control.js?v=4'); ?>"></script>
+<script src="<?php echo base_url('assets/js/store/statist-control.js?v=3'); ?>"></script>

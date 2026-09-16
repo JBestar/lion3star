@@ -1056,7 +1056,7 @@ class CApi extends CI_Controller {
 			$strUid = $this->sess_model->getUserId($nLogId);			
 			$objUser = $this->member_model->getInfoByUid($arrReqData['mb_uid']);
 
-			$arrBetData = $this->pbbet_model->searchByAgent($objUser, $arrReqData);
+			$arrBetData = $this->pbbet_model->searchByAgencyStores($objUser, $arrReqData);
 			
 			$arrResult['status'] = "success";
 			$arrResult['data'] = $arrBetData;

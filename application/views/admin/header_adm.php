@@ -22,7 +22,7 @@ $sub_active = (trim($menuitem_1) !== '' || trim($menuitem_12) !== '');
     <link rel="stylesheet" href="<?php echo base_url('assets/jslib/daterangepicker.css');?>">
 
     <script src="<?php echo base_url('assets/js/worker.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/js/common.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/common.js?v=2'); ?>"></script>
     <script src="<?php echo base_url('assets/js/admin/header-adm.js?v=6');?>"></script>
 
 </head>

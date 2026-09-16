@@ -40,9 +40,9 @@ class Api extends CI_Controller {
 
 		} else {
 			writeLog($logHead . "db_match mb_uid=" . $objUser->mb_uid . " mb_level=" . $objUser->mb_level . " mb_state_delete=" . $objUser->mb_state_delete);
-			if(!$this->member_model->permittedEmployee($objUser) || $objUser->mb_level != MEMBER_EMPLOYEE_LEVEL){
-				$bPerm = $this->member_model->permittedEmployee($objUser);
-				writeLog($logHead . "FAIL policy permittedEmployee=" . ($bPerm ? '1' : '0') . " mb_level=" . $objUser->mb_level . " need_level=" . MEMBER_EMPLOYEE_LEVEL . " mb_state_delete=" . $objUser->mb_state_delete . " mb_emp_fid=" . $objUser->mb_emp_fid);
+			if(!$this->member_model->permittedUser($objUser) || $objUser->mb_level != MEMBER_USER_LEVEL){
+				$bPerm = $this->member_model->permittedUser($objUser);
+				writeLog($logHead . "FAIL policy permittedUser=" . ($bPerm ? '1' : '0') . " mb_level=" . $objUser->mb_level . " need_level=" . MEMBER_USER_LEVEL . " mb_state_delete=" . $objUser->mb_state_delete . " mb_emp_fid=" . $objUser->mb_emp_fid);
 				$arrResult['code'] = 2;
 				$arrResult['status'] = "fail";
 			} else {
@@ -55,7 +55,7 @@ class Api extends CI_Controller {
 				else if(!strcmp($objSess->sess_ip, $this->input->ip_address())) {
 					$bNeedLog = true;
 					$nLogId = $objSess->sess_fid;
-				} else if ((int) $objUser->mb_level === (int) MEMBER_EMPLOYEE_LEVEL) {
+				} else if ((int) $objUser->mb_level === (int) MEMBER_USER_LEVEL) {
 					$this->sess_model->logoutByMbUid($objUser->mb_uid);
 					writeLog($logHead . "store duplicate login: replaced prior session uid=" . $objUser->mb_uid . " old_ip=" . $objSess->sess_ip . " new_ip=" . $this->input->ip_address());
 					$bNeedLog = true;
@@ -69,7 +69,7 @@ class Api extends CI_Controller {
 				
 				if($nLogId > 0) {
 					//세션 생성
-					$sessData = array('username' => $objUser->mb_uid, 'logged_in'=>TRUE, 'user_level'=>MEMBER_EMPLOYEE_LEVEL);
+					$sessData = array('username' => $objUser->mb_uid, 'logged_in'=>TRUE, 'user_level'=>MEMBER_USER_LEVEL);
 					$this->session->set_userdata($sessData);
 					$this->member_model->updateLogin($objUser);
 					$this->loghist_model->addLog($objUser, 1);
@@ -100,7 +100,7 @@ class Api extends CI_Controller {
 	public function assets(){ 
 		
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL))
 		{
 			//model
 			$this->load->model('member_model');
@@ -113,7 +113,7 @@ class Api extends CI_Controller {
 
 			$bIsAlive = false;
 			if(!is_null($objUser) && !is_null($objMaintain)){	
-				if($this->member_model->permittedEmployee($objUser) && $objMaintain->conf_active != 1 && $objUser->mb_level == MEMBER_EMPLOYEE_LEVEL)
+				if($this->member_model->permittedUser($objUser) && $objMaintain->conf_active != 1 && $objUser->mb_level == MEMBER_USER_LEVEL)
 					$bIsAlive = true;
 			}
 
@@ -141,7 +141,7 @@ class Api extends CI_Controller {
 	/** 세션 유지(heartbeat) — is_login()으로 sess_update_time 갱신 */
 	public function heartbeat(){
 		$nLogId = trim($this->input->get('l'));
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)){
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL)){
 			echo json_encode(array('status' => 'success'));
 		} else {
 			echo json_encode(array('status' => 'logout'));
@@ -152,7 +152,7 @@ class Api extends CI_Controller {
 	public function session(){ 
 	
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL))
 		{
 			//model
 			$this->load->model('member_model');
@@ -165,7 +165,7 @@ class Api extends CI_Controller {
 
 			$bIsAlive = false;
 			if(!is_null($objUser) && !is_null($objMaintain)){	
-				if($this->member_model->permittedEmployee($objUser) && $objMaintain->conf_active != 1 && $objUser->mb_level == MEMBER_EMPLOYEE_LEVEL)
+				if($this->member_model->permittedUser($objUser) && $objMaintain->conf_active != 1 && $objUser->mb_level == MEMBER_USER_LEVEL)
 					$bIsAlive = true;
 			}
 
@@ -196,7 +196,7 @@ class Api extends CI_Controller {
 		$arrGetData = json_decode($jsonData, true);
 		
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL)) 
 		{	
 			//model
 			$this->load->model('confgame_model');
@@ -222,7 +222,7 @@ class Api extends CI_Controller {
 		$arrRaData = json_decode($jsonData, true);
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL)) 
 		{
 			$gameId = intval($arrRaData['game']);
 
@@ -287,7 +287,7 @@ class Api extends CI_Controller {
 		$arrBetData = json_decode($jsonData, true);
 		
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL)) 
 		{
 			$this->load->model('member_model');
 			$this->load->model('confgame_model');
@@ -297,7 +297,7 @@ class Api extends CI_Controller {
 			$strUid = $this->sess_model->getUserId($nLogId);			
 			$objUser = $this->member_model->getInfoByUid($strUid);
 			$objUser->emp_state_active = 0;
-			if($objUser->mb_level == MEMBER_EMPLOYEE_LEVEL && $this->member_model->permittedEmployee($objUser))
+			if($objUser->mb_level == MEMBER_USER_LEVEL && $this->member_model->permittedUser($objUser))
 				$objUser->emp_state_active = 1;
 			
 			//서버 점검상태 확인
@@ -343,7 +343,7 @@ class Api extends CI_Controller {
 						$arrEmpRatio = $this->member_model->getEmployeePbRatio($objUser, $arrBetData['amount']);
 						
 						//배팅에 성공하면 거래내역에 반영,유저머니 변경
-						$bResult = $this->member_model->moneyHistoryProc($objUser->mb_fid, $arrBetData, $arrEmpRatio[1][2], MONEYCHANGE_BET);
+						$bResult = $this->member_model->moneyHistoryProc($objUser->mb_fid, $arrBetData, $arrEmpRatio[2][2], MONEYCHANGE_BET);
 						if($bResult)
 							$iBetFid = $this->pbbet_model->addBetRound($arrBetData, $objUser, $arrEmpRatio);
 						
@@ -379,7 +379,7 @@ class Api extends CI_Controller {
 						$arrEmpRatio = $this->member_model->getEmployeePbRatio($objUser, $arrBetData['amount']);
 						
 						//배팅에 성공하면 거래내역에 반영,유저머니 변경
-						$bResult = $this->member_model->moneyHistoryProc($objUser->mb_fid, $arrBetData, $arrEmpRatio[1][2], MONEYCHANGE_BET);
+						$bResult = $this->member_model->moneyHistoryProc($objUser->mb_fid, $arrBetData, $arrEmpRatio[2][2], MONEYCHANGE_BET);
 						if($bResult)
 							$iBetFid = $this->pbbet_model->addBetRound($arrBetData, $objUser, $arrEmpRatio);
 						
@@ -415,7 +415,7 @@ class Api extends CI_Controller {
 						$arrEmpRatio = $this->member_model->getEmployeePbRatio($objUser, $arrBetData['amount']);
 						
 						//배팅에 성공하면 거래내역에 반영,유저머니 변경
-						$bResult = $this->member_model->moneyHistoryProc($objUser->mb_fid, $arrBetData, $arrEmpRatio[1][2], MONEYCHANGE_BET);
+						$bResult = $this->member_model->moneyHistoryProc($objUser->mb_fid, $arrBetData, $arrEmpRatio[2][2], MONEYCHANGE_BET);
 						if($bResult)
 							$iBetFid = $this->pbbet_model->addBetRound($arrBetData, $objUser, $arrEmpRatio);
 						
@@ -427,7 +427,7 @@ class Api extends CI_Controller {
 			
 			if($iResult == 1 && $iBetFid>0){				
 
-				for($i=0; $i<1; $i++){
+				for($i=0; $i<2; $i++){
 					if($arrEmpRatio[$i][0] > 0 && $arrEmpRatio[$i][2] > 0 ){
 						$this->member_model->updatePoint($arrEmpRatio[$i][0], $arrEmpRatio[$i][2]);
 						
@@ -461,7 +461,7 @@ class Api extends CI_Controller {
 		$arrReqData = is_string($jsonData) ? json_decode($jsonData, true) : null;
 		
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) {
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL)) {
 			$this->load->model('member_model');
 			$this->load->model('confgame_model');
 			$this->load->model('moneyhistory_model');
@@ -531,10 +531,15 @@ class Api extends CI_Controller {
 					writeLog($logHead . "FAIL iResult=5 now=" . $tmCurrent . " round_start=" . (isset($arrRoundData['round_start']) ? $arrRoundData['round_start'] : '') . " round_bet_end=" . (isset($arrRoundData['round_bet_end']) ? $arrRoundData['round_bet_end'] : ''));
 				} else {
 					if($this->pbbet_model->deleteByFid($objBet->bet_fid)){
-						if( $objBet->bet_money > 0 && $this->member_model->moneyProc($objUser, $objBet->bet_money, 0-$objBet->bet_empl_amount)){
-							$objEmp = $this->member_model->getInfoByFid($objUser->mb_emp_fid);
-							if(!is_null($objEmp))
-								$this->member_model->moneyProc($objEmp, 0, 0-$objBet->bet_agen_amount);
+						$nUserPoint = (int) round(((float)$objUser->mb_game_pb_ratio * (float)$objBet->bet_money) / 100.0);
+						if( $objBet->bet_money > 0 && $this->member_model->moneyProc($objUser, $objBet->bet_money, 0-$nUserPoint)){
+							$objStore = $this->member_model->getInfoByFid($objUser->mb_emp_fid);
+							if(!is_null($objStore)){
+								$this->member_model->moneyProc($objStore, 0, 0-$objBet->bet_empl_amount);
+								$objAgency = $this->member_model->getInfoByFid($objStore->mb_emp_fid);
+								if(!is_null($objAgency))
+									$this->member_model->moneyProc($objAgency, 0, 0-$objBet->bet_agen_amount);
+							}
 
 							$this->moneyhistory_model->registerCancelBet($objUser, $objBet);
 						}
@@ -577,7 +582,7 @@ class Api extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL)) 
 		{
 			$this->load->model('member_model');	
 			$this->load->model('pbbet_model');	
@@ -604,7 +609,7 @@ class Api extends CI_Controller {
 		$arrReqData = is_string($jsonData) ? json_decode($jsonData, true) : null;
 
 		$nLogId = trim($this->input->get('l'));
-		if (!is_login() || !$this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) {
+		if (!is_login() || !$this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL)) {
 			$arrResult['status'] = "logout";
 			echo json_encode($arrResult);
 			return;
@@ -644,7 +649,7 @@ class Api extends CI_Controller {
 		$arrReqData = is_string($jsonData) ? json_decode($jsonData, true) : null;
 
 		$nLogId = trim($this->input->get('l'));
-		if (!is_login() || !$this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) {
+		if (!is_login() || !$this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL)) {
 			$arrResult['status'] = "logout";
 			echo json_encode($arrResult);
 			return;
@@ -669,7 +674,7 @@ class Api extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 
 		$nLogId = trim($this->input->get('l'));
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL))
 		{
 			$this->load->model('member_model');
 			$this->load->model('pbbet_model');
@@ -702,7 +707,7 @@ class Api extends CI_Controller {
 		}
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL)) 
 		{
 			$this->load->model('member_model');	
 			$this->load->model('pbround_model');
@@ -764,7 +769,7 @@ class Api extends CI_Controller {
 	
 	function pbroundhistory(){
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL)) 
 		{
 			
 			//model
@@ -790,7 +795,7 @@ class Api extends CI_Controller {
 	
 	function pc5roundhistory(){
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL)) 
 		{
 			
 			//model
@@ -815,7 +820,7 @@ class Api extends CI_Controller {
 
 	function pe5roundhistory(){
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL)) 
 		{
 			
 			//model
@@ -843,7 +848,7 @@ class Api extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 		
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL)) 
 		{
 			
 			//model
@@ -874,7 +879,7 @@ class Api extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL))
 		{
 			
 			//model
@@ -910,7 +915,7 @@ class Api extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 		
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL)) 
 		{
 			
 			//model
@@ -942,7 +947,7 @@ class Api extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL))
 		{
 			
 			//model
@@ -1005,7 +1010,7 @@ class Api extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 		
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL)) 
 		{
 			
 			//model
@@ -1037,7 +1042,7 @@ class Api extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL))
 		{
 			
 			//model
@@ -1068,7 +1073,7 @@ class Api extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 		
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL)) 
 		{
 			
 			//model
@@ -1098,7 +1103,7 @@ class Api extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL))
 		{	
 			//model
 			$this->load->model('member_model');
@@ -1127,7 +1132,7 @@ class Api extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL))
 		{	
 			//model
 			$this->load->model('member_model');
@@ -1160,7 +1165,7 @@ class Api extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL))
 		{	
 			//model
 			$this->load->model('member_model');
@@ -1193,7 +1198,7 @@ class Api extends CI_Controller {
 	public function getSendMessage(){
 		
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL)) 
 		{
 			
 			//model
@@ -1220,7 +1225,7 @@ class Api extends CI_Controller {
 	public function getRecvNewMessage(){
 		
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL)) 
 		{
 			
 			//model
@@ -1247,7 +1252,7 @@ class Api extends CI_Controller {
 	public function getRecvMessage(){
 		
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL)) 
 		{
 			
 			//model
@@ -1276,7 +1281,7 @@ class Api extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL))
 		{	
 			//model
 			$this->load->model('member_model');

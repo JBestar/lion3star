@@ -168,8 +168,12 @@ class PbBet_model extends CI_Model {
         if(array_key_exists('start', $arrReqData) && strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
             $strSql.=" AND bet_time >= '".$arrReqData['start']." 0:0:0' AND bet_time <= '".$arrReqData['end']." 23:59:59'" ;                     
         }
-        if(array_key_exists('emp_fid', $arrReqData)) {
-            $strSql.=" AND bet_emp_fid = '".$arrReqData['emp_fid']."' ";
+        if(!empty($arrReqData['emp_fid'])) {
+            $strSql.=" AND bet_emp_fid = '".((int) $arrReqData['emp_fid'])."' ";
+        }
+        if(!empty($arrReqData['agency_fid'])) {
+            $nAgencyFid = (int) $arrReqData['agency_fid'];
+            $strSql.=" AND bet_emp_fid IN (SELECT mb_fid FROM member WHERE mb_emp_fid = ".$nAgencyFid." AND mb_level = ".MEMBER_EMPLOYEE_LEVEL." AND mb_state_delete = 0) ";
         }
         // $strSql.=" ORDER BY bet_date DESC, bet_round_no DESC, bet_game DESC, bet_account_time DESC, bet_fid DESC ";
         $strSql.=" ORDER BY bet_fid DESC ";
@@ -206,15 +210,38 @@ class PbBet_model extends CI_Model {
     }
 
     
-    function searchByCompany($arrReqData)
+    function searchByAgencyStores($objEmp, $arrReqData)
     {
-        $strSql = "SELECT bet_emp_fid, mb_uid, mb_nickname, SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS bet_win_sum, COUNT(CASE WHEN bet_win_money > 0 THEN 1 END) AS bet_win_count, SUM( bet_empl_amount) AS bet_empl_amount, SUM( bet_agen_amount) AS bet_agen_amount FROM ".$this->mTableName;
-        $strSql .= " INNER JOIN MEMBER ON member.mb_fid = bet_powerball.bet_emp_fid AND member.mb_state_delete = 0 ";
-        $strSql .= " WHERE bet_state != ".BET_CANCEL;
+        if(is_null($objEmp)) return null;
+
+        $nAgencyFid = (int) $objEmp->mb_fid;
+        $strSql = "SELECT store.mb_fid AS bet_emp_fid, store.mb_uid AS bet_mb_uid, store.mb_uid AS mb_uid, SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS bet_win_sum, COUNT(CASE WHEN bet_win_money > 0 THEN 1 END) AS bet_win_count, SUM( bet_empl_amount) AS bet_empl_amount, SUM( bet_agen_amount) AS bet_agen_amount FROM ".$this->mTableName;
+        $strSql .= " INNER JOIN MEMBER AS store ON store.mb_fid = bet_powerball.bet_emp_fid AND store.mb_state_delete = 0 ";
+        $strSql .= " WHERE store.mb_emp_fid = ".$nAgencyFid." AND store.mb_level = ".MEMBER_EMPLOYEE_LEVEL." AND bet_state != ".BET_CANCEL;
         if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
             $strSql.=" AND bet_time >= '".$arrReqData['start']." 0:0:0' AND bet_time <= '".$arrReqData['end']." 23:59:59'" ;
         }
-        $strSql.="  GROUP BY bet_emp_fid ";
+
+        $strSql.="  GROUP BY store.mb_fid ";
+        $query = $this -> db -> query($strSql);
+        $result = $query -> result();
+
+        return $result;
+
+    }
+
+    
+    function searchByCompany($arrReqData)
+    {
+        $strSql = "SELECT agency.mb_fid AS bet_emp_fid, agency.mb_uid AS mb_uid, agency.mb_nickname, SUM(bet_money) AS bet_money_sum, SUM(bet_win_money) AS bet_win_sum, COUNT(CASE WHEN bet_win_money > 0 THEN 1 END) AS bet_win_count, SUM( bet_empl_amount) AS bet_empl_amount, SUM( bet_agen_amount) AS bet_agen_amount FROM ".$this->mTableName;
+        $strSql .= " INNER JOIN MEMBER AS store ON store.mb_fid = bet_powerball.bet_emp_fid AND store.mb_state_delete = 0 ";
+        $strSql .= " INNER JOIN MEMBER AS agency ON agency.mb_fid = store.mb_emp_fid AND agency.mb_state_delete = 0 ";
+        $strSql .= " WHERE bet_state != ".BET_CANCEL;
+        $strSql .= " AND store.mb_level = ".MEMBER_EMPLOYEE_LEVEL;
+        if(strlen($arrReqData['start']) > 0 && strlen($arrReqData['end']) > 0 ){
+            $strSql.=" AND bet_time >= '".$arrReqData['start']." 0:0:0' AND bet_time <= '".$arrReqData['end']." 23:59:59'" ;
+        }
+        $strSql.="  GROUP BY agency.mb_fid ";
         $query = $this -> db -> query($strSql);
         $result = $query -> result();
         

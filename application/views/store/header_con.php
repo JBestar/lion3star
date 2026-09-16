@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <script src="<?php echo base_url('assets/js/worker.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/common.js?v=2'); ?>"></script>
-    <script src="<?php echo base_url('assets/js/control/header-control.js?v=9'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/store/header-control.js?v=9'); ?>"></script>
 
 </head>
 
@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 <ul class="control-star-nav">
                     <li class="control-star-menu-item">
-                        <span class="control-star-link <?=$menuitem_1?>" onclick="clickMenu(1);">매장 관리</span>
+                        <span class="control-star-link <?=$menuitem_1?>" onclick="clickMenu(1);">회원관리</span>
                     </li>
                     <li class="control-star-menu-item">
                         <span class="control-star-link <?=$menuitem_2?>" onclick="clickMenu(2);">일별통계</span>
@@ -56,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <span class="control-star-link <?=$menuitem_5?>" onclick="clickMenu(5);">충/환내역</span>
                     </li>
                     <li class="control-star-menu-item">
-                        <span class="control-star-link <?=$menuitem_6?>" onclick="clickMenu(6);">본사 총/환 내역</span>
+                        <span class="control-star-link <?=$menuitem_6?>" onclick="clickMenu(6);">총판충/환전내역</span>
                     </li>
                     <li class="control-star-menu-item">
                         <span class="control-star-link <?=$menuitem_7?>" onclick="clickMenu(7);">알림 및 공지<span class="star-menu-msg-badge" id="message-menu-badge" aria-hidden="true"></span></span>

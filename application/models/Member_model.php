@@ -51,6 +51,9 @@ class Member_model extends CI_Model {
         $this->db->select('mb_state_delete');
         $this->db->select('mb_state_print');
         $this->db->select('mb_game_pb_ratio');
+        $this->db->select('mb_limit_round');
+        $this->db->select('mb_limit_single');
+        $this->db->select('mb_limit_mix');
 
         return $this->db->get_where($this->mTableName, array('mb_fid'=>$strFid))->row();
     }
@@ -110,6 +113,10 @@ class Member_model extends CI_Model {
         $this->db->select('mb_level');  
         $this->db->select('mb_emp_fid');
         $this->db->select('mb_nickname');
+        $this->db->select('mb_game_pb_ratio');
+        $this->db->select('mb_limit_round');
+        $this->db->select('mb_limit_single');
+        $this->db->select('mb_limit_mix');
 
         $this->db->where('mb_level', MEMBER_AGENCY_LEVEL);
         $this->db->where('mb_state_delete', 0);
@@ -199,6 +206,9 @@ class Member_model extends CI_Model {
 
         if($arrReqData['level'] < MEMBER_AGENCY_LEVEL && $objAdmin->mb_game_pb_ratio < $arrReqData['ratio'])
             return 3;
+
+        if($this->childExceedsParentLimits($objAdmin, $arrReqData))
+            return 6;
         
         $this->db->set('mb_uid', $arrReqData['uid']);
         $this->db->set('mb_pwd', $arrReqData['pwd']);
@@ -253,13 +263,18 @@ class Member_model extends CI_Model {
 
         if($objEmployee->mb_level < MEMBER_AGENCY_LEVEL) {
             $nMaxRatio = $objAdmin->mb_game_pb_ratio;
+            $objLimitParent = $objAdmin;
             if((int)$objAdmin->mb_level >= (int)MEMBER_COMPANY_LEVEL) {
                 $objAgency = $this->getInfoByFid($objEmployee->mb_emp_fid);
-                if(!is_null($objAgency))
+                if(!is_null($objAgency)) {
                     $nMaxRatio = $objAgency->mb_game_pb_ratio;
+                    $objLimitParent = $objAgency;
+                }
             }
             if($nMaxRatio < $arrReqData['ratio'])
                 return 3;
+            if($this->childExceedsParentLimits($objLimitParent, $arrReqData))
+                return 6;
         }
         
         $this->db->set('mb_pwd', $arrReqData['pwd']);
@@ -326,11 +341,31 @@ class Member_model extends CI_Model {
         $bResult = $this->db->update($this->mTableName);
         
         if($objEmployee->mb_level == MEMBER_AGENCY_LEVEL ) {
+            $this->db->select('mb_fid');
+            $this->db->where('mb_level', MEMBER_EMPLOYEE_LEVEL);
+            $this->db->where('mb_emp_fid', $objEmployee->mb_fid);
+            $arrStores = $this->db->get($this->mTableName)->result();
+            $arrStoreFids = array();
+            foreach($arrStores as $objStore)
+                $arrStoreFids[] = (int) $objStore->mb_fid;
+
             $this->db->set('mb_state_delete', 1);
             $this->db->where('mb_level', MEMBER_EMPLOYEE_LEVEL);
             $this->db->where('mb_emp_fid', $objEmployee->mb_fid);
             $this->db->update($this->mTableName);
 
+            if(count($arrStoreFids) > 0){
+                $this->db->set('mb_state_delete', 1);
+                $this->db->where('mb_level', MEMBER_USER_LEVEL);
+                $this->db->where_in('mb_emp_fid', $arrStoreFids);
+                $this->db->update($this->mTableName);
+            }
+
+        } else if($objEmployee->mb_level == MEMBER_EMPLOYEE_LEVEL) {
+            $this->db->set('mb_state_delete', 1);
+            $this->db->where('mb_level', MEMBER_USER_LEVEL);
+            $this->db->where('mb_emp_fid', $objEmployee->mb_fid);
+            $this->db->update($this->mTableName);
         }
         return $bResult?1:0;
 
@@ -364,12 +399,42 @@ class Member_model extends CI_Model {
     function getEmployeePbRatio($objMember, $nAmount){
        
 
-        //0=>총판, 1=>매장 
-        $arrRadio = array ( array("",0,0), array("",0,0) );
+        //0=>총판, 1=>매장, 2=>회원
+        $arrRadio = array ( array("",0,0), array("",0,0), array("",0,0) );
 
         if(is_null($objMember)) return $arrRadio;
+
+        if($objMember->mb_level == MEMBER_USER_LEVEL) {
+            $objStore = $this->getInfoByFid($objMember->mb_emp_fid);
+            if(is_null($objStore) || (int)$objStore->mb_level !== (int)MEMBER_EMPLOYEE_LEVEL)
+                return $arrRadio;
+            $objAgency = $this->getInfoByFid($objStore->mb_emp_fid);
+            if(is_null($objAgency) || (int)$objAgency->mb_level !== (int)MEMBER_AGENCY_LEVEL)
+                return $arrRadio;
+
+            $nUserR = (float) $objMember->mb_game_pb_ratio;
+            $nStoreR = (float) $objStore->mb_game_pb_ratio;
+            $nAgencyR = (float) $objAgency->mb_game_pb_ratio;
+            if($nUserR >= 100 || $nStoreR >= 100 || $nAgencyR >= 100)
+                return $arrRadio;
+            if($nStoreR + 1e-9 < $nUserR || $nAgencyR + 1e-9 < $nStoreR)
+                return $arrRadio;
+
+            $arrRadio[0][0] = $objAgency->mb_fid;
+            $arrRadio[0][1] = $nAgencyR - $nStoreR;
+            $arrRadio[0][2] = (int)round(($arrRadio[0][1] * $nAmount) / 100.0);
+
+            $arrRadio[1][0] = $objStore->mb_fid;
+            $arrRadio[1][1] = $nStoreR - $nUserR;
+            $arrRadio[1][2] = (int)round(($arrRadio[1][1] * $nAmount) / 100.0);
+
+            $arrRadio[2][0] = $objMember->mb_fid;
+            $arrRadio[2][1] = $nUserR;
+            $arrRadio[2][2] = (int)round(($arrRadio[2][1] * $nAmount) / 100.0);
+
+            return $arrRadio;
+        }
         
-        //9레벨일때
         if($objMember->mb_level != MEMBER_EMPLOYEE_LEVEL ) return $arrRadio;
         if($objMember->mb_game_pb_ratio >= 100) return $arrRadio;
         
@@ -449,6 +514,39 @@ class Member_model extends CI_Model {
     
         return true;
 
+    }
+
+    public function permittedUser($objUser)
+    {
+        if(is_null($objUser))
+            return false;
+
+        if($objUser->mb_state_delete == 1 || (int)$objUser->mb_level !== (int)MEMBER_USER_LEVEL)
+            return false;
+
+        $objStore = $this->getInfoByFid($objUser->mb_emp_fid);
+        if(is_null($objStore) || (int)$objStore->mb_state_delete === 1 || (int)$objStore->mb_level !== (int)MEMBER_EMPLOYEE_LEVEL)
+            return false;
+
+        return $this->permittedEmployee($objStore);
+    }
+
+    function childExceedsParentLimits($objParent, $arrReqData){
+        if(is_null($objParent) || !is_array($arrReqData))
+            return false;
+
+        $arrMap = array(
+            'liround' => 'mb_limit_round',
+            'lisingle' => 'mb_limit_single',
+            'limix' => 'mb_limit_mix',
+        );
+        foreach($arrMap as $strReqKey => $strCol){
+            $nParent = isset($objParent->$strCol) ? (int) $objParent->$strCol : 0;
+            $nChild = isset($arrReqData[$strReqKey]) ? (int) $arrReqData[$strReqKey] : 0;
+            if($nParent > 0 && $nChild > $nParent)
+                return true;
+        }
+        return false;
     }
 
     function changePoint($objUser, $nChgPoint){

@@ -86,12 +86,8 @@ function closeEmpBetDlg() {
 
 function showBetDlgData(arrBetData) {
     var tHtml = "";
-    var arrMemberIds = [];
     if (arrBetData != null && arrBetData.length > 0) {
         for (var idx in arrBetData) {
-            var tMemberUid = arrBetData[idx].bet_mb_uid;
-            if (tMemberUid && arrMemberIds.indexOf(tMemberUid) < 0)
-                arrMemberIds.push(tMemberUid);
             tHtml += "<tr class=\"el-table__row\">";
             tHtml += "<td><div class=\"cell\">";
             if (parseInt(arrBetData[idx].bet_game) == 0)
@@ -138,10 +134,6 @@ function showBetDlgData(arrBetData) {
     }
 
     $("#el-dialog-data-id").html(tHtml);
-    var tTitle = "구매내역";
-    if (arrMemberIds.length > 0)
-        tTitle += " (회원: " + arrMemberIds.join(", ") + ")";
-    $("#el-dialog-history-id .el-dialog__title").text(tTitle);
     if (tHtml.length < 1) {
         $("#el-dialog__empty-id").show();
 
@@ -167,7 +159,7 @@ function requestBetStatist() {
         type: "POST",
         dataType: "json",
         data: { json_: jsonData },
-        url: "/bapi/betstatist" + location.search,
+        url: "/mapi/betstatist" + location.search,
         success: function(jResult) {
             // console.log(jResult);
             if (jResult.status == "success") {
@@ -205,7 +197,7 @@ function requestBetHistory() {
         type: "POST",
         dataType: "json",
         data: { json_: jsonData },
-        url: "/bapi/bethistory" + location.search,
+        url: "/mapi/bethistory" + location.search,
         success: function(jResult) {
             // console.log(jResult);
             if (jResult.status == "success") {

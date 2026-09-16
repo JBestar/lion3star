@@ -4,7 +4,7 @@
     <div  class="el-row">
         <div class="star-page-toolbar">
             <button type="button" onclick="showEmpDlg();" class="el-button el-button--primary">
-                <span>매장생성</span>
+                <span>회원생성</span>
             </button>
         </div>
         <div class="el-divider el-divider--horizontal"></div> 
@@ -23,7 +23,7 @@
                     <thead class="has-gutter">
                         <tr class="">
                             <th colspan="1" rowspan="1" class="el-table_15_column_109     is-leaf">
-                                <div class="cell">매장아이디</div>
+                                <div class="cell">회원아이디</div>
                             </th>
                             <th colspan="1" rowspan="1" class="el-table_15_column_110     is-leaf">
                                 <div class="cell">별명</div>
@@ -81,7 +81,7 @@
                         <thead class="">
                             <tr class="">
                                 <th colspan="1" rowspan="1" class="el-table_15_column_109     is-hidden is-leaf">
-                                    <div class="cell">매장아이디</div>
+                                    <div class="cell">회원아이디</div>
                                 </th><th colspan="1" rowspan="1" class="el-table_15_column_110     is-hidden is-leaf">
                                     <div class="cell">별명</div>
                                 </th><th colspan="1" rowspan="1" class="el-table_15_column_111     is-hidden is-leaf">
@@ -152,7 +152,7 @@
                 <div class="el-dialog__body">
                     <form class="el-form" >
                         <div class="el-form-item">
-                            <label class="el-form-item__label" style="width: 100px;">매장아이디</label>
+                            <label class="el-form-item__label" style="width: 100px;">회원아이디</label>
                             <div class="el-form-item__content" style="margin-left: 100px;">
                                 <div class="el-input" id="el-dialog-employee-uid-div">
                                     <input type="text" id="el-dialog-employee-uid" autocomplete="off" class="el-input__inner">
@@ -238,4 +238,4 @@
 
 
 <link rel="stylesheet" href="<?php echo base_url('assets/css/employee-mgmt.css?v=5'); ?>">
-<script src="<?php echo base_url('assets/js/control/main-control.js?v=3'); ?>"></script>
+<script src="<?php echo base_url('assets/js/store/main-control.js?v=3'); ?>"></script>

@@ -3,7 +3,7 @@
     var m_sessHeartbeatTimer = null;
     var SESS_HEARTBEAT_MS = 60000;
     var m_latestNoticeFid = 0;
-    var MSG_SEEN_KEY = "star_control_msg_seen";
+    var MSG_SEEN_KEY = "star_store_msg_seen";
 
     $(document).ready(function() {
 
@@ -17,24 +17,24 @@
 
     function clickMenu(iMenu) {
         if (iMenu == 1) {
-            location.href = "/ctrl" + location.search;
+            location.href = "/m" + location.search;
         } else if (iMenu == 2) {
-            location.href = "/ctrl/statist" + location.search;
+            location.href = "/m/statist" + location.search;
         } else if (iMenu == 3) {
-            location.href = "/ctrl/charge" + location.search;
+            location.href = "/m/charge" + location.search;
         } else if (iMenu == 4) {
-            location.href = "/ctrl/discharge" + location.search;
+            location.href = "/m/discharge" + location.search;
         } else if (iMenu == 5) {
-            location.href = "/ctrl/transform" + location.search;
+            location.href = "/m/transform" + location.search;
         } else if (iMenu == 6) {
-            location.href = "/ctrl/transform2" + location.search;
+            location.href = "/m/transform2" + location.search;
         } else if (iMenu == 7) {
             markMessageMenuSeen();
-            location.href = "/ctrl/message" + location.search;
+            location.href = "/m/message" + location.search;
         } else if (iMenu == 8) {
-            location.href = "/ctrl/cancel" + location.search;
+            location.href = "/m/cancel" + location.search;
         } else if (iMenu == 9) {
-            location.href = "/ctrl/logout" + location.search;
+            location.href = "/m/logout" + location.search;
         }
 
     }
@@ -163,10 +163,8 @@
         }
         $("#emp-ratio-id").text(ratioText);
         updateMessageMenuBadge();
-        if (typeof applyParentLimitPlaceholders === "function" && $("#el-dialog-employee-id").length) {
-            if (!$("#el-dialog-employee-agency-id").length)
-                applyParentLimitPlaceholders(m_objUser);
-        }
+        if (typeof applyParentLimitPlaceholders === "function" && $("#el-dialog-employee-id").length)
+            applyParentLimitPlaceholders(m_objUser);
 
     }
 
@@ -205,7 +203,7 @@
         $.ajax({
             type: "POST",
             dataType: "json",
-            url: "/bapi/heartbeat" + location.search,
+            url: "/mapi/heartbeat" + location.search,
             success: function(jResult) {
                 if (jResult.status === "logout") {
                     stopSessionHeartbeat();
@@ -220,7 +218,7 @@
         $.ajax({
             type: "POST",
             dataType: "json",
-            url: "/bapi/assets" + location.search,
+            url: "/mapi/assets" + location.search,
             success: function(jResult) {
                 //console.log(jResult);
                 if (jResult.status == "success") {
@@ -256,7 +254,7 @@
             type: "POST",
             dataType: "json",
             data: { json_: jsonData },
-            url: "/bapi/charge" + location.search,
+            url: "/mapi/charge" + location.search,
             success: function(jResult) {
 
                 if (jResult.status == "success") {
@@ -286,7 +284,7 @@
             type: "POST",
             dataType: "json",
             data: { json_: jsonData },
-            url: "/bapi/chargehistory" + location.search,
+            url: "/mapi/chargehistory" + location.search,
             success: function(jResult) {
 
                 if (jResult.status == "success") {
@@ -334,7 +332,7 @@
             type: "POST",
             dataType: "json",
             data: { json_: jsonData },
-            url: "/bapi/discharge" + location.search,
+            url: "/mapi/discharge" + location.search,
             success: function(jResult) {
                 //console.log(jResult.data);
                 if (jResult.status == "success") {
@@ -369,7 +367,7 @@
             type: "POST",
             dataType: "json",
             data: { json_: jsonData },
-            url: "/bapi/dischargehistory" + location.search,
+            url: "/mapi/dischargehistory" + location.search,
             success: function(jResult) {
 
                 if (jResult.status == "success") {
@@ -403,7 +401,7 @@
             type: "POST",
             dataType: "json",
             data: { json_: jsonData },
-            url: "/bapi/mileage" + location.search,
+            url: "/mapi/mileage" + location.search,
             success: function(jResult) {
                 // console.log(jResult);
                 if (jResult.status == "success") {
@@ -432,7 +430,7 @@
             type: "POST",
             dataType: "json",
             data: { json_: jsonData },
-            url: "/bapi/mileagehistory" + location.search,
+            url: "/mapi/mileagehistory" + location.search,
             success: function(jResult) {
 
                 if (jResult.status == "success") {
@@ -455,7 +453,7 @@
         $.ajax({
             type: "POST",
             dataType: "json",
-            url: "/bapi/getRecvNewMessage" + location.search,
+            url: "/mapi/getRecvNewMessage" + location.search,
             success: function(jResult) {
                 if (jResult.status == "success") {
                     showNewMessage(jResult.data);

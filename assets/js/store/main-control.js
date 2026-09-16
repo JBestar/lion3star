@@ -82,7 +82,7 @@
                 type: "POST",
                 dataType: "json",
                 data: { json_: jsonData },
-                url: "/bapi/addemployee" + location.search,
+                url: "/mapi/addemployee" + location.search,
                 success: function(jResult) {
 
                     if (jResult.status == "success") {
@@ -93,7 +93,7 @@
                         if (jResult.data == 2)
                             showMessageBox(1, "아이디 중복!");
                         else if (jResult.data == 3)
-                            showMessageBox(1, "수수료율이 총판보다 크게 설정되었습니다.");
+                            showMessageBox(1, "수수료율이 매장보다 크게 설정되었습니다.");
                         else if (jResult.data == 6)
                             showMessageBox(1, "한도가 상위보다 크게 설정되었습니다.");
                         else showMessageBox(1, "저장이 실패되었습니다.");
@@ -110,7 +110,7 @@
                 type: "POST",
                 dataType: "json",
                 data: { json_: jsonData },
-                url: "/bapi/modifyemployee" + location.search,
+                url: "/mapi/modifyemployee" + location.search,
                 success: function(jResult) {
 
                     if (jResult.status == "success") {
@@ -119,7 +119,7 @@
                         requestEmployee();
                     } else if (jResult.status == "fail") {
                         if (jResult.data == 3)
-                            showMessageBox(1, "수수료율이 총판보다 크게 설정되었습니다.");
+                            showMessageBox(1, "수수료율이 매장보다 크게 설정되었습니다.");
                         else if (jResult.data == 6)
                             showMessageBox(1, "한도가 상위보다 크게 설정되었습니다.");
                         else showMessageBox(1, "저장이 실패되었습니다.");
@@ -144,7 +144,7 @@
         $.ajax({
             type: "POST",
             dataType: "json",
-            url: "/bapi/getemployee" + location.search,
+            url: "/mapi/getemployee" + location.search,
             success: function(jResult) {
 
                 if (jResult.status == "success") {

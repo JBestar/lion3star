@@ -56,3 +56,7 @@ $route['translate_uri_dashes'] = FALSE;
 $route['ctrl/login'] = 'control/login';
 $route['ctrl'] = 'control';
 $route['ctrl/(.+)'] = 'control/$1';
+
+$route['m/login'] = 'store/login';
+$route['m'] = 'store';
+$route['m/(.+)'] = 'store/$1';

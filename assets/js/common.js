@@ -139,6 +139,40 @@ function getBetDetail(iMode) {
 }
 
 
+function applyParentLimitPlaceholders(parent) {
+    var $ratio = $("#el-dialog-employee-ratio");
+    var $round = $("#el-dialog-employee-liround");
+    var $single = $("#el-dialog-employee-lisingle");
+    var $mix = $("#el-dialog-employee-limix");
+
+    var ratioVal = (parent && parent.mb_game_pb_ratio != null && String(parent.mb_game_pb_ratio) !== "") ? parent.mb_game_pb_ratio : "";
+    if (ratioVal === "") {
+        $ratio.attr("placeholder", "");
+        $ratio.removeAttr("max");
+    } else {
+        $ratio.attr("placeholder", "최대 " + ratioVal);
+        $ratio.attr("max", ratioVal);
+    }
+
+    function applyLimit($el, val) {
+        if (!$el.length)
+            return;
+        var n = parseInt(val, 10);
+        if (!n || n <= 0) {
+            $el.attr("placeholder", "무제한");
+            $el.removeAttr("max");
+        } else {
+            $el.attr("placeholder", "최대 " + n);
+            $el.attr("max", n);
+        }
+    }
+
+    applyLimit($round, parent ? parent.mb_limit_round : 0);
+    applyLimit($single, parent ? parent.mb_limit_single : 0);
+    applyLimit($mix, parent ? parent.mb_limit_mix : 0);
+}
+
+
 function getBetTypeHtml(type) {
     switch (parseInt(type)) {
         case 1:

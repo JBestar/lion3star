@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class BApi extends CI_Controller {
+class MApi extends CI_Controller {
 
 	public function index()
 	{
@@ -10,7 +10,7 @@ class BApi extends CI_Controller {
 
 	//사용자 로그인
 	public function login(){ 
-		$logHead = "BApi.login ";
+		$logHead = "MApi.login ";
 		$jsonData = isset($_REQUEST['json_']) ? $_REQUEST['json_'] : '';
 		$jsonLen = is_string($jsonData) ? strlen($jsonData) : 0;
 		writeLog($logHead . "start ip=" . $this->input->ip_address() . " json_len=" . $jsonLen);
@@ -35,7 +35,7 @@ class BApi extends CI_Controller {
 		
 		if(!is_null($objUser)){
 
-			if($objUser->mb_state_delete == 0 && $objUser->mb_level == MEMBER_AGENCY_LEVEL){
+			if($objUser->mb_state_delete == 0 && $objUser->mb_level == MEMBER_EMPLOYEE_LEVEL && $this->member_model->permittedEmployee($objUser)){
 				$sessId = $this->session->session_id;
 					
 				$objSess = $this->sess_model->getByUid($objUser->mb_uid);
@@ -64,7 +64,7 @@ class BApi extends CI_Controller {
 				if($nLogId > 0) {
 					writeLog("Login Success uid=".$objUser->mb_uid);
 					//세션 생성
-					$sessData = array('username' => $objUser->mb_uid, 'logged_in'=>TRUE, 'user_level'=>MEMBER_AGENCY_LEVEL);
+					$sessData = array('username' => $objUser->mb_uid, 'logged_in'=>TRUE, 'user_level'=>MEMBER_EMPLOYEE_LEVEL);
 					$this->session->set_userdata($sessData);
 					$this->member_model->updateLogin($objUser);
 					$this->loghist_model->addLog($objUser, 1);
@@ -84,7 +84,7 @@ class BApi extends CI_Controller {
 				}
 
 			} else{
-				writeLog($logHead . "FAIL policy uid=" . $objUser->mb_uid . " mb_level=" . $objUser->mb_level . " need=" . MEMBER_AGENCY_LEVEL . " mb_state_delete=" . $objUser->mb_state_delete);
+				writeLog($logHead . "FAIL policy uid=" . $objUser->mb_uid . " mb_level=" . $objUser->mb_level . " need=" . MEMBER_EMPLOYEE_LEVEL . " mb_state_delete=" . $objUser->mb_state_delete);
 				$arrResult['code'] = 2;
 				$arrResult['status'] = "fail";
 			} 			
@@ -109,7 +109,7 @@ class BApi extends CI_Controller {
 	public function assets(){ 
 		
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL))
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
 		{
 			//model
 			$this->load->model('member_model');
@@ -123,7 +123,7 @@ class BApi extends CI_Controller {
 			$bIsAlive = false;
 			if(!is_null($objUser) && !is_null($objMaintain)){	
 				$objMaintain->conf_active = 0;
-				if($objUser->mb_state_delete == 0 && $objMaintain->conf_active != 1 && $objUser->mb_level == MEMBER_AGENCY_LEVEL)
+				if($objUser->mb_state_delete == 0 && $objMaintain->conf_active != 1 && $objUser->mb_level == MEMBER_EMPLOYEE_LEVEL && $this->member_model->permittedEmployee($objUser))
 					$bIsAlive = true;
 			}
 
@@ -150,7 +150,7 @@ class BApi extends CI_Controller {
 	/** 세션 유지(heartbeat) */
 	public function heartbeat(){
 		$nLogId = trim($this->input->get('l'));
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL)){
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)){
 			echo json_encode(array('status' => 'success'));
 		} else {
 			echo json_encode(array('status' => 'logout'));
@@ -161,7 +161,7 @@ class BApi extends CI_Controller {
 	public function session(){ 
 	
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL))
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
 		{
 			//model
 			$this->load->model('member_model');
@@ -175,7 +175,7 @@ class BApi extends CI_Controller {
 			$bIsAlive = false;
 			if(!is_null($objUser) && !is_null($objMaintain)){	
 				$objMaintain->conf_active = 0;
-				if($objUser->mb_state_delete == 0 && $objMaintain->conf_active != 1 && $objUser->mb_level == MEMBER_AGENCY_LEVEL)
+				if($objUser->mb_state_delete == 0 && $objMaintain->conf_active != 1 && $objUser->mb_level == MEMBER_EMPLOYEE_LEVEL && $this->member_model->permittedEmployee($objUser))
 					$bIsAlive = true;
 			}
 
@@ -205,7 +205,7 @@ class BApi extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL))
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
 		{
 			
 			//model
@@ -241,7 +241,7 @@ class BApi extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 		
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL)) 
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
 		{
 			
 			//model
@@ -273,7 +273,7 @@ class BApi extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL))
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
 		{
 			
 			//model
@@ -310,7 +310,7 @@ class BApi extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 		
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL)) 
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
 		{
 			
 			//model
@@ -342,7 +342,7 @@ class BApi extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL))
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
 		{
 			
 			//model
@@ -373,7 +373,7 @@ class BApi extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 		
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL)) 
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
 		{
 			
 			//model
@@ -400,7 +400,7 @@ class BApi extends CI_Controller {
 	public function getemployee(){ 
 		
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL))
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
 		{
 			
 			//model
@@ -410,8 +410,8 @@ class BApi extends CI_Controller {
 			$strUid = $this->sess_model->getUserId($nLogId);		
 			$objUser = $this->member_model->getInfoByUid($strUid);
 			
-			$arrEmployee = $this->member_model->getEmployee($objUser, MEMBER_EMPLOYEE_LEVEL);
-			$arrActive = $this->sess_model->getActiveEmployeeMbFids($objUser->mb_fid);
+			$arrEmployee = $this->member_model->getEmployee($objUser, MEMBER_USER_LEVEL);
+			$arrActive = $this->sess_model->getActiveEmployeeMbFids($objUser->mb_fid, MEMBER_USER_LEVEL);
 			$arrEmployee = $this->member_model->applyStoreOnlineAndSort($arrEmployee, $arrActive);
 			
 			$arrResult['data'] = $arrEmployee;
@@ -431,7 +431,7 @@ class BApi extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL))
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
 		{
 			
 			//model
@@ -439,7 +439,7 @@ class BApi extends CI_Controller {
 
 			$strUid = $this->sess_model->getUserId($nLogId);		
 			$objUser = $this->member_model->getInfoByUid($strUid);
-			$arrReqData['level'] = MEMBER_EMPLOYEE_LEVEL;
+			$arrReqData['level'] = MEMBER_USER_LEVEL;
 			$iResult = $this->member_model->addEmployee($objUser, $arrReqData);
 			
 			if($iResult == 1)
@@ -463,7 +463,7 @@ class BApi extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL))
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
 		{
 			
 			//model
@@ -471,7 +471,7 @@ class BApi extends CI_Controller {
 
 			$strUid = $this->sess_model->getUserId($nLogId);		
 			$objUser = $this->member_model->getInfoByUid($strUid);
-			$arrReqData['level'] = MEMBER_EMPLOYEE_LEVEL;
+			$arrReqData['level'] = MEMBER_USER_LEVEL;
 			$iResult = $this->member_model->modifyEmployee($objUser, $arrReqData);
 			
 			if($iResult == 1)
@@ -497,7 +497,7 @@ class BApi extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL))
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
 		{
 			$arrResult['status'] = "fail";
 			$arrResult['data'] = 0;
@@ -514,7 +514,7 @@ class BApi extends CI_Controller {
 		$jsonData = $_REQUEST['json_'];
 		$arrReqData = json_decode($jsonData, true);
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL))
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
 		{
 
 			//model
@@ -524,7 +524,7 @@ class BApi extends CI_Controller {
 			$strUid = $this->sess_model->getUserId($nLogId);		
 			$objUser = $this->member_model->getInfoByUid($strUid);
 
-			$arrBetData = $this->pbbet_model->searchByAgencyStores($objUser, $arrReqData);
+			$arrBetData = $this->pbbet_model->searchByAgent($objUser, $arrReqData);
 			
 			$arrResult['status'] = "success";
 			$arrResult['data'] = $arrBetData;
@@ -543,7 +543,7 @@ class BApi extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 		
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL)) 
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
 		{
 			
 			//model
@@ -555,22 +555,9 @@ class BApi extends CI_Controller {
 
 			$arrBetData = null;
 			if(!is_null($objUser)){
+				$arrReqData['emp_fid'] = $objUser->mb_fid;
 				$arrReqData['mb_name'] = "";
 				$arrReqData['round_fid'] = "";
-				$strClickUid = "";
-				if(array_key_exists('mb_uid', $arrReqData))
-					$strClickUid = $arrReqData['mb_uid'];
-				$objStore = (strlen($strClickUid) > 0) ? $this->member_model->getInfoByUid($strClickUid) : null;
-				if(!is_null($objStore) && (int)$objStore->mb_level === (int)MEMBER_EMPLOYEE_LEVEL && (int)$objStore->mb_emp_fid === (int)$objUser->mb_fid){
-					$arrReqData['emp_fid'] = $objStore->mb_fid;
-					$arrReqData['mb_uid'] = "";
-				} else {
-					$arrReqData['agency_fid'] = $objUser->mb_fid;
-					if(isset($arrReqData['emp_fid']))
-						unset($arrReqData['emp_fid']);
-					if(!array_key_exists('mb_uid', $arrReqData))
-						$arrReqData['mb_uid'] = "";
-				}
 				$arrBetData = $this->pbbet_model->search($arrReqData);
 			}
 
@@ -591,7 +578,7 @@ class BApi extends CI_Controller {
 	public function emplist(){
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL)) 
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
 		{
 
 			//model
@@ -619,7 +606,7 @@ class BApi extends CI_Controller {
 	public function waitTransfer(){
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL)) 
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
 		{
 
 			//model
@@ -661,7 +648,7 @@ class BApi extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL)) 
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
 		{
 
 			//model
@@ -698,7 +685,7 @@ class BApi extends CI_Controller {
 		
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL)) 
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
 		{
 			$iCode = 0;
 			$this->load->model('charge_model');
@@ -775,7 +762,7 @@ class BApi extends CI_Controller {
 		
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL)) 
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
 		{
 
 			$this->load->model('charge_model');
@@ -832,7 +819,7 @@ class BApi extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL)) 
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
 		{
 
 			//model
@@ -869,7 +856,7 @@ class BApi extends CI_Controller {
 		
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL)) 
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
 		{
 
 			$this->load->model('discharge_model');
@@ -953,7 +940,7 @@ class BApi extends CI_Controller {
 		
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL)) 
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
 		{
 
 			$this->load->model('discharge_model');
@@ -1009,7 +996,7 @@ class BApi extends CI_Controller {
 		$jsonData = $_REQUEST['json_'];
 		$arrReqData = json_decode($jsonData, true);
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL))
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
 		{
 
 			//model
@@ -1038,7 +1025,7 @@ class BApi extends CI_Controller {
 		$jsonData = $_REQUEST['json_'];
 		$arrReqData = json_decode($jsonData, true);
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL))
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
 		{
 
 			//model
@@ -1075,7 +1062,7 @@ class BApi extends CI_Controller {
 		$jsonData = $_REQUEST['json_'];
 		$arrReqData = json_decode($jsonData, true);
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL))
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
 		{
 
 			//model
@@ -1113,7 +1100,7 @@ class BApi extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL))
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
 		{	
 			//model
 			$this->load->model('member_model');
@@ -1147,7 +1134,7 @@ class BApi extends CI_Controller {
 	public function getmessage(){
 		
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL)) 
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
 		{
 			
 			//model
@@ -1176,7 +1163,7 @@ class BApi extends CI_Controller {
 		$arrReqData = json_decode($jsonData, true);
 
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL))
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
 		{	
 			//model
 			$this->load->model('member_model');
@@ -1216,7 +1203,7 @@ class BApi extends CI_Controller {
 	public function getRecvNewMessage(){
 		
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_AGENCY_LEVEL)) 
+		if(is_login() &&  $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL)) 
 		{
 			
 			//model

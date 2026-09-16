@@ -8,7 +8,7 @@ class Home extends CI_Controller {
 
 		$nLogId = trim($this->input->get('l'));	
 		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL))
 		{
 			$this->load->model('confsite_model');
 			$strSiteName = $this->confsite_model->getSiteName();
@@ -24,7 +24,7 @@ class Home extends CI_Controller {
 	public function pbg()
 	{
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL))
 		{
 			$this->load->model('confsite_model');
 			
@@ -40,7 +40,7 @@ class Home extends CI_Controller {
 	public function coin_5()
 	{
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL))
 		{
 			$this->load->model('confsite_model');
 			
@@ -56,7 +56,7 @@ class Home extends CI_Controller {
 	public function eos_5()
 	{
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL))
 		{
 			$this->load->model('confsite_model');
 			
@@ -74,7 +74,7 @@ class Home extends CI_Controller {
 		$nLogId = trim($this->input->get('l'));	
 		$nRoundId = trim($this->input->get('r'));
 		$nGameId = trim($this->input->get('g'));
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL))
 		{
 			$this->load->model('confsite_model');
 			$strSiteName = $this->confsite_model->getSiteName();
@@ -105,7 +105,7 @@ class Home extends CI_Controller {
 	public function logout()
 	{
 		$nLogId = trim($this->input->get('l'));		
-		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_EMPLOYEE_LEVEL))
+		if(is_login() && $this->sess_model->is_login($nLogId, MEMBER_USER_LEVEL))
 		{
 			$this->sess_model->logout($nLogId);
 		}

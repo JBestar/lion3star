@@ -7,6 +7,10 @@
         requestEmployee();
         setInterval(requestEmployee, 10000);
 
+        $("#el-dialog-employee-agency-id").on("change", function() {
+            applyStoreDlgPlaceholders();
+        });
+
     });
 
     function showEmpDlg() {
@@ -26,6 +30,22 @@
         $("#el-dialog-employee-uid-div").removeClass("is-disabled");
         $("#el-dialog-employee-agency-id").prop("disabled", false);
         setAgencyOptions("");
+        applyStoreDlgPlaceholders();
+    }
+
+    function getAgencyByFid(fid) {
+        if (!fid || m_arrAgency == null)
+            return null;
+        for (var i = 0; i < m_arrAgency.length; i++) {
+            if (String(m_arrAgency[i].mb_fid) === String(fid))
+                return m_arrAgency[i];
+        }
+        return null;
+    }
+
+    function applyStoreDlgPlaceholders() {
+        if (typeof applyParentLimitPlaceholders === "function")
+            applyParentLimitPlaceholders(getAgencyByFid($("#el-dialog-employee-agency-id").val()));
     }
 
     function setAgencyOptions(selectedFid) {
@@ -72,6 +92,7 @@
 
         setAgencyOptions(m_arrEmployee[idx].mb_emp_fid);
         $("#el-dialog-employee-agency-id").prop("disabled", true);
+        applyStoreDlgPlaceholders();
         $("#el-dialog-employee-uid").val(m_arrEmployee[idx].mb_uid);
         $("#el-dialog-employee-uid").attr("disabled", true);
         $("#el-dialog-employee-uid").attr("index", m_arrEmployee[idx].mb_fid);
@@ -174,6 +195,8 @@
                             showMessageBox(1, "아이디 중복!");
                         else if (jResult.data == 3)
                             showMessageBox(1, "수수료율이 총판보다 크게 설정되었습니다.");
+                        else if (jResult.data == 6)
+                            showMessageBox(1, "한도가 상위보다 크게 설정되었습니다.");
                         else showMessageBox(1, "저장이 실패되었습니다.");
                     } else if (jResult.status == "logout") {
                         location.reload();
@@ -198,6 +221,8 @@
                     } else if (jResult.status == "fail") {
                         if (jResult.data == 3)
                             showMessageBox(1, "수수료율이 총판보다 크게 설정되었습니다.");
+                        else if (jResult.data == 6)
+                            showMessageBox(1, "한도가 상위보다 크게 설정되었습니다.");
                         else showMessageBox(1, "저장이 실패되었습니다.");
                     } else if (jResult.status == "logout") {
                         location.reload();
