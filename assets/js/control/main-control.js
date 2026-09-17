@@ -277,7 +277,23 @@
         $("#main-employee1-id").html(tHtml1);
         $("#main-employee2-id").html(tHtml2);
 
+        syncEmployeeFixedRowHeights();
         syncEmployeeTableScroll(nScrollTop);
+    }
+
+    /** 본문 행 높이에 고정열(기능) 행을 맞춰 스크롤/뱃지로 인한 어긋남 방지 */
+    function syncEmployeeFixedRowHeights() {
+        var $wrap = $(".employee-mgmt-table");
+        if (!$wrap.length) return;
+        var $mainRows = $wrap.find(".el-table__body-wrapper > .el-table__body > tbody > tr");
+        var $fixedRows = $wrap.find(".el-table__fixed-body-wrapper > .el-table__body > tbody > tr");
+        $fixedRows.each(function(i) {
+            var $main = $mainRows.eq(i);
+            if (!$main.length) return;
+            var h = $main.outerHeight();
+            $(this).css("height", h);
+            $(this).children("td").css("height", h);
+        });
     }
 
     function syncEmployeeTableScroll(preserveTop) {

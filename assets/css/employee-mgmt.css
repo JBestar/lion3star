@@ -1,22 +1,53 @@
-/* 매장관리 online badge only (layout moved to star-page-shell.css) */
-
-@keyframes employee-mgmt-online-pulse {
-    0%, 100% {
-        color: #b8f0c8;
-        box-shadow: 0 0 0 1px rgba(103, 194, 58, 0.35);
-        background-color: rgba(103, 194, 58, 0.12);
-    }
-    50% {
-        color: #67c23a;
-        box-shadow: 0 0 0 2px rgba(103, 194, 58, 0.85);
-        background-color: rgba(103, 194, 58, 0.22);
-    }
-}
-
-.employee-mgmt-online-uid {
-    display: inline-block;
-    padding: 1px 6px;
-    border-radius: 3px;
-    font-weight: 600;
-    animation: employee-mgmt-online-pulse 1.8s ease-in-out infinite;
-}
+/* 매장/총판 회원·매장관리 — 온라인 뱃지 + 기능열 아이콘 정렬 */
+
+@keyframes employee-mgmt-online-pulse {
+    0%, 100% {
+        color: #b8f0c8;
+        box-shadow: 0 0 0 1px rgba(103, 194, 58, 0.35);
+        background-color: rgba(103, 194, 58, 0.12);
+    }
+    50% {
+        color: #67c23a;
+        box-shadow: 0 0 0 2px rgba(103, 194, 58, 0.85);
+        background-color: rgba(103, 194, 58, 0.22);
+    }
+}
+
+.employee-mgmt-online-uid {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-weight: 600;
+    line-height: 1.35;
+    vertical-align: middle;
+    animation: employee-mgmt-online-pulse 1.8s ease-in-out infinite;
+}
+
+/* 기능 컬럼 편집 아이콘 — 셀/버튼 세로 중앙 */
+.employee-mgmt-table .el-table__fixed-right td .cell,
+.employee-mgmt-table .el-table__body-wrapper td .cell:has(.star-icon-btn) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.employee-mgmt-table .star-icon-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    line-height: 1 !important;
+    vertical-align: middle;
+    padding: 7px 10px !important;
+    min-width: 34px;
+    box-sizing: border-box;
+}
+
+.employee-mgmt-table .star-icon-btn i,
+.employee-mgmt-table .star-icon-btn .fas {
+    display: block;
+    line-height: 1;
+    margin: 0;
+    position: relative;
+    top: 0;
+}
