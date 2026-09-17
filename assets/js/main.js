@@ -2415,7 +2415,10 @@ function showBetHistoryDlgData(arrBetData) {
             tHtml += arrBetData[idx].bet_ratio;
             tHtml += "</div></td>";
             tHtml += "<td><div class=\"cell\">";
-            tHtml += arrBetData[idx].bet_empl_amount;
+            // 회원 적립 포인트 (수수료율 × 배팅금액 / 100). API bethistory에서도 동일 값으로 내려줌.
+            var nMemberPoint = Math.round(parseFloat(m_objUser.mb_game_pb_ratio) * parseInt(arrBetData[idx].bet_money, 10) / 100);
+            if (isNaN(nMemberPoint)) nMemberPoint = parseInt(arrBetData[idx].bet_empl_amount, 10) || 0;
+            tHtml += nMemberPoint.toLocaleString();
             tHtml += "</div></td>";
             tHtml += "<td><div class=\"cell\">";
             tHtml += parseInt(arrBetData[idx].bet_win_money).toLocaleString();

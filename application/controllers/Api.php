@@ -860,6 +860,15 @@ class Api extends CI_Controller {
 			$arrReqData['max_count'] = 300;
 			$arrBetData = $this->pbbet_model->search($arrReqData);
 
+			// 회원 배팅내역 포인트: 매장분(bet_empl_amount)이 아니라 회원 적립분 표시
+			$objUser = $this->member_model->getInfoByUid($strUid);
+			$nUserRatio = (!is_null($objUser)) ? (float)$objUser->mb_game_pb_ratio : 0.0;
+			if(is_array($arrBetData)){
+				foreach($arrBetData as $objBetRow){
+					$objBetRow->bet_empl_amount = (int)round(($nUserRatio * (float)$objBetRow->bet_money) / 100.0);
+				}
+			}
+
 			$objResult = new StdClass;
 			$objResult->data = $arrBetData;		
 			$objResult->status = "success";
