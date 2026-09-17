@@ -4,12 +4,16 @@
     var SESS_HEARTBEAT_MS = 60000;
     var m_latestNoticeFid = 0;
     var MSG_SEEN_KEY = "star_store_msg_seen";
+    var WAIT_ALARM_INTERVAL_MS = 10000;
+    var m_lastWaitAlarmAt = 0;
+    var m_hasPendingWait = false;
 
     $(document).ready(function() {
 
         requestMemberInfo();
         startSessionHeartbeat();
         requestRecvMessage();
+        requestWaitTransfer();
         addEventListner();
         startWorker();
     });
@@ -178,6 +182,48 @@
         }
         $("#message-marquee-id").text(tMessage);
         updateMessageMenuBadge();
+    }
+
+    /** 미처리 충·환전 알림음. 대기 중이면 10초 간격으로 반복, 없으면 즉시 중지 */
+    function showWaitTansfer(arrTransfer) {
+        if (arrTransfer == null || arrTransfer.length != 2)
+            return;
+
+        var hasCharge = arrTransfer[0] > 0;
+        var hasDischarge = arrTransfer[1] > 0;
+        var hasPending = hasCharge || hasDischarge;
+
+        if (!hasPending) {
+            stopTransferAlarm();
+            return;
+        }
+
+        m_hasPendingWait = true;
+        var now = Date.now();
+        if (m_lastWaitAlarmAt > 0 && (now - m_lastWaitAlarmAt) < WAIT_ALARM_INTERVAL_MS)
+            return;
+        m_lastWaitAlarmAt = now;
+
+        if (hasCharge)
+            speak("사랑합니다.", { rate: 1, pitch: 1.2 });
+        else if (hasDischarge)
+            speak("미안합니다.", { rate: 1, pitch: 1.2 });
+    }
+
+    function stopTransferAlarm() {
+        m_hasPendingWait = false;
+        m_lastWaitAlarmAt = 0;
+        if (typeof window.speechSynthesis !== "undefined")
+            window.speechSynthesis.cancel();
+    }
+
+    /** 충·환전 처리 직후: 재생 중인 알림음 즉시 끄고 대기 상태 재조회 */
+    function notifyTransferProcessed() {
+        if (typeof window.speechSynthesis !== "undefined")
+            window.speechSynthesis.cancel();
+        // 다른 미처리 건이 남아도 바로 다시 울리지 않도록 간격 리셋
+        m_lastWaitAlarmAt = Date.now();
+        requestWaitTransfer();
     }
 
     function hasSessionLogId() {
@@ -457,6 +503,27 @@
             success: function(jResult) {
                 if (jResult.status == "success") {
                     showNewMessage(jResult.data);
+                } else if (jResult.status == "logout") {
+                    location.reload();
+                }
+            },
+            error: function(request, status, error) {
+
+            }
+        });
+
+    }
+
+
+    function requestWaitTransfer() {
+
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "/mapi/waitTransfer" + location.search,
+            success: function(jResult) {
+                if (jResult.status == "success") {
+                    showWaitTansfer(jResult.data);
                 } else if (jResult.status == "logout") {
                     location.reload();
                 }
@@ -837,6 +904,25 @@
         if (nCurSec % 5 == 0) {
             requestMemberInfo();
             requestRecvMessage();
+            requestWaitTransfer();
         }
 
+    }
+
+
+    function speak(text, opt_prop) {
+        if (typeof SpeechSynthesisUtterance === "undefined" || typeof window.speechSynthesis === "undefined") {
+            return;
+        }
+
+        window.speechSynthesis.cancel();
+
+        var prop = opt_prop || {};
+        var speechMsg = new SpeechSynthesisUtterance();
+        speechMsg.rate = prop.rate != null ? prop.rate : 1;
+        speechMsg.pitch = prop.pitch != null ? prop.pitch : 1;
+        speechMsg.lang = "ko-KR";
+        speechMsg.text = text;
+
+        window.speechSynthesis.speak(speechMsg);
     }

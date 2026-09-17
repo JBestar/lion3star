@@ -278,6 +278,7 @@
                 {
                     showAlertBox(0, "처리완료!");
                     todayDischarge();
+                    if (typeof notifyTransferProcessed === "function") notifyTransferProcessed();
                     setTimeout( function() {requestMemberInfo();}, 1000);  
                 } else if(jResult.status == "fail"){
                     if(jResult.data == 2)
@@ -316,6 +317,7 @@
                  {
                      showAlertBox(1, "처리완료!");
                      todayDischarge();
+                     if (typeof notifyTransferProcessed === "function") notifyTransferProcessed();
                      setTimeout( function() {requestMemberInfo();}, 1000);  
                  } else if(jResult.status == "fail"){
                      if(jResult.data == 2)
