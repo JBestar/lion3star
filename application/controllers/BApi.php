@@ -894,38 +894,54 @@ class BApi extends CI_Controller {
 						} else
 						*/ 
 						if($arrReqData['discharge_proc'] == 1){		//승인
-							//charge Table 
-							$objDischarge->exchange_action_state = 2;
-							$objDischarge->exchange_action_uid = $objAdmin->mb_uid;
-							$bResult = $this->discharge_model->permit($objDischarge);
-							$iResult = $bResult?1:0;
-					
-							/*
-							if((int)$objUser->mb_money < (int)$objDischarge->exchange_money)
-								$iResult = 2;
-							else {
+							// 매장 환전신청(MApi::discharge)은 신청 시 머니를 이동하지 않으므로 총판 확인 시점에 매장 → 총판 이동
+							$nExchangeMoney = (int)$objDischarge->exchange_money;
+							$nAdminFid = (int)$objAdmin->mb_fid;
+							$nUserFid = (int)$objUser->mb_fid;
 
-								
-								$nDtMoney = 0 - $objDischarge->exchange_money;
-								$bResult = $this->member_model->moneyProc($objAdmin, $objDischarge->exchange_money);
-								$bResult = $this->member_model->moneyProc($objUser, $nDtMoney);
+							$this->db->trans_begin();
+
+							// 중복 클릭·동시 요청 시 이중 이동 방지: 신청 행 → 회원 행(fid 오름차순) 순서로 잠근 뒤 재검증
+							$objLocked = $this->discharge_model->getByFidForUpdate($objDischarge->exchange_fid);
+							$arrLockFid = array($nAdminFid, $nUserFid);
+							sort($arrLockFid);
+							$arrLockMoney = array();
+							foreach($arrLockFid as $nLockFid)
+								$arrLockMoney[$nLockFid] = $this->member_model->getMoneyForUpdate($nLockFid);
+
+							if(is_null($objLocked) || (int)$objLocked->exchange_action_state !== 1 || $nExchangeMoney < 1
+								|| is_null($arrLockMoney[$nAdminFid]) || is_null($arrLockMoney[$nUserFid])){
+								$this->db->trans_rollback();
+							} else if($arrLockMoney[$nUserFid] < $nExchangeMoney){
+								$this->db->trans_rollback();
+								$iResult = 2;
+							} else {
+								$bResult = $this->member_model->moneyProc($objAdmin, $nExchangeMoney);
+								if($bResult)
+									$bResult = $this->member_model->moneyProc($objUser, 0 - $nExchangeMoney);
 								if($bResult){
 									//moneyhistory Table
 									$objUser->mb_emp_uid = $objAdmin->mb_uid;
-									$this->moneyhistory_model->registerDischarge($objUser, $objDischarge->exchange_money);
+									$bResult = $this->moneyhistory_model->registerDischarge($objUser, $nExchangeMoney);
+								}
+								if($bResult){
 									$objAdmin->mb_emp_uid = $objUser->mb_uid;
-									$this->moneyhistory_model->registerDischargeFrom($objAdmin, $objDischarge->exchange_money);
-									
-									//charge Table 
+									$bResult = $this->moneyhistory_model->registerDischargeFrom($objAdmin, $nExchangeMoney);
+								}
+								if($bResult){
+									//discharge Table
 									$objDischarge->exchange_action_state = 2;
 									$objDischarge->exchange_action_uid = $objAdmin->mb_uid;
-									$objDischarge->exchange_money_after = $objUser->mb_money-$objDischarge->exchange_money;
+									$objDischarge->exchange_money_after = $objUser->mb_money - $nExchangeMoney;
 									$bResult = $this->discharge_model->permit($objDischarge);
-									$iResult = $bResult?1:0;
 								}
-									
-							}	
-							*/
+
+								if($bResult && $this->db->trans_status() !== FALSE && $this->db->trans_commit()){
+									$iResult = 1;
+								} else {
+									$this->db->trans_rollback();
+								}
+							}
 						}
 					}
 				}

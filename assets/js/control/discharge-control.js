@@ -282,7 +282,7 @@
                     setTimeout( function() {requestMemberInfo();}, 1000);  
                 } else if(jResult.status == "fail"){
                     if(jResult.data == 2)
-                        showMessageBox(1, "총판보유머니가 부족합니다.");
+                        showMessageBox(1, "매장 보유머니가 부족합니다.");
                     else
                         showMessageBox(1, "환전처리가 실패되었습니다.");
                 } else if(jResult.status == "logout"){

@@ -618,6 +618,15 @@ class Member_model extends CI_Model {
     }
 
 
+    /** 트랜잭션 내부에서만 호출 — 커밋/롤백 전까지 회원 머니 행 잠금 */
+    public function getMoneyForUpdate($nFid){
+        $strSql = "SELECT mb_money FROM ".$this->mTableName." WHERE mb_fid=? FOR UPDATE";
+        $objQuery = $this->db->query($strSql, array((int)$nFid));
+        if($objQuery === FALSE) return null;
+        $objRow = $objQuery->row();
+        return is_null($objRow) ? null : (int)$objRow->mb_money;
+    }
+
     public function moneyProc(&$objUser, $dtMoney, $dtPoint=0){
        
         

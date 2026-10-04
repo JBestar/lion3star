@@ -17,6 +17,14 @@ class Discharge_model extends CI_Model {
         return $this->db->get($this->mTableName)->row();
     }
 
+    /** 트랜잭션 내부에서만 호출 — 처리 완료까지 신청 행 잠금 */
+    public function getByFidForUpdate($nFId){
+        $strSql = "SELECT * FROM ".$this->mTableName." WHERE exchange_fid=? AND exchange_client_delete=0 FOR UPDATE";
+        $objQuery = $this->db->query($strSql, array((int)$nFId));
+        if($objQuery === FALSE) return null;
+        return $objQuery->row();
+    }
+
     public function getByUid($strId){
          $this->db->where('exchange_mb_uid', $strId);
         $this->db->where('exchange_client_delete', '0');
