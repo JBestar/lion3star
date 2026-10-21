@@ -240,6 +240,7 @@
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 700;
   overflow: hidden;
+  padding-bottom: 0;
 }
 
 /* 바깥 고정 높이(620px) 해제 — 목록 높이는 JS가 회차별 베팅정보 밑선에 맞춤 */
@@ -248,7 +249,14 @@
   overflow: visible;
 }
 
-.senior-left .senior-bet-table-head td {
+/* 목록을 감싸는 칸: 헤더 배경·밑줄 없이 바깥 박스와 한 면으로 */
+.senior-left .senior-bet-table-head > tbody > tr:last-child > td {
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0;
+}
+
+.senior-left .senior-bet-table-head > tbody > tr:first-child > td {
   background: linear-gradient(180deg, #2a3142 0%, #1c2230 100%) !important;
   border-bottom: 1px solid rgba(212, 160, 23, 0.4) !important;
   color: var(--star-gold-light) !important;
