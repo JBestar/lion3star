@@ -1386,7 +1386,7 @@ class CApi extends CI_Controller {
 		return $rules;
 	}
 
-	/** PB 파워볼 현재 회차·배팅구간 (Api::pbcurrentgame 과 동일 산출) */
+	/** PB 파워볼 현재 회차·베팅구간 (Api::pbcurrentgame 과 동일 산출) */
 	private function buildPbRoundstatContext(&$arrBetPhaseOut = null){
 
 		$this->load->model('pbround_model');
@@ -1435,7 +1435,7 @@ class CApi extends CI_Controller {
 			);
 		}
 
-		/* 추첨(라운드 종료)까지: 유저쪽 betcloserest와 동일하게 배팅 중에도 round_end 기준 카운트다운 */
+		/* 추첨(라운드 종료)까지: 유저쪽 betcloserest와 동일하게 베팅 중에도 round_end 기준 카운트다운 */
 		$nUntilDraw = (int) $tmRoundEnd;
 		$pbgDrawnAtSlot = pballKstDrawnAtSlotFromUnix($nUntilDraw);
 		$payload = array(
@@ -1450,7 +1450,7 @@ class CApi extends CI_Controller {
 			'round_date' => isset($arrRoundData['round_date']) ? $arrRoundData['round_date'] : '',
 			'betting_open' => $betting_open,
 			'countdown_sec' => $sec_round_end,
-			'phase_label' => $betting_open ? '배팅중' : '배팅종료'
+			'phase_label' => $betting_open ? '베팅중' : '베팅종료'
 		);
 		return array($payload, $arrRoundData);
 	}

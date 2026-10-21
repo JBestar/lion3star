@@ -66,6 +66,18 @@ function writeAccLog($fLog, $msg)
 	}
 }
 
+function writeRoundBalanceLog($fLog, $arrResult)
+{
+	$msg = 'round-balance status=' . $arrResult['status'];
+	if (isset($arrResult['round_fid'])) {
+		$msg .= ' round_fid=' . $arrResult['round_fid'];
+	}
+	if (isset($arrResult['inserted'])) {
+		$msg .= ' inserted=' . $arrResult['inserted'];
+	}
+	writeAccLog($fLog, $msg);
+}
+
 /** 직전(완료) 5분 회차 */
 function getLastRoundInfo($roundMin = 5)
 {

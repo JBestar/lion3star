@@ -1,13 +1,13 @@
 /* main.css Material .green / .red / .orange use !important background — overrides Vue-scoped text colors */
 
-/* 배팅마감 오버레이(betLock z-index)보다 항상 위: 모든 다이얼로그·메시지·알림 */
+/* 베팅마감 오버레이(betLock z-index)보다 항상 위: 모든 다이얼로그·메시지·알림 */
 .main-container-wrap .el-dialog__wrapper,
 .main-container-wrap #el-message-box-id,
 .main-container-wrap #el-alert-box-id {
     z-index: 100050 !important;
 }
 
-/* 알림은 보이되 배팅·게임 선택은 막지 않음 (인쇄 중 연속 배팅) */
+/* 알림은 보이되 베팅·게임 선택은 막지 않음 (인쇄 중 연속 베팅) */
 .main-container-wrap #el-alert-box-id.el-alert-box__wrapper {
     pointer-events: none;
 }
@@ -221,7 +221,7 @@
     border-bottom: 3px solid rgb(255, 208, 75);
 }
 
-/* 포인트신청 / 배팅내역 / 충전 / 환전 / 시스템 메시지창: 프로젝트 기본 el-button 스타일 유지 */
+/* 포인트신청 / 베팅내역 / 충전 / 환전 / 시스템 메시지창: 프로젝트 기본 el-button 스타일 유지 */
 #el-dialog-mileage-id .el-button,
 #el-dialog-bethistory-id .el-button,
 #el-dialog-charge-id .el-button,
@@ -326,7 +326,7 @@
     padding: 9px 15px !important;
 }
 
-/* 배팅리스트 — 회차 구분선 */
+/* 베팅리스트 — 회차 구분선 */
 .senior-bet-list-head #bet_list #client-bet-list-tbody tr.senior-bet-round-sep td {
     height: 4px !important;
     padding: 0 !important;
@@ -335,7 +335,7 @@
     border: 0 !important;
 }
 
-/* 배팅리스트 회차: 밝음/어둠 배경 교대 (같은 회차는 동일 색) */
+/* 베팅리스트 회차: 밝음/어둠 배경 교대 (같은 회차는 동일 색) */
 .senior-bet-list-head #bet_list #client-bet-list-tbody tr.senior-bet-list-row.senior-bet-list-stripe-a td {
     background-color: #9d9da9 !important;
     border-bottom-color: #565964 !important;
@@ -345,7 +345,7 @@
     border-bottom-color: #979a9f !important;
 }
 
-/* 회차·선택·배팅금·당첨금 — 행마다 동일 글자색 (결과 열 제외) */
+/* 회차·선택·베팅금·당첨금 — 행마다 동일 글자색 (결과 열 제외) */
 .senior-bet-list-head #bet_list #client-bet-list-tbody tr.senior-bet-list-row.senior-bet-list-stripe-a td:not(.senior-bet-col-result),
 .senior-bet-list-head #bet_list #client-bet-list-tbody tr.senior-bet-list-row.senior-bet-list-stripe-a td:not(.senior-bet-col-result) a {
     color: #1e2633 !important;

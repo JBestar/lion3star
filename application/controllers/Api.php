@@ -318,7 +318,7 @@ class Api extends CI_Controller {
 			$bBetRessult = false;
 			 
 
-			if($gameId == GAME_POWERBALL){							//파워볼 일회차 배팅
+			if($gameId == GAME_POWERBALL){							//파워볼 일회차 베팅
 				$this->load->model('pbbet_model');
 				
 				$objConfig = $this->confgame_model->getByIndex($gameId);
@@ -342,7 +342,7 @@ class Api extends CI_Controller {
 					if($iResult == 1){
 						$arrEmpRatio = $this->member_model->getEmployeePbRatio($objUser, $arrBetData['amount']);
 						
-						//배팅에 성공하면 거래내역에 반영,유저머니 변경
+						//베팅에 성공하면 거래내역에 반영,유저머니 변경
 						$bResult = $this->member_model->moneyHistoryProc($objUser->mb_fid, $arrBetData, $arrEmpRatio[2][2], MONEYCHANGE_BET);
 						if($bResult)
 							$iBetFid = $this->pbbet_model->addBetRound($arrBetData, $objUser, $arrEmpRatio);
@@ -351,7 +351,7 @@ class Api extends CI_Controller {
 				} else {
 					$iResult = 11;
 				}
-			} else if($gameId == GAME_COIN_5) {							//코인파워볼 일회차 배팅
+			} else if($gameId == GAME_COIN_5) {							//코인파워볼 일회차 베팅
 				$this->load->model('pbbet_model');
 				
 				$arrRoundData = getPballRoundInfo($gameId);					//계산된 회차결과
@@ -378,7 +378,7 @@ class Api extends CI_Controller {
 					if($iResult == 1){
 						$arrEmpRatio = $this->member_model->getEmployeePbRatio($objUser, $arrBetData['amount']);
 						
-						//배팅에 성공하면 거래내역에 반영,유저머니 변경
+						//베팅에 성공하면 거래내역에 반영,유저머니 변경
 						$bResult = $this->member_model->moneyHistoryProc($objUser->mb_fid, $arrBetData, $arrEmpRatio[2][2], MONEYCHANGE_BET);
 						if($bResult)
 							$iBetFid = $this->pbbet_model->addBetRound($arrBetData, $objUser, $arrEmpRatio);
@@ -387,7 +387,7 @@ class Api extends CI_Controller {
 				} else {
 					$iResult = 11;
 				}
-			} else if($gameId == GAME_EOS_5) {							//EOS파워볼 일회차 배팅
+			} else if($gameId == GAME_EOS_5) {							//EOS파워볼 일회차 베팅
 				$this->load->model('pbbet_model');
 				
 				$arrRoundData = getPballRoundInfo($gameId);					//계산된 회차결과
@@ -414,7 +414,7 @@ class Api extends CI_Controller {
 					if($iResult == 1){
 						$arrEmpRatio = $this->member_model->getEmployeePbRatio($objUser, $arrBetData['amount']);
 						
-						//배팅에 성공하면 거래내역에 반영,유저머니 변경
+						//베팅에 성공하면 거래내역에 반영,유저머니 변경
 						$bResult = $this->member_model->moneyHistoryProc($objUser->mb_fid, $arrBetData, $arrEmpRatio[2][2], MONEYCHANGE_BET);
 						if($bResult)
 							$iBetFid = $this->pbbet_model->addBetRound($arrBetData, $objUser, $arrEmpRatio);
@@ -642,7 +642,7 @@ class Api extends CI_Controller {
 
 	/**
 	 * BIXOLON WebDriver 등 클라이언트 영수증 프린트 단계별 디버그 → application/logs/receipt_print_날짜.log
-	 * (프린터 없이 현장에서 배팅·영수증 시도 시 수집)
+	 * (프린터 없이 현장에서 베팅·영수증 시도 시 수집)
 	 */
 	public function receiptprintlog() {
 		$jsonData = isset($_REQUEST['json_']) ? $_REQUEST['json_'] : '';
@@ -690,6 +690,11 @@ class Api extends CI_Controller {
 
 			$objResult = new StdClass;
 			$objResult->bets = $arrBets;
+			if($nGameId == GAME_POWERBALL && isset($arrReqData['round_fids']) && is_array($arrReqData['round_fids'])){
+				$objUser = $this->member_model->getInfoByUid($strUid);
+				$nMoney = is_null($objUser) ? 0 : intval($objUser->mb_money);
+				$objResult->round_summary = $this->getRoundSummary($strUid, $nGameId, $arrReqData['round_fids'], $nMoney);
+			}
 			$objResult->status = "success";
 
 			echo json_encode($objResult);
@@ -697,6 +702,58 @@ class Api extends CI_Controller {
 			$arrResult['status'] = "logout";
 			echo json_encode($arrResult);
 		}
+	}
+
+	/**
+	 * 회차별 베팅정보: 베팅금·건수·당첨금·보유금액.
+	 * 정산 완료 회차: 당첨금 합 + 정산 서비스 스냅샷 보유금액.
+	 * 결과 대기 회차: 당첨금 0, 보유금액 = 현재 머니 + 이후 회차 대기 베팅금.
+	 */
+	private function getRoundSummary($strUid, $nGameId, $arrReqFids, $nMoney){
+		$arrFids = array();
+		foreach($arrReqFids as $fid){
+			$fid = intval($fid);
+			if($fid > 0 && !in_array($fid, $arrFids, true))
+				$arrFids[] = $fid;
+			if(count($arrFids) >= 10)
+				break;
+		}
+		if(count($arrFids) < 1)
+			return array();
+		rsort($arrFids);
+
+		$this->load->model('pbround_model');
+		$arrStates = $this->pbround_model->getStatesByFids($nGameId, $arrFids);
+		$arrSums = $this->pbbet_model->getRoundSummaryByUser($strUid, $nGameId, $arrFids);
+		$arrBalances = $this->pbbet_model->getRoundBalancesByUser($strUid, $nGameId, $arrFids);
+
+		$arrSummary = array();
+		$nLaterWait = 0;
+		foreach($arrFids as $fid){
+			$objSum = isset($arrSums[$fid]) ? $arrSums[$fid] : null;
+			$bDone = isset($arrStates[$fid]) && $arrStates[$fid] === 1;
+			$bSettled = $bDone && (is_null($objSum) || intval($objSum->wait_cnt) === 0);
+
+			$arrRow = array(
+				'fid' => $fid,
+				'round_done' => $bDone,
+				'pending' => !$bSettled,
+				'bet_sum' => is_null($objSum) ? 0 : intval($objSum->bet_sum),
+				'bet_cnt' => is_null($objSum) ? 0 : intval($objSum->bet_cnt),
+			);
+			if($bSettled){
+				$arrRow['win_sum'] = is_null($objSum) ? 0 : intval($objSum->win_sum);
+				$arrRow['balance'] = isset($arrBalances[$fid]) ? $arrBalances[$fid] : null;
+			} else {
+				$arrRow['win_sum'] = 0;
+				$arrRow['balance'] = $nMoney + $nLaterWait;
+				$arrRow['later_wait'] = $nLaterWait;
+			}
+			$arrSummary[] = $arrRow;
+
+			$nLaterWait += is_null($objSum) ? 0 : intval($objSum->wait_sum);
+		}
+		return $arrSummary;
 	}
 
 	public function pbroundresult(){
@@ -860,7 +917,7 @@ class Api extends CI_Controller {
 			$arrReqData['max_count'] = 300;
 			$arrBetData = $this->pbbet_model->search($arrReqData);
 
-			// 회원 배팅내역 포인트: 매장분(bet_empl_amount)이 아니라 회원 적립분 표시
+			// 회원 베팅내역 포인트: 매장분(bet_empl_amount)이 아니라 회원 적립분 표시
 			$objUser = $this->member_model->getInfoByUid($strUid);
 			$nUserRatio = (!is_null($objUser)) ? (float)$objUser->mb_game_pb_ratio : 0.0;
 			if(is_array($arrBetData)){

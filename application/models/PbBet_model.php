@@ -87,6 +87,43 @@ class PbBet_model extends CI_Model {
         return $result;  
     }
 
+    /** 회차별 베팅금·건수·당첨금·대기건수 (취소 제외), round_fid => row */
+    function getRoundSummaryByUser($strUserId, $nGameId, $arrRoundFids)
+    {
+        $arrMap = array();
+        if(count($arrRoundFids) < 1)
+            return $arrMap;
+
+        $strSql = "SELECT bet_round_fid, SUM(bet_money) AS bet_sum, COUNT(*) AS bet_cnt, SUM(bet_win_money) AS win_sum";
+        $strSql .=", SUM(CASE WHEN bet_state = ".BET_WAIT." THEN 1 ELSE 0 END) AS wait_cnt";
+        $strSql .=", SUM(CASE WHEN bet_state = ".BET_WAIT." THEN bet_money ELSE 0 END) AS wait_sum FROM ".$this->mTableName;
+        $strSql .=" WHERE bet_mb_uid = ? AND bet_game = ? AND bet_state != ".BET_CANCEL;
+        $strSql .=" AND bet_round_fid IN (".implode(',', array_map('intval', $arrRoundFids)).")";
+        $strSql .=" GROUP BY bet_round_fid";
+        $arrRows = $this->db->query($strSql, array($strUserId, (int)$nGameId))->result();
+        foreach($arrRows as $objRow){
+            $arrMap[(int)$objRow->bet_round_fid] = $objRow;
+        }
+        return $arrMap;
+    }
+
+    /** 정산 서비스가 저장한 회차별 보유금액, round_fid => balance */
+    function getRoundBalancesByUser($strUserId, $nGameId, $arrRoundFids)
+    {
+        $arrMap = array();
+        if(count($arrRoundFids) < 1 || !$this->db->table_exists('member_round_balance'))
+            return $arrMap;
+
+        $strSql = "SELECT rb_round_fid, rb_balance FROM member_round_balance";
+        $strSql .=" WHERE rb_mb_uid = ? AND rb_game = ?";
+        $strSql .=" AND rb_round_fid IN (".implode(',', array_map('intval', $arrRoundFids)).")";
+        $arrRows = $this->db->query($strSql, array($strUserId, (int)$nGameId))->result();
+        foreach($arrRows as $objRow){
+            $arrMap[(int)$objRow->rb_round_fid] = (int)$objRow->rb_balance;
+        }
+        return $arrMap;
+    }
+
     function deleteByFid($fid){
         $this->db->set('bet_state', BET_CANCEL);
         $this->db->set('bet_account_time', 'NOW()', false);
@@ -296,7 +333,7 @@ class PbBet_model extends CI_Model {
         );
     }
 
-    /** 배팅금액 × 배당(bet_ratio) 후 정수(바닥) */
+    /** 베팅금액 × 배당(bet_ratio) 후 정수(바닥) */
     private function roundstatWeightedInt($money, $ratio){
         $m = is_numeric($money) ? (float) $money : 0;
         $r = is_numeric($ratio) ? (float) $ratio : 0;
@@ -330,7 +367,7 @@ class PbBet_model extends CI_Model {
     }
 
     /**
-     * 한 건의 배팅을 8컬럼 표시 규칙에 반영
+     * 한 건의 베팅을 8컬럼 표시 규칙에 반영
      * (모드 5~8 파워 조합·13~16 일반 조합은 2분할, 41~48 3묶음은 3분할. 숫자/대중소 단독 등은 표에 없음)
      */
     private function roundstatApplyBet(&$sums, $money, $ratio, $mode){
@@ -465,7 +502,7 @@ class PbBet_model extends CI_Model {
     }
 
     /**
-     * 본사 회차별통계: 최근 N회차. 값 = floor(배팅금액×배당) 합; 2묶음/3묶음 분할 반영 (배팅 없는 회차도 0행)
+     * 본사 회차별통계: 최근 N회차. 값 = floor(베팅금액×배당) 합; 2묶음/3묶음 분할 반영 (베팅 없는 회차도 0행)
      */
     function aggregateSimpleModesByRound($nGameId, $nLimit){
 
@@ -504,7 +541,7 @@ class PbBet_model extends CI_Model {
     }
 
     /**
-     * 진행 회차 한 줄: bet_round_fid 기준 배팅×배당 집계(조합 분할 규칙 동일)
+     * 진행 회차 한 줄: bet_round_fid 기준 베팅×배당 집계(조합 분할 규칙 동일)
      */
     function aggregateBetsForRound($nGameId, $roundFid, $roundNo){
 

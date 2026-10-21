@@ -1,6 +1,6 @@
 /**
  * Star theme — client betting UI
- * 금액 버튼: 골드 / 배팅 종목: 연한 파랑 입체 / 배팅리스트: 다크·골드 업그레이드
+ * 금액 버튼: 골드 / 베팅 종목: 연한 파랑 입체 / 베팅리스트: 다크·골드 업그레이드
  */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
 
@@ -19,7 +19,7 @@
   --star-panel-2: #1a1e2a;
 }
 
-/* —— 배팅 종목 카드: 연한 파랑 + 입체감 —— */
+/* —— 베팅 종목 카드: 연한 파랑 + 입체감 —— */
 .senior-right .card.senior-bet-card[data-v-1f51d655],
 .senior-right .card[data-v-1f51d655].senior-bet-card {
   background:
@@ -229,7 +229,7 @@
   font-weight: 700;
 }
 
-/* —— 배팅리스트 —— */
+/* —— 베팅리스트 —— */
 .senior-left .bet_list .sub_title.senior-bet-list-head,
 .senior-left .sub_title.senior-bet-list-head {
   background: linear-gradient(180deg, #1e2230 0%, #12151e 100%);
@@ -318,7 +318,7 @@
   font-weight: 700;
 }
 
-/* 회차별 배팅정보 테이블 */
+/* 회차별 베팅정보 테이블 */
 .senior-right .betRound_box {
   background: var(--star-panel);
   border: 1px solid rgba(212, 160, 23, 0.3);

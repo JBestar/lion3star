@@ -9,7 +9,7 @@ PBG 회차 결과 등록 + 정산을 **하나의 프로세스**에서 처리합�
 ## 기동 시
 
 1. **백필**: 어제 1회차 ~ 기동 직전 완료 회차까지 `powerball.draw_results` → Lion `round_pball`
-2. **미정산 일괄**: `bet_state=1` 이고 회차 결과(`round_state=1`) 있는 배팅 정산
+2. **미정산 일괄**: `bet_state=1` 이고 회차 결과(`round_state=1`) 있는 베팅 정산
 
 ## 루프 (5분마다)
 

@@ -57,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </button>
                         </div> 
                         <div class="buy-summary el-row">
-                            <div class="el-col el-col-8">배팅결과</div> 
+                            <div class="el-col el-col-8">베팅결과</div> 
                             <div class="el-col el-col-8" id="buy-summary-bet-id">0</div>
                             <div class="el-col el-col-8" id="buy-summary-win-id">0</div>
                         </div> 

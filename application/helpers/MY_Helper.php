@@ -70,7 +70,7 @@
       return ($nEnd > 1440) ? 1440 : $nEnd;
     }
 
-    //회차시작시간과 마감시간, 배팅초과시간 계산하는 함수-파워볼, 파워사다리
+    //회차시작시간과 마감시간, 베팅초과시간 계산하는 함수-파워볼, 파워사다리
     function getPballRoundTimes($objConfPb){
 
       date_default_timezone_set('Asia/Seoul');
@@ -219,7 +219,7 @@
 
     
 
-    //회차번호로부터 회차시작시간과 마감시간, 배팅초과시간 계산하는 함수-파워볼, 파워사다리
+    //회차번호로부터 회차시작시간과 마감시간, 베팅초과시간 계산하는 함수-파워볼, 파워사다리
     function getPballRoundInfo($gameId){
 
       date_default_timezone_set('Asia/Seoul');
@@ -274,7 +274,7 @@
       return $arrRoundInfo;
     }
     
-    //회차번호로부터 배팅가능성 계산하는 함수
+    //회차번호로부터 베팅가능성 계산하는 함수
     function isEnablePbBet(&$arrBetData, $objUser, $objConfPb, $arrRoundData, $arrBetStatist){
 
       //0:오유 1:정상 2:유저베팅차단 3:전체베팅차단 4:최소금액오류 5:최대금액오류 6:보유머니 부족 7:회차오류 8:단폴한도 9:조합한도 10:회차한도
@@ -294,7 +294,7 @@
       if($objUser->mb_state_delete == 1 || $objUser->emp_state_active != 1) 
         return 2;
       
-      //배팅요청정보 검사
+      //베팅요청정보 검사
       if($arrBetData['roundid'] < 1 ) return 0;
       if($arrBetData['mode'] < 1 || $arrBetData['mode'] > 48) return 0;
       if(strlen($arrBetData['name']) < 1) return 0;
@@ -316,7 +316,7 @@
         $tmRoundBetEnd = strtotime("-".$objConfPb->game_time_countdown." seconds", $tmRoundEnd);      
       } else $tmRoundBetEnd = strtotime("-30 seconds", $tmRoundEnd);      
     
-      //현재 회차가 배팅가능한 시간이 아니라면   
+      //현재 회차가 베팅가능한 시간이 아니라면   
       if($tmRoundCurrent < $tmRoundStart || $tmRoundCurrent > $tmRoundBetEnd){
           return 0;        
       }

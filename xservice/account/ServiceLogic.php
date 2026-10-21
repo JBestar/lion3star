@@ -6,6 +6,7 @@ include_once('models/Member_Model.php');
 include_once('models/MoneyHistory_Model.php');
 include_once('models/Sess_model.php');
 include_once('models/PbgRoundReg_Model.php');
+include_once('models/RoundBalance_Model.php');
 
 class ServiceLogic
 {
@@ -16,6 +17,7 @@ class ServiceLogic
 	private $modelMember;
 	private $modelSession;
 	private $modelReg;
+	private $modelRoundBalance;
 
 	function __construct($dbLion, $dbPbg = null)
 	{
@@ -26,6 +28,34 @@ class ServiceLogic
 		$this->modelMember = new Member_Model($dbLion);
 		$this->modelSession = new Sess_Model($dbLion);
 		$this->modelReg = new PbgRoundReg_Model();
+		$this->modelRoundBalance = new RoundBalance_Model($dbLion);
+	}
+
+	public function ensureRoundBalanceTable()
+	{
+		return $this->modelRoundBalance->ensureTable();
+	}
+
+	/** 결과가 나온 최신 회차의 회원별 보유금액 저장 (이미 저장된 회원은 유지) */
+	public function snapshotRoundBalance($gameId)
+	{
+		$arrRound = $this->modelRoundBalance->getLatestDoneRound($gameId);
+		if (is_null($arrRound)) {
+			return array('status' => 'no_round');
+		}
+
+		$nInserted = $this->modelRoundBalance->snapshot($gameId, $arrRound['round_fid'], $arrRound['round_num']);
+		if ($nInserted < 0) {
+			return array('status' => 'fail', 'round_fid' => $arrRound['round_fid']);
+		}
+		$this->modelRoundBalance->prune($gameId, $arrRound['round_fid']);
+
+		return array(
+			'status' => 'success',
+			'round_fid' => $arrRound['round_fid'],
+			'round_no' => $arrRound['round_num'],
+			'inserted' => $nInserted,
+		);
 	}
 
 	public function setPbgDb($dbPbg)
@@ -33,7 +63,7 @@ class ServiceLogic
 		$this->dbPbg = $dbPbg;
 	}
 
-	/** PBG 파워볼 정산 — 대기 배팅 중 round_state=1 인 것 전부 */
+	/** PBG 파워볼 정산 — 대기 베팅 중 round_state=1 인 것 전부 */
 	public function pbaccount($bCurrent, $gameId)
 	{
 		$arrBetData = $this->modelPballBet->getWaitsByGame($gameId);

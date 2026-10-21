@@ -24,7 +24,7 @@ var PB_BET_WAIT = 1;
 var PB_BET_LOSS = 2;
 var PB_BET_WIN = 3;
 var PB_BET_CANCEL = 4;
-/** 정산 반영까지 배팅 목록 주기 재조회 (대기 베팅 있을 때만) */
+/** 정산 반영까지 베팅 목록 주기 재조회 (대기 베팅 있을 때만) */
 var m_pbRecentBetsPollTimer = null;
 var m_pbRecentBetsPollTicks = 0;
 var RECENT_BETS_SETTLE_INTERVAL_MS = 3000;
@@ -35,7 +35,13 @@ var RECENT_BETS_MIN_GAP_MS = 1500;
 /** 추첨 완료 회차당 시니어 목록 1회 강제 갱신 키 */
 var m_lastSettleUiKey = "";
 var m_recentBetsRetryTimer = null;
-/** 당첨내역 메뉴: 좌측 배팅리스트에 적중(결과 확정) 행만 표시 */
+/** 회차별 베팅정보: 최신 결과 회차 보유금액 스냅샷 대기 재조회 */
+var m_roundBalanceRetryFid = "";
+var m_roundBalanceRetryCnt = 0;
+var m_roundBalanceRetryTimer = null;
+var ROUND_BALANCE_RETRY_MAX = 8;
+var ROUND_BALANCE_RETRY_MS = 3000;
+/** 당첨내역 메뉴: 좌측 베팅리스트에 적중(결과 확정) 행만 표시 */
 var m_betListWinsOnly = false;
 /** sess_list 유지 heartbeat (60초) */
 var m_sessHeartbeatTimer = null;
@@ -245,7 +251,7 @@ function initBet() {
     $("#bet-card-id").attr("value", "0");
     $("#bet-money-id").text("");
     $("#bet-money-id").attr("value", "0");
-    $("#betTitle").text("배팅을 선택해주세요");
+    $("#betTitle").text("베팅을 선택해주세요");
     $("#bet_money").val("0");
     initCard();
 
@@ -556,6 +562,12 @@ function showAmountInfo(objUser) {
         " P <span class=\"text-yellow-300 font-bold\">" + pt + "</span>"
     );
 
+    // 회차별 베팅정보: 결과 대기 회차 보유금액 = 현재 머니 + 이후 회차 대기 베팅금
+    $("#client-round-summary-tbody .senior-round-balance-live").each(function() {
+        var later = parseInt($(this).attr("data-later-wait"), 10) || 0;
+        $(this).text((money + later).toLocaleString() + " 원");
+    });
+
 }
 
 function showConfigGame(objConfig) {
@@ -729,7 +741,7 @@ function formatRoundDisplay(roundFid, roundNo, suffix) {
 
 /**
  * 직전(마감) 회차 라벨 — cur_round(m_objRound)보다 누적 id는 -1, 일회차는 1이면 288로 감싸기.
- * fillSeniorRoundBetSummary의 targets 계산과 동일 규칙.
+ * getSeniorRoundSummaryTargets와 동일 규칙.
  */
 function formatPreviousRoundLabelFromCurrent() {
     if (!m_objRound) return "-";
@@ -834,15 +846,6 @@ function vieworderUrlForBetRow(el) {
     return "/home/vieworder?g=" + g + "&r=" + encodeURIComponent(r);
 }
 
-function vieworderUrlForRound(g, roundFid, roundNo) {
-    if (g === undefined || g === null) g = getGameId();
-    g = parseInt(g, 10);
-    if (isNaN(g)) g = 0;
-    var r = g === 0 ? roundFid : roundNo;
-    if (r === undefined || r === null) r = "";
-    return "/home/vieworder?g=" + g + "&r=" + encodeURIComponent(r);
-}
-
 function getBetListLabelSenior(el) {
     var mode = parseInt(el.bet_mode, 10);
     var cat = "파워볼";
@@ -858,7 +861,7 @@ function getBetListLabelSenior(el) {
     return s;
 }
 
-/** 배팅리스트 행이 결과 적중인지 (당첨내역 필터용) */
+/** 베팅리스트 행이 결과 적중인지 (당첨내역 필터용) */
 function isSeniorBetWinHit(element) {
     if (!element) return false;
     var win = parseInt(element.bet_win_money, 10) || 0;
@@ -868,7 +871,7 @@ function isSeniorBetWinHit(element) {
     return false;
 }
 
-/** 배팅리스트 회차 구분선: 게임 + 회차 fid(없으면 round_no) */
+/** 베팅리스트 회차 구분선: 게임 + 회차 fid(없으면 round_no) */
 function getBetRoundKeyForListSep(element) {
     if (!element) return "";
     var gid = element.bet_game != null ? String(element.bet_game) : "";
@@ -878,7 +881,7 @@ function getBetRoundKeyForListSep(element) {
     return gid + ":no:" + no;
 }
 
-/** 시니어 패널 각 카드 하단 노란 숫자: 현재 회차(bet_round_fid)에 해당 bet_mode로 배팅한 누적 금액 */
+/** 시니어 패널 각 카드 하단 노란 숫자: 현재 회차(bet_round_fid)에 해당 bet_mode로 베팅한 누적 금액 */
 function recentBetsHaveWait(bets) {
     var gid = getGameId();
     if (gid < 0 || bets == null || !bets.length) return false;
@@ -965,6 +968,11 @@ function requestRecentBetList(reason, force) {
     m_recentBetsLastAt = now;
     m_recentBetsReqBusy = true;
     var objData = { game: gid, limit: 80 };
+    if (gid === 0) {
+        objData.round_fids = getSeniorRoundSummaryTargets()
+            .map(function(tg) { return tg.fid; })
+            .filter(function(fid) { return fid !== ""; });
+    }
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -974,10 +982,10 @@ function requestRecentBetList(reason, force) {
         success: function(jResult) {
             if (jResult.status === "success") {
                 var bets = jResult.bets || [];
-                fillSeniorBetListTable(bets);
+                fillSeniorBetListTable(bets, jResult.round_summary);
                 var hasWait = recentBetsHaveWait(bets);
                 var betClosed = !!(m_btnBet && m_btnBet.disabled);
-                // 추첨 후·마감 후 대기만 정산 UI 폴링 (배팅 중 대기는 제외)
+                // 추첨 후·마감 후 대기만 정산 UI 폴링 (베팅 중 대기는 제외)
                 if (!hasWait) {
                     stopRecentBetListSettlementPolling();
                 } else if (isSettleTrackReason(reason) ||
@@ -994,7 +1002,7 @@ function requestRecentBetList(reason, force) {
     });
 }
 
-function fillSeniorBetListTable(arrBetData) {
+function fillSeniorBetListTable(arrBetData, arrRoundSummary) {
     var ROUND_ROW_SEP = '<tr class="senior-bet-round-sep"><td colspan="5"></td></tr>';
     var tHtml = "";
     var raw = arrBetData != null ? arrBetData : [];
@@ -1046,19 +1054,11 @@ function fillSeniorBetListTable(arrBetData) {
     }
     $("#client-bet-list-tbody").html(tHtml);
     updateSeniorCurBetDisplays(raw);
-    fillSeniorRoundBetSummary(raw);
+    fillSeniorRoundBetSummary(raw, arrRoundSummary);
 }
 
-function fillSeniorRoundBetSummary(arrBetData) {
-    var $tb = $("#client-round-summary-tbody");
-    if (!$tb.length) return;
-    var gid = getGameId();
-    if (gid < 0) {
-        $tb.empty();
-        return;
-    }
-
-    // 1) 최근 5개 회차 슬롯(배팅 없으면 0원/0건)
+/** 회차별 베팅정보 대상: 현재 베팅 회차부터 최근 5개 (일회차 1 이하는 288로 감싸기) */
+function getSeniorRoundSummaryTargets() {
     var startFid = m_objRound && m_objRound.round_id != null ? parseInt(m_objRound.round_id, 10) : 0;
     var startNo = m_objRound && m_objRound.round_no != null ? parseInt(m_objRound.round_no, 10) : 0;
     if (isNaN(startFid)) startFid = 0;
@@ -1070,8 +1070,48 @@ function fillSeniorRoundBetSummary(arrBetData) {
         while (rnN <= 0 && startNo > 0) rnN += 288;
         targets.push({ fid: fidN > 0 ? String(fidN) : "", rn: rnN > 0 ? String(rnN) : "" });
     }
+    return targets;
+}
 
-    // 2) 최근 베팅 목록을 회차별 합계/건수로 집계
+/** 결과가 나왔는데 보유금액 스냅샷이 아직 없으면 정산 서비스 저장을 기다리며 짧게 재조회 */
+function scheduleRoundBalanceRetry(fid) {
+    if (m_roundBalanceRetryFid !== fid) {
+        m_roundBalanceRetryFid = fid;
+        m_roundBalanceRetryCnt = 0;
+    }
+    if (m_roundBalanceRetryTimer || m_roundBalanceRetryCnt >= ROUND_BALANCE_RETRY_MAX) return;
+    m_roundBalanceRetryCnt++;
+    m_roundBalanceRetryTimer = setTimeout(function() {
+        m_roundBalanceRetryTimer = null;
+        requestRecentBetList("round_balance_wait", true);
+    }, ROUND_BALANCE_RETRY_MS);
+}
+
+function formatSummaryMoney(v) {
+    if (v === undefined || v === null) return "-";
+    return (parseInt(v, 10) || 0).toLocaleString() + " 원";
+}
+
+function fillSeniorRoundBetSummary(arrBetData, arrRoundSummary) {
+    var $tb = $("#client-round-summary-tbody");
+    if (!$tb.length) return;
+    var gid = getGameId();
+    if (gid < 0) {
+        $tb.empty();
+        return;
+    }
+
+    var targets = getSeniorRoundSummaryTargets();
+
+    // 서버 집계(파워볼): 당첨금·보유금액은 결과·정산 후에만 값이 옴
+    var summaryMap = {};
+    if (arrRoundSummary && arrRoundSummary.length) {
+        for (var s = 0; s < arrRoundSummary.length; s++) {
+            summaryMap[String(arrRoundSummary[s].fid)] = arrRoundSummary[s];
+        }
+    }
+
+    // 서버 집계가 없는 게임은 최근 베팅 목록으로 베팅금/건수만 집계
     var map = {};
     if (arrBetData != null && arrBetData.length > 0) {
         for (var i = 0; i < arrBetData.length; i++) {
@@ -1082,28 +1122,40 @@ function fillSeniorRoundBetSummary(arrBetData) {
             var key = gid === 0 ? fid : rn;
             if (!key) continue;
             if (!map[key]) {
-                map[key] = { fid: fid, rn: rn, sum: 0, cnt: 0 };
+                map[key] = { bet_sum: 0, bet_cnt: 0, win_sum: null, balance: null };
             }
-            map[key].sum += (parseInt(el.bet_money, 10) || 0);
-            map[key].cnt += 1;
+            map[key].bet_sum += (parseInt(el.bet_money, 10) || 0);
+            map[key].bet_cnt += 1;
         }
     }
 
     var html = "";
+    var latestDone = null;
     for (var j = 0; j < targets.length; j++) {
         var tg = targets[j];
         var k = gid === 0 ? tg.fid : tg.rn;
-        var it = (k && map[k]) ? map[k] : { fid: tg.fid, rn: tg.rn, sum: 0, cnt: 0 };
-        var label = formatRoundDisplay(it.fid, it.rn, "회");
-        var url = vieworderUrlForRound(gid, it.fid, it.rn);
+        var it = (tg.fid && summaryMap[tg.fid]) ? summaryMap[tg.fid]
+            : ((k && map[k]) ? map[k] : { bet_sum: 0, bet_cnt: 0, win_sum: null, balance: null });
+        if (!latestDone && it.round_done) latestDone = { fid: tg.fid, item: it };
+
         html += "<tr>";
-        html += "<td><span style=\"color:#aace37\">" + label + "</span></td>";
-        html += "<td>" + (it.sum || 0).toLocaleString() + " 원</td>";
-        html += "<td>" + (it.cnt || 0).toLocaleString() + " 건</td>";
-        html += "<td><div class=\"btn_result_s pointlink\" onclick=\"openMemWin(" + JSON.stringify(url) + ", '1200', '850');\">상세정보</div></td>";
+        html += "<td><span style=\"color:#aace37\">" + formatRoundDisplay(tg.fid, tg.rn, "회") + "</span></td>";
+        html += "<td>" + (parseInt(it.bet_sum, 10) || 0).toLocaleString() + " 원</td>";
+        html += "<td>" + (parseInt(it.bet_cnt, 10) || 0).toLocaleString() + " 건</td>";
+        html += "<td>" + formatSummaryMoney(it.win_sum) + "</td>";
+        if (it.pending) {
+            html += "<td class=\"senior-round-balance-live\" data-later-wait=\"" + (parseInt(it.later_wait, 10) || 0) + "\">" +
+                formatSummaryMoney(it.balance) + "</td>";
+        } else {
+            html += "<td>" + formatSummaryMoney(it.balance) + "</td>";
+        }
         html += "</tr>";
     }
     $tb.html(html);
+
+    if (latestDone && latestDone.item.balance === null) {
+        scheduleRoundBalanceRetry(latestDone.fid);
+    }
 }
 
 function showRoundResult(objRound, arrBetData) {
@@ -1272,12 +1324,12 @@ function doBet() {
                 initBet();
                 setTimeout(function() {
                     setRoundResult(getLastCompletedRoundKey(), "after_bet_success");
-                    requestRecentBetList("after_bet_success");
+                    requestRecentBetList("after_bet_success", true);
                     setTimeout(function() { requestAmountInfo(); }, 500);
                 }, 0);
             } else if (jResult.status == "fail") {
                 if (jResult.data == 2 || jResult.data == 3)
-                    showMessageBox(1, "배팅이 차단되었습니다.");
+                    showMessageBox(1, "베팅이 차단되었습니다.");
                 else if (jResult.data == 6)
                     showMessageBox(1, "보유머니를 초과하셧습니다.");
                 else if (jResult.data == 8)
@@ -1289,7 +1341,7 @@ function doBet() {
                 else if (jResult.data == 11)
                     showMessageBox(1, "구매기간이 아닙니다.");
                 else
-                    showMessageBox(1, "배팅이 실패되었습니다.");
+                    showMessageBox(1, "베팅이 실패되었습니다.");
             } else if (jResult.status == "logout") {
                 location.reload();
             }
@@ -1321,7 +1373,7 @@ function cancelBet(fid, objBtn) {
             if (jResult.status == "success") {
                 showAlertBox(0, "취소되었습니다.", 2000);
                 setRoundResult(getLastCompletedRoundKey(), "after_cancel");
-                requestRecentBetList("after_cancel");
+                requestRecentBetList("after_cancel", true);
                 setTimeout(function() { requestAmountInfo();}, 500);
                 
             } else if (jResult.status == "fail") {
@@ -1347,7 +1399,7 @@ function getBetRatioForMode(iMode) {
     return isNaN(n) ? 0 : n;
 }
 
-/** 배팅 직후 영수증 — pbbetinfo 왕복 없이 화면·회차 정보로 즉시 구성 */
+/** 베팅 직후 영수증 — pbbetinfo 왕복 없이 화면·회차 정보로 즉시 구성 */
 function buildBetInfoForReceipt(betFid, iMode, nMoney, nRoundNo) {
     var now = new Date();
     var pad2 = function(n) { return (n < 10 ? "0" : "") + n; };
@@ -2158,7 +2210,7 @@ function showTime() {
 
         if (m_elemCountTm) m_elemCountTm.innerHTML = fullNumber(nRemainMin) + ":" + fullNumber(nRemainSec);
 
-        if ($("#roundStatusText").length) $("#roundStatusText").text("배팅을 해주세요");
+        if ($("#roundStatusText").length) $("#roundStatusText").text("베팅을 해주세요");
 
         if (m_btnBet.disabled) {
             m_btnBet.disabled = false;
@@ -2167,13 +2219,13 @@ function showTime() {
         }
     } else {
         if (!m_btnBet.disabled) {
-            if (m_elemCountTm) m_elemCountTm.innerHTML = "배팅종료";
+            if (m_elemCountTm) m_elemCountTm.innerHTML = "베팅종료";
 
-            if ($("#roundStatusText").length) $("#roundStatusText").text("배팅 마감");
+            if ($("#roundStatusText").length) $("#roundStatusText").text("베팅 마감");
 
             if (m_objRound.round_no != 0) {
-                speak("배팅이 종료되었습니다.", { rate: 1, pitch: 1.2 });
-                setTimeout(function() { speak("배팅이 종료되었습니다.", { rate: 1, pitch: 1.2 }); }, 2000);
+                speak("베팅이 종료되었습니다.", { rate: 1, pitch: 1.2 });
+                setTimeout(function() { speak("베팅이 종료되었습니다.", { rate: 1, pitch: 1.2 }); }, 2000);
             }
             m_btnBet.disabled = true;
             m_btnBet.classList.add("is-disabled");
@@ -2415,7 +2467,7 @@ function showBetHistoryDlgData(arrBetData) {
             tHtml += arrBetData[idx].bet_ratio;
             tHtml += "</div></td>";
             tHtml += "<td><div class=\"cell\">";
-            // 회원 적립 포인트 (수수료율 × 배팅금액 / 100). API bethistory에서도 동일 값으로 내려줌.
+            // 회원 적립 포인트 (수수료율 × 베팅금액 / 100). API bethistory에서도 동일 값으로 내려줌.
             var nMemberPoint = Math.round(parseFloat(m_objUser.mb_game_pb_ratio) * parseInt(arrBetData[idx].bet_money, 10) / 100);
             if (isNaN(nMemberPoint)) nMemberPoint = parseInt(arrBetData[idx].bet_empl_amount, 10) || 0;
             tHtml += nMemberPoint.toLocaleString();
@@ -3340,7 +3392,7 @@ function postBixolonWebDriverCheckStatus(requestId, responseId, onDone) {
 
 /**
  * BIXOLON WebDriver.exe(기본 8080)로 영수증 출력 후, 응답에 ResponseID가 있으면 checkStatus.bxl로 프린터 상태를 받는다.
- * `window.LION_BIXOLON_SKIP_CHECK_STATUS === false` 일 때만 checkStatus 호출(기본은 생략·한 번의 왕복 절약으로 배팅 연속 체감 속도 개선).
+ * `window.LION_BIXOLON_SKIP_CHECK_STATUS === false` 일 때만 checkStatus 호출(기본은 생략·한 번의 왕복 절약으로 베팅 연속 체감 속도 개선).
  * HTTPS 페이지에서는 http://127.0.0.1 로의 XHR이 차단될 수 있어, 클라이언트는 HTTP 접속을 권장한다.
  * @param {function(?string, *, Object=):void} onDone (err, res, extra) — extra.skippedCheckStatus: ResponseID 없이 프린트 응답만 사용한 경우 true
  */

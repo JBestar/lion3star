@@ -230,7 +230,7 @@
                                             <div class="cell">구매자명</div>
                                         </th>
                                         <th colspan="1" rowspan="1" class="el-table_20_column_140     is-leaf">
-                                            <div class="cell">배팅내역</div>
+                                            <div class="cell">베팅내역</div>
                                         </th>
                                         <th colspan="1" rowspan="1" class="el-table_20_column_141     is-leaf">
                                             <div class="cell">구매금액</div>
@@ -277,7 +277,7 @@
                                             <div class="cell">구매자명</div>
                                         </th>
                                         <th colspan="1" rowspan="1" class="el-table_20_column_140     is-leaf">
-                                            <div class="cell">배팅내역</div>
+                                            <div class="cell">베팅내역</div>
                                         </th>
                                         <th colspan="1" rowspan="1" class="el-table_20_column_141     is-leaf">
                                             <div class="cell">구매금액</div>

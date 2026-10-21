@@ -32,9 +32,9 @@
                             <th colspan="1" rowspan="1" class="el-table_32_column_212     is-leaf"><div class="cell">회차</div></th>
                             <th colspan="1" rowspan="1" class="el-table_32_column_213     is-leaf"><div class="cell">구매자명</div></th>
                             <th colspan="1" rowspan="1" class="el-table_32_column_214     is-leaf"><div class="cell">구매일자</div></th>
-                            <th colspan="1" rowspan="1" class="el-table_32_column_215     is-leaf"><div class="cell">배팅내역</div></th>
+                            <th colspan="1" rowspan="1" class="el-table_32_column_215     is-leaf"><div class="cell">베팅내역</div></th>
                             <th colspan="1" rowspan="1" class="el-table_32_column_216     is-leaf"><div class="cell">당첨결과</div></th>
-                            <th colspan="1" rowspan="1" class="el-table_32_column_217     is-leaf"><div class="cell">배팅금액</div></th>
+                            <th colspan="1" rowspan="1" class="el-table_32_column_217     is-leaf"><div class="cell">베팅금액</div></th>
                             <th colspan="1" rowspan="1" class="el-table_32_column_218     is-leaf"><div class="cell">배당</div></th>
                             <th colspan="1" rowspan="1" class="el-table_32_column_219     is-leaf"><div class="cell">적중금액</div></th>
                             <th colspan="1" rowspan="1" class="el-table_32_column_220     is-leaf"><div class="cell">보유금액</div></th>
@@ -59,7 +59,7 @@
                             <th colspan="1" rowspan="1" class="el-table_32_column_212     is-leaf"><div class="cell">회차</div></th>
                             <th colspan="1" rowspan="1" class="el-table_32_column_213     is-leaf"><div class="cell">아이디</div></th>
                             <th colspan="1" rowspan="1" class="el-table_32_column_214     is-leaf"><div class="cell">구매자명</div></th>
-                            <th colspan="1" rowspan="1" class="el-table_32_column_215     is-leaf"><div class="cell">배팅내역</div></th>
+                            <th colspan="1" rowspan="1" class="el-table_32_column_215     is-leaf"><div class="cell">베팅내역</div></th>
                             <th colspan="1" rowspan="1" class="el-table_32_column_216     is-leaf"><div class="cell">구매금액</div></th>
                             <th colspan="1" rowspan="1" class="el-table_32_column_217     is-leaf"><div class="cell">구매시간</div></th>
                             <th colspan="1" rowspan="1" class="el-table_32_column_218     is-leaf"><div class="cell">취소시간</div></th>

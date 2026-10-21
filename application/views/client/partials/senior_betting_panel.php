@@ -84,10 +84,10 @@
         </div>
     </div>
     <div data-v-7a29b086="" data-v-1ddf0161="" class="bet_box">
-        <div data-v-7a29b086="" id="roundStatusText" class="sub_title !py-2 !bg-black">배팅을 해주세요</div>
+        <div data-v-7a29b086="" id="roundStatusText" class="sub_title !py-2 !bg-black">베팅을 해주세요</div>
         <div class="w-full">
             <div class="sub_title flex gap-5 justify-center items-center flex-wrap">
-                <div id="betTitle">배팅을 선택해주세요</div>
+                <div id="betTitle">베팅을 선택해주세요</div>
                 <input id="bet_money" data-v-7a29b086="" class="bet_cash" type="text" inputmode="numeric" autocomplete="off" value="0" style="background:transparent;border:0;max-width:140px;text-align:right;">
             </div>
             <div class="flex gap-2 btn_cash senior-btn-cash-row">
@@ -109,14 +109,15 @@
     </div>
     <div class="m-5"></div>
     <div data-v-1ddf0161="" class="betRound_box">
-        <div class="sub_title2">회차별 배팅정보</div>
+        <div class="sub_title2">회차별 베팅정보</div>
         <table class="table_list" id="betResultContent">
             <thead>
                 <tr>
                     <th>회차</th>
                     <th>베팅금</th>
                     <th>건수</th>
-                    <th>상세보기</th>
+                    <th>당첨금</th>
+                    <th>보유금액</th>
                 </tr>
             </thead>
             <tbody id="client-round-summary-tbody"></tbody>

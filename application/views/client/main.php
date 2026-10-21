@@ -43,8 +43,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="text-center el-col el-col-21">
                             <ul class="el-menu--horizontal el-menu">
-                                <li tabindex="1" class="el-menu-item" onclick="showBetHistoryDlg();">배팅내역</li> 
-                                <li tabindex="2" class="el-menu-item" onclick="showRoundHistoryPage();">실시간배팅</li> 
+                                <li tabindex="1" class="el-menu-item" onclick="showBetHistoryDlg();">베팅내역</li> 
+                                <li tabindex="2" class="el-menu-item" onclick="showRoundHistoryPage();">실시간베팅</li> 
                                 <li tabindex="3" class="el-menu-item" onclick="showChargeDlg();">충전</li> 
                                 <li tabindex="4" class="el-menu-item" onclick="showDischargeDlg();">환전</li> 
                                 <li tabindex="5" class="el-menu-item" onclick="showMileageDlg();">포인트</li> 
@@ -110,7 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="bet_list">
                             <div class="sub_title senior-bet-list-head relative">
-                                배팅리스트
+                                베팅리스트
                                 <div class="absolute right-2 top-2 flex">
                                     <button type="button" class="btn btn_red text-sm" onclick="showBetHistoryDlg();">베팅내역</button>
                                 </div>
@@ -120,7 +120,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <tr>
                                             <td style="height:35px; background:#28303f; border-bottom:1px solid #515668; font-size:14px; text-align:center; width:18%">회차</td>
                                             <td style="height:35px; background:#28303f; border-bottom:1px solid #515668; font-size:14px; text-align:center; width:34%">선택</td>
-                                            <td style="height:35px; background:#28303f; border-bottom:1px solid #515668; font-size:14px; text-align:center; width:18%">배팅금</td>
+                                            <td style="height:35px; background:#28303f; border-bottom:1px solid #515668; font-size:14px; text-align:center; width:18%">베팅금</td>
                                             <td style="height:35px; background:#28303f; border-bottom:1px solid #515668; font-size:14px; text-align:center; width:18%">당첨금</td>
                                             <td style="height:35px; background:#28303f; border-bottom:1px solid #515668; font-size:14px; text-align:left; width:12%">결과</td>
                                         </tr>
@@ -152,7 +152,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
 
                     </div>
-                    <!-- 회차·당회 배팅요약 DOM (main.js 동기화용, 화면 비표시) -->
+                    <!-- 회차·당회 베팅요약 DOM (main.js 동기화용, 화면 비표시) -->
                     <div style="display:none" aria-hidden="true">
                         <button type="button" id="buy-info-prev-id"></button>
                         <button type="button" id="buy-info-next-id"></button>
@@ -180,7 +180,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="el-dialog__wrapper" id="el-dialog-bethistory-id" style="z-index: 2003; min-width:1380px; display: none; ">
                     <div class="el-dialog" style="margin-top: 5vh; width: 65%;">
                         <div class="el-dialog__header">
-                            <span class="el-dialog__title">배팅내역</span>
+                            <span class="el-dialog__title">베팅내역</span>
                             <button type="button" id="el-dialog-bethistory-close-id" class="el-dialog__headerbtn">
                                 <i class="el-dialog__close fas fa-times"></i>
                             </button>
@@ -226,7 +226,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div> 
                                     <div class="el-col el-col-10">
                                         <div class="el-form-item el-form-item--small">
-                                            <label class="el-form-item__label" style="margin-left: 10px; width: 80px;">배팅일자</label>
+                                            <label class="el-form-item__label" style="margin-left: 10px; width: 80px;">베팅일자</label>
                                             <div class="el-form-item__content" style="margin-left: 80px;">
                                                 <div class="el-date-editor el-range-editor el-input__inner el-date-editor--daterange el-range-editor--small" style="width:280px">
                                                     <i class="el-input__icon el-range__icon fa fa-calendar-alt"></i>
@@ -267,19 +267,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                     <div class="cell">회차</div>
                                                 </th>
                                                 <th colspan="1" rowspan="1" class="el-table_1_column_2     is-leaf">
-                                                    <div class="cell">배팅자</div>
+                                                    <div class="cell">베팅자</div>
                                                 </th>
                                                 <th colspan="1" rowspan="1" class="el-table_1_column_3     is-leaf">
-                                                    <div class="cell">배팅시간</div>
+                                                    <div class="cell">베팅시간</div>
                                                 </th>
                                                 <th colspan="1" rowspan="1" class="el-table_1_column_4     is-leaf">
-                                                    <div class="cell">배팅내역</div>
+                                                    <div class="cell">베팅내역</div>
                                                 </th>
                                                 <th colspan="1" rowspan="1" class="el-table_1_column_5     is-leaf">
                                                     <div class="cell">당첨결과</div>
                                                 </th>
                                                 <th colspan="1" rowspan="1" class="el-table_1_column_6     is-leaf">
-                                                    <div class="cell">배팅금액</div>
+                                                    <div class="cell">베팅금액</div>
                                                 </th>
                                                 <th colspan="1" rowspan="1" class="el-table_1_column_7     is-leaf">
                                                     <div class="cell">배당</div>
@@ -326,22 +326,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                     <div class="cell">회차</div>
                                                 </th>
                                                 <th colspan="1" rowspan="1" class="el-table_1_column_2     is-leaf">
-                                                    <div class="cell">배팅자</div>
+                                                    <div class="cell">베팅자</div>
                                                 </th>
                                                 <th colspan="1" rowspan="1" class="el-table_1_column_3     is-leaf">
-                                                    <div class="cell">배팅시간</div>
+                                                    <div class="cell">베팅시간</div>
                                                 </th>
                                                 <th colspan="1" rowspan="1" class="el-table_1_column_4     is-leaf">
-                                                    <div class="cell">배팅내역</div>
+                                                    <div class="cell">베팅내역</div>
                                                 </th>
                                                 <th colspan="1" rowspan="1" class="el-table_1_column_5     is-leaf">
                                                     <div class="cell">당첨결과</div>
                                                 </th>
                                                 <th colspan="1" rowspan="1" class="el-table_1_column_6     is-leaf">
-                                                    <div class="cell">배팅금액</div>
+                                                    <div class="cell">베팅금액</div>
                                                 </th>
                                                 <th colspan="1" rowspan="1" class="el-table_1_column_10     is-leaf">
-                                                    <div class="cell">배팅후금액</div>
+                                                    <div class="cell">베팅후금액</div>
                                                 </th>
                                                 <th colspan="1" rowspan="1" class="el-table_1_column_7     is-leaf">
                                                     <div class="cell">배당</div>

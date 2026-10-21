@@ -39,6 +39,10 @@ $bSlotDone = false;
 
 writeAccLog($fLog, 'account service started (PBG register + settle)');
 
+if (!$objServLogic->ensureRoundBalanceTable()) {
+	writeAccLog($fLog, 'member_round_balance create fail: ' . $dbLion->error);
+}
+
 // 1) 기동: 어제 ~ 현재 직전 회차 결과 백필
 writeAccLog($fLog, 'startup backfill: yesterday .. now');
 $bf = $objServLogic->backfillFromYesterdayToNow($fLog);
@@ -63,6 +67,7 @@ writeAccLog(
 		. ' skip_missing=' . $arrCatchUp['skip_missing']
 		. ' skip_not_ready=' . $arrCatchUp['skip_not_ready']
 );
+writeRoundBalanceLog($fLog, $objServLogic->snapshotRoundBalance(GAME_POWERBALL));
 
 while (true) {
 	$tmNow = time();
@@ -116,6 +121,7 @@ while (true) {
 					. ' waits=' . $acc['waits']
 					. ' skip_not_ready=' . $acc['skip_not_ready']
 			);
+			writeRoundBalanceLog($fLog, $objServLogic->snapshotRoundBalance(GAME_POWERBALL));
 			$bSlotDone = true;
 		}
 	} elseif ($bSlotDone && ($nMin % 5) === 4 && $nSec >= 30) {

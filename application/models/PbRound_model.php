@@ -30,6 +30,22 @@ class PbRound_model extends CI_Model {
         return $this->db->get_where($this->mTableName, array('round_game'=>$gameId, 'round_fid'=>$id))->row();
     }
 
+    /** round_fid => round_state */
+    public function getStatesByFids($gameId, $arrFids){
+
+        $arrMap = array();
+        if(count($arrFids) < 1)
+            return $arrMap;
+
+        $this->db->select('round_fid, round_state');
+        $this->db->where('round_game', $gameId);
+        $this->db->where_in('round_fid', array_map('intval', $arrFids));
+        foreach($this->db->get($this->mTableName)->result() as $objRow){
+            $arrMap[(int)$objRow->round_fid] = (int)$objRow->round_state;
+        }
+        return $arrMap;
+    }
+
     public function getByHash($gameId, $hash){
         
         return $this->db->get_where($this->mTableName, array('round_game'=>$gameId, 'round_hash'=>$hash))->row();

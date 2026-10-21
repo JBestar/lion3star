@@ -3,7 +3,7 @@ var m_rsSelected = {};
 var m_rsBettingOpen = true;
 var m_rsTimerCtx = null;
 var m_rsTimerRows = null;
-/** 서버 동기 후 보간 — main.js betcloserest: 배팅 중엔 round_end까지 남은 시간, 마감 후엔 표시 교체 */
+/** 서버 동기 후 보간 — main.js betcloserest: 베팅 중엔 round_end까지 남은 시간, 마감 후엔 표시 교체 */
 var m_rsSrvUnix = null;
 var m_rsDrawEndUnix = null;
 var m_rsBetEndUnix = null;
@@ -73,7 +73,7 @@ function rsStartCountdownInterpolated(){
 	window._rsCdIv = setInterval(rsTickCountdownDisplay, 200);
 }
 
-/** 카운트다운 보간과 동일한 “서버 시각” (추첨변경 버튼 활성 시점을 배팅종료 문구와 맞추기 위함) */
+/** 카운트다운 보간과 동일한 “서버 시각” (추첨변경 버튼 활성 시점을 베팅종료 문구와 맞추기 위함) */
 function rsApproxServerUnix(){
 
 	if(m_rsSrvUnix == null || m_rsPollPerfMs == null){
@@ -83,7 +83,7 @@ function rsApproxServerUnix(){
 	return m_rsSrvUnix + (perfMs - m_rsPollPerfMs) / 1000;
 }
 
-/** rsTickCountdownDisplay와 동일: 배팅 마감 시각 경과 여부 */
+/** rsTickCountdownDisplay와 동일: 베팅 마감 시각 경과 여부 */
 function rsIsPastBetEndByClock(){
 
 	if(m_rsBetEndUnix == null){
@@ -96,7 +96,7 @@ function rsIsPastBetEndByClock(){
 	return a >= m_rsBetEndUnix;
 }
 
-/** 배팅종료로 볼 수 있는가 — 서버 플래그 또는 보간 시각(폴링 지연 없이 카운트다운과 일치) */
+/** 베팅종료로 볼 수 있는가 — 서버 플래그 또는 보간 시각(폴링 지연 없이 카운트다운과 일치) */
 function rsIsBettingClosedEffective(){
 
 	return !m_rsBettingOpen || rsIsPastBetEndByClock();
@@ -112,7 +112,7 @@ function rsTickCountdownDisplay(){
 		return;
 	}
 	if(m_rsBetEndUnix != null && approxSrv >= m_rsBetEndUnix){
-		$("#roundstat-countdown").text("배팅종료");
+		$("#roundstat-countdown").text("베팅종료");
 		rsUpdateDrawChangeBtn();
 		return;
 	}
@@ -165,8 +165,8 @@ function rsUpdateDrawChangeBtn(){
 		$("#roundstat-queued-cond").empty();
 	}
 	$b.attr("title", ok
-		? "배팅마감이며 열을 선택한 뒤 한 번 클릭하면 파워볼 서버로 추첨변경 요청이 곧바로 전달됩니다."
-		: "배팅마감 이면서 파워볼·일반볼 열 중 하나 이상 선택 시 사용할 수 있습니다.");
+		? "베팅마감이며 열을 선택한 뒤 한 번 클릭하면 파워볼 서버로 추첨변경 요청이 곧바로 전달됩니다."
+		: "베팅마감 이면서 파워볼·일반볼 열 중 하나 이상 선택 시 사용할 수 있습니다.");
 }
 
 function rsReflectHeaderSelectionClasses(){
