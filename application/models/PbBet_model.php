@@ -133,6 +133,34 @@ class PbBet_model extends CI_Model {
         return $this->db->update($this->mTableName);
     }
 
+    /**
+     * 베팅 요청 키 선점. 같은 회원·같은 키가 이미 있으면 false (중복 요청).
+     * 트랜잭션 밖에서 호출 — 즉시 커밋되어야 동시 요청이 서로를 볼 수 있음.
+     */
+    function claimRequestKey($strUserId, $strReqKey)
+    {
+        if(!$this->db->table_exists('bet_request')){
+            $this->db->query("CREATE TABLE IF NOT EXISTS bet_request ("
+                ." req_key varchar(40) NOT NULL,"
+                ." req_mb_uid varchar(30) NOT NULL,"
+                ." req_time datetime NOT NULL,"
+                ." PRIMARY KEY (req_mb_uid, req_key),"
+                ." KEY idx_time (req_time)"
+                .") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+        }
+
+        $this->db->query("DELETE FROM bet_request WHERE req_mb_uid = ? AND req_time < NOW() - INTERVAL 1 DAY", array($strUserId));
+        $this->db->query("INSERT IGNORE INTO bet_request (req_key, req_mb_uid, req_time) VALUES (?, ?, NOW())", array($strReqKey, $strUserId));
+
+        return $this->db->affected_rows() > 0;
+    }
+
+    /** 베팅 실패 시 같은 키로 재시도할 수 있게 해제 */
+    function releaseRequestKey($strUserId, $strReqKey)
+    {
+        return $this->db->query("DELETE FROM bet_request WHERE req_mb_uid = ? AND req_key = ?", array($strUserId, $strReqKey));
+    }
+
     function addBetRound($arrBetData, $objUser, $arrEmpRatio)
     {
 

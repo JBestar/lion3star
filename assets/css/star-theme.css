@@ -318,6 +318,13 @@
   font-weight: 700;
 }
 
+/* 베팅 요청 처리 중: 재클릭 차단 */
+.senior-right #bet-btn-id.bet-btn-busy {
+  pointer-events: none;
+  opacity: 0.6;
+  cursor: wait;
+}
+
 /* 회차별 베팅정보 테이블 */
 .senior-right .betRound_box {
   background: var(--star-panel);

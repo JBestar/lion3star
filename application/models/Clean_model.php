@@ -38,6 +38,11 @@ class Clean_model extends CI_Model {
         
         $strSql = " DELETE FROM money_history WHERE money_update_time < '".$strDate."' ";
         $this -> db -> query($strSql);
+
+        if($this->db->table_exists('bet_request')){
+            $strSql = " DELETE FROM bet_request WHERE req_time < '".$strDate."' ";
+            $this -> db -> query($strSql);
+        }
         
     	//$this->db->truncate("sess_list");
         //$this->db->truncate("sessions");
@@ -52,6 +57,8 @@ class Clean_model extends CI_Model {
     	$this->db->truncate("member_charge");
     	$this->db->truncate("member_exchange");
     	$this->db->truncate("money_history");
+        if($this->db->table_exists('bet_request'))
+            $this->db->truncate("bet_request");
     	$this->db->truncate("sess_list");
         $this->db->truncate("sessions");
         return 1;

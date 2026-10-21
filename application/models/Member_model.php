@@ -587,20 +587,28 @@ class Member_model extends CI_Model {
         return $this->db->get($this->mTableMoneyHistory)->result();
     }
 
+    /** 잔액이 충분할 때만 차감. 부족하면 아무것도 바꾸지 않고 false */
     public function moneyHistoryProc($nUserFid, $arrBetData, $nPoint, $nType){
-       
-        $this->db->trans_begin();
-        $nAmount = 0-$arrBetData['amount'];
-        $strSql1 = " INSERT INTO ".$this->mTableMoneyHistory;
-        $strSql1 .=" (money_mb_fid, money_mb_uid, money_mb_emp_fid, money_amount, money_before, money_after, ";
-        $strSql1 .=" money_change_type, money_bet_round, money_bet_mode, money_bet_target, money_update_time) ";
-        $strSql1 .=" SELECT mb_fid, mb_uid, mb_emp_fid, ".$nAmount.", mb_money, mb_money-".$arrBetData['amount'];
-        $strSql1 .=", ".$nType.", ".$arrBetData['roundno'].", ".$arrBetData['mode'].", '".$arrBetData['target']."', NOW() ";
-        $strSql1 .=" FROM ".$this->mTableName." WHERE mb_fid=".$nUserFid." FOR UPDATE";
-        $this->db->query($strSql1);
 
-        $strSql2 = "UPDATE ".$this->mTableName." SET mb_money = mb_money-".$arrBetData['amount'];
-        $strSql2.= ", mb_point = mb_point+".$nPoint." WHERE mb_fid=".$nUserFid;
+        $nUserFid = (int)$nUserFid;
+        $nAmount = (int)$arrBetData['amount'];
+
+        $this->db->trans_begin();
+
+        $strSql1 = "UPDATE ".$this->mTableName." SET mb_money = mb_money-".$nAmount;
+        $strSql1.= ", mb_point = mb_point+".$nPoint." WHERE mb_fid=".$nUserFid." AND mb_money >= ".$nAmount;
+        $this->db->query($strSql1);
+        if($this->db->affected_rows() < 1){
+            $this->db->trans_rollback();
+            return false;
+        }
+
+        $strSql2 = " INSERT INTO ".$this->mTableMoneyHistory;
+        $strSql2 .=" (money_mb_fid, money_mb_uid, money_mb_emp_fid, money_amount, money_before, money_after, ";
+        $strSql2 .=" money_change_type, money_bet_round, money_bet_mode, money_bet_target, money_update_time) ";
+        $strSql2 .=" SELECT mb_fid, mb_uid, mb_emp_fid, ".(0 - $nAmount).", mb_money+".$nAmount.", mb_money";
+        $strSql2 .=", ".$nType.", ".$arrBetData['roundno'].", ".$arrBetData['mode'].", '".$arrBetData['target']."', NOW() ";
+        $strSql2 .=" FROM ".$this->mTableName." WHERE mb_fid=".$nUserFid;
         $this->db->query($strSql2);
 
         $bResult = false;

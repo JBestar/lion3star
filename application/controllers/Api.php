@@ -316,6 +316,21 @@ class Api extends CI_Controller {
 			$iBetFid = 0;
 			$iResult = 0;
 			$bBetRessult = false;
+
+			//중복 요청 차단: 같은 요청 키는 한 번만 처리
+			$this->load->model('pbbet_model');
+			$strReqKey = isset($arrBetData['req_key']) ? substr(preg_replace('/[^A-Za-z0-9_-]/', '', (string)$arrBetData['req_key']), 0, 40) : '';
+			if(strlen($strReqKey) > 0 && !$this->pbbet_model->claimRequestKey($strUid, $strReqKey)){
+				writeLog("Betting duplicate req_key=".$strReqKey." uid=".$strUid);
+				echo json_encode(array('status' => "fail", 'data' => 12));
+				return;
+			}
+
+			//검사~차감~저장을 한 트랜잭션으로: 회원 행을 잠가 같은 회원 베팅을 순서대로 처리
+			$this->db->trans_begin();
+			$nLockedMoney = $this->member_model->getMoneyForUpdate($objUser->mb_fid);
+			if(!is_null($nLockedMoney))
+				$objUser->mb_money = $nLockedMoney;
 			 
 
 			if($gameId == GAME_POWERBALL){							//파워볼 일회차 베팅
@@ -423,6 +438,17 @@ class Api extends CI_Controller {
 				} else {
 					$iResult = 11;
 				}
+			}
+
+			if($iResult == 1 && $iBetFid > 0 && $this->db->trans_status() !== FALSE){
+				$this->db->trans_commit();
+			} else {
+				$this->db->trans_rollback();
+				if($iResult == 1)
+					$iResult = 0;
+				$iBetFid = 0;
+				if(strlen($strReqKey) > 0)
+					$this->pbbet_model->releaseRequestKey($strUid, $strReqKey);
 			}
 			
 			if($iResult == 1 && $iBetFid>0){				

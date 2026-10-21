@@ -35,6 +35,10 @@ var RECENT_BETS_MIN_GAP_MS = 1500;
 /** 추첨 완료 회차당 시니어 목록 1회 강제 갱신 키 */
 var m_lastSettleUiKey = "";
 var m_recentBetsRetryTimer = null;
+/** 베팅 요청 중복 방지: 응답 전 재클릭 차단 + 서버 중복 판정용 요청 키 */
+var m_betReqBusy = false;
+var m_betReqKey = "";
+var m_betReqSig = "";
 /** 회차별 베팅정보: 최신 결과 회차 보유금액 스냅샷 대기 재조회 */
 var m_roundBalanceRetryFid = "";
 var m_roundBalanceRetryCnt = 0;
@@ -1276,7 +1280,23 @@ function getBuyDetailEnd(nBetSum, nWinSum) {
     return tHtml;
 }
 
+function setBetBtnBusy(bBusy) {
+    var $btn = $("#bet-btn-id");
+    if (bBusy) {
+        if (!$btn.data("label")) $btn.data("label", $btn.text());
+        $btn.addClass("bet-btn-busy").text("처리중...");
+    } else {
+        $btn.removeClass("bet-btn-busy");
+        if ($btn.data("label")) $btn.text($btn.data("label"));
+    }
+}
+
+function newBetReqKey() {
+    return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 12);
+}
+
 function doBet() {
+    if (m_betReqBusy) return;
 
     var tName = getBetCustomerName();
     var iMode = $("#bet-card-id").attr("value");
@@ -1304,7 +1324,17 @@ function doBet() {
         "mode": iMode,
         "amount": nMoney
     };
-    $("#bet-btn-id").addClass("is-loading");
+
+    // 응답 없이 끝난 같은 베팅을 다시 보내면 같은 키 → 서버가 중복으로 판정
+    var sig = JSON.stringify(objData);
+    if (!m_betReqKey || m_betReqSig !== sig) {
+        m_betReqKey = newBetReqKey();
+        m_betReqSig = sig;
+    }
+    objData.req_key = m_betReqKey;
+
+    m_betReqBusy = true;
+    setBetBtnBusy(true);
 
     var jsonData = JSON.stringify(objData);
 
@@ -1313,9 +1343,13 @@ function doBet() {
         data: { json_: jsonData },
         type: 'post',
         dataType: "json",
+        timeout: 15000,
         success: function(jResult) {
             // console.log(jResult);
-            $("#bet-btn-id").removeClass("is-loading");
+            if (jResult.status == "success" || jResult.status == "fail") {
+                m_betReqKey = "";
+                m_betReqSig = "";
+            }
             if (jResult.status == "success") {
                 var betFid = jResult.data;
                 if (parseInt(m_objUser.mb_state_print, 10) === 1) {
@@ -1340,15 +1374,25 @@ function doBet() {
                     showMessageBox(1, "회차한도를 초과하셧습니다.");
                 else if (jResult.data == 11)
                     showMessageBox(1, "구매기간이 아닙니다.");
-                else
+                else if (jResult.data == 12) {
+                    showMessageBox(1, "이미 처리된 베팅입니다. 베팅내역을 확인해주세요.");
+                    requestRecentBetList("after_bet_success", true);
+                    requestAmountInfo();
+                } else
                     showMessageBox(1, "베팅이 실패되었습니다.");
             } else if (jResult.status == "logout") {
                 location.reload();
             }
         },
         error: function(request, status, error) {
-            $("#bet-btn-id").removeClass("is-loading");
             // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            showMessageBox(1, "응답이 지연되고 있습니다. 베팅내역을 확인 후 다시 시도해주세요.");
+            requestRecentBetList("after_bet_success", true);
+            requestAmountInfo();
+        },
+        complete: function() {
+            m_betReqBusy = false;
+            setBetBtnBusy(false);
         }
 
     });
