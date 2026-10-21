@@ -1061,6 +1061,27 @@ function fillSeniorBetListTable(arrBetData, arrRoundSummary) {
     fillSeniorRoundBetSummary(raw, arrRoundSummary);
 }
 
+/** 베팅리스트 밑선을 회차별 베팅정보(.betRound_box) 밑선에 맞춤 */
+function syncSeniorBetListHeight() {
+    var $scroll = $(".senior-left .gameScroll");
+    var $list = $(".senior-left .senior-bet-list-head");
+    var $round = $(".senior-right .betRound_box");
+    if (!$scroll.length || !$list.length || !$round.length) return;
+
+    // 모바일(세로 배치·베팅박스 하단 고정)에서는 기본 높이 사용
+    if (window.innerWidth <= 768) {
+        $scroll.css("height", "530px");
+        return;
+    }
+
+    var roundBottom = $round.offset().top + $round.outerHeight();
+    var listBottom = $list.offset().top + $list.outerHeight();
+    var next = Math.max(200, Math.round($scroll.height() + (roundBottom - listBottom)));
+    $scroll.css("height", next + "px");
+}
+
+$(window).on("load resize", syncSeniorBetListHeight);
+
 /** 회차별 베팅정보 대상: 현재 베팅 회차부터 최근 5개 (일회차 1 이하는 288로 감싸기) */
 function getSeniorRoundSummaryTargets() {
     var startFid = m_objRound && m_objRound.round_id != null ? parseInt(m_objRound.round_id, 10) : 0;
@@ -1156,6 +1177,7 @@ function fillSeniorRoundBetSummary(arrBetData, arrRoundSummary) {
         html += "</tr>";
     }
     $tb.html(html);
+    syncSeniorBetListHeight();
 
     if (latestDone && latestDone.item.balance === null) {
         scheduleRoundBalanceRetry(latestDone.fid);

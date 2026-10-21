@@ -242,6 +242,12 @@
   overflow: hidden;
 }
 
+/* 바깥 고정 높이(620px) 해제 — 목록 높이는 JS가 회차별 베팅정보 밑선에 맞춤 */
+.senior-left .bet_list_scroll[data-v-7d0e9f73] {
+  height: auto;
+  overflow: visible;
+}
+
 .senior-left .senior-bet-table-head td {
   background: linear-gradient(180deg, #2a3142 0%, #1c2230 100%) !important;
   border-bottom: 1px solid rgba(212, 160, 23, 0.4) !important;
